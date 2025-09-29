@@ -15,6 +15,7 @@ import ConductivityAnalyzers from "./views/ConductivityAnalyzers.vue";
 import TurbidityAnalyzers from "./views/TurbidityAnalyzers.vue";
 import Tasks from "./views/Tasks.vue";
 import Profile from "./views/Profile.vue";
+import Methods from "./views/Methods.vue";
 
 
 // Страницы для методик
@@ -99,6 +100,11 @@ const routes = [
         path: "profile",
         name: "Profile",
         component: Profile,
+      },
+      {
+        path: "methods",
+        name: "Methods",
+        component: Methods,
       },
       {
         path: "methods-expert",

@@ -74,7 +74,7 @@ const methodsList: MethodProps[] = [
 
     <div class="text-center mt-12">
       <a 
-        href="/analyzers" 
+        href="/methods" 
         class="inline-flex items-center px-8 py-4 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium text-lg"
       >
         Все методики >>
