@@ -5,7 +5,7 @@
       <div class="max-w-7xl mx-auto">
         <div class="text-center mb-16">
           <h1 class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text">
-            Экология
+            Оборудование для экспертизы
           </h1>
    
         </div>

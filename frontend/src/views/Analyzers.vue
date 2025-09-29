@@ -62,7 +62,7 @@
 
 
         <!-- CTA Section -->
-        <div class="text-center bg-muted/30 rounded-2xl p-12">
+        <!-- <div class="text-center bg-muted/30 rounded-2xl p-12">
           <h2 class="text-3xl font-bold mb-4">Нужна консультация?</h2>
           <p class="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
             Наши специалисты помогут подобрать оптимальный анализатор для ваших задач
@@ -75,7 +75,7 @@
               Скачать каталог
             </Button>
           </div>
-        </div>
+        </div> -->
       </div>
     </section>
   </div>
