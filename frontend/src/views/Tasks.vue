@@ -12,70 +12,11 @@
 
         <!-- Основные категории задач -->
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          <a href="/methods-expert" class="block relative rounded-lg p-6 border hover:shadow-lg transition-shadow overflow-hidden cursor-pointer" style="background-image: url('/home-photo/expertlittle.png'); background-size: cover; background-position: center;">
-            <div class="absolute inset-0 bg-black/40 hover:bg-black/30 transition-colors"></div>
-            <div class="relative z-10">
-              <h3 class="text-xl font-semibold text-white">Оборудование для экспертизы</h3>
-            </div>
-          </a>
-
-          <a href="/methods-oil" class="block relative rounded-lg p-6 border hover:shadow-lg transition-shadow overflow-hidden cursor-pointer" style="background-image: url('/home-photo/4d3fc1ac61ed98d7a6eb1d8d9e6f7267.png'); background-size: cover; background-position: center;">
-            <div class="absolute inset-0 bg-black/40 hover:bg-black/30 transition-colors"></div>
-            <div class="relative z-10">
-              <h3 class="text-xl font-semibold text-white">Нефтехимия</h3>
-            </div>
-          </a>
-
-          <a href="/methods-eco" class="block relative rounded-lg p-6 border hover:shadow-lg transition-shadow overflow-hidden cursor-pointer" style="background-image: url('/home-photo/ecologylittle.png'); background-size: cover; background-position: center;">
-            <div class="absolute inset-0 bg-black/40 hover:bg-black/30 transition-colors"></div>
-            <div class="relative z-10">
-              <h3 class="text-xl font-semibold text-white">Экология</h3>
-            </div>
-          </a>
-
-          <a href="/methods-mining" class="block relative rounded-lg p-6 border hover:shadow-lg transition-shadow overflow-hidden cursor-pointer" style="background-image: url('/home-photo/gornlittle.png'); background-size: cover; background-position: center;">
-            <div class="absolute inset-0 bg-black/40 hover:bg-black/30 transition-colors"></div>
-            <div class="relative z-10">
-              <h3 class="text-xl font-semibold text-white">Горнорудная промышленность</h3>
-            </div>
-          </a>
-
-          <a href="/methods-metallurgy" class="block relative rounded-lg p-6 border hover:shadow-lg transition-shadow overflow-hidden cursor-pointer" style="background-image: url('/home-photo/metlittle.png'); background-size: cover; background-position: center;">
-            <div class="absolute inset-0 bg-black/40 hover:bg-black/30 transition-colors"></div>
-            <div class="relative z-10">
-              <h3 class="text-xl font-semibold text-white">Металлургия</h3>
-            </div>
-          </a>
-
-          <a href="/methods-diagnostics" class="block relative rounded-lg p-6 border hover:shadow-lg transition-shadow overflow-hidden cursor-pointer" style="background-image: url('/home-photo/diagnostikalittle2.png'); background-size: cover; background-position: center;">
-            <div class="absolute inset-0 bg-black/40 hover:bg-black/30 transition-colors"></div>
-            <div class="relative z-10">
-              <h3 class="text-xl font-semibold text-white">Диагностика и контроль</h3>
-            </div>
-          </a>
-
-          <!-- Геология -->
-          <a href="/methods-geology" class="block relative rounded-lg p-6 border hover:shadow-lg transition-shadow overflow-hidden cursor-pointer" style="background-image: url('/home-photo/geologylittle.png'); background-size: cover; background-position: center;">
-            <div class="absolute inset-0 bg-black/40 hover:bg-black/30 transition-colors"></div>
-            <div class="relative z-10">
-              <h3 class="text-xl font-semibold text-white">Геология</h3>
-            </div>
-          </a>
-
-          <a href="/methods-research" class="block relative rounded-lg p-6 border hover:shadow-lg transition-shadow overflow-hidden cursor-pointer" style="background-image: url('/home-photo/researchlittle.png'); background-size: cover; background-position: center;">
-            <div class="absolute inset-0 bg-black/40 hover:bg-black/30 transition-colors"></div>
-            <div class="relative z-10">
-              <h3 class="text-xl font-semibold text-white">Научные исследования</h3>
-            </div>
-          </a>
-
-          <a href="/methods-gas" class="block relative rounded-lg p-6 border hover:shadow-lg transition-shadow overflow-hidden cursor-pointer" style="background-image: url('/home-photo/06bba93af58b01ffc5367e30d6485f7c.png'); background-size: cover; background-position: center;">
-            <div class="absolute inset-0 bg-black/40 hover:bg-black/30 transition-colors"></div>
-            <div class="relative z-10">
-              <h3 class="text-xl font-semibold text-white">Газовая промышленность</h3>
-            </div>
-          </a>
-
+          <TaskBlock
+            v-for="task in tasks"
+            :key="task.title"
+            :task="task"
+          />
         </div>
       </div>
     </section>
@@ -83,5 +24,59 @@
 </template>
 
 <script setup lang="ts">
-// Компонент не требует дополнительной логики
+import TaskBlock from "@/components/TaskBlock.vue";
+
+interface TaskItem {
+  title: string;
+  image: string;
+  link: string;
+}
+
+const tasks: TaskItem[] = [
+  {
+    title: "Оборудование для экспертизы",
+    image: "/home-photo/expertlittle.png",
+    link: "/methods-expert"
+  },
+  {
+    title: "Нефтехимия",
+    image: "/home-photo/4d3fc1ac61ed98d7a6eb1d8d9e6f7267.png",
+    link: "/methods-oil"
+  },
+  {
+    title: "Экология",
+    image: "/home-photo/ecologylittle.png",
+    link: "/methods-eco"
+  },
+  {
+    title: "Горнорудная промышленность",
+    image: "/home-photo/gornlittle.png",
+    link: "/methods-mining"
+  },
+  {
+    title: "Металлургия",
+    image: "/home-photo/metlittle.png",
+    link: "/methods-metallurgy"
+  },
+  {
+    title: "Диагностика и контроль",
+    image: "/home-photo/diagnostikalittle2.png",
+    link: "/methods-diagnostics"
+  },
+  {
+    title: "Геология",
+    image: "/home-photo/geologylittle.png",
+    link: "/methods-geology"
+  },
+  {
+    title: "Научные исследования",
+    image: "/home-photo/researchlittle.png",
+    link: "/methods-research"
+  },
+  {
+    title: "Газовая промышленность",
+    image: "/home-photo/06bba93af58b01ffc5367e30d6485f7c.png",
+    link: "/methods-gas"
+  }
+];
 </script>
