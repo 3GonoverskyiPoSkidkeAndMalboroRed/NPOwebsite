@@ -307,25 +307,88 @@
               </CardContent>
             </Card>
 
+            <!-- Загрузка файлов обновления -->
+            <Card class="p-6">
+              <CardHeader>
+                <CardTitle>Загрузка файлов обновления</CardTitle>
+                <CardDescription>Загрузите новые файлы обновления ПО</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form @submit.prevent="uploadUpdate" class="space-y-4">
+                  <div>
+                    <Label for="upload-file">Файл обновления</Label>
+                    <Input
+                      id="upload-file"
+                      type="file"
+                      @change="handleFileSelect"
+                      accept=".zip,.exe,.msi,.deb,.rpm,.dmg,.pkg"
+                      required
+                    />
+                    <p class="text-xs text-muted-foreground mt-1">
+                      Поддерживаемые форматы: ZIP, EXE, MSI, DEB, RPM, DMG, PKG
+                    </p>
+                  </div>
+                  <div>
+                    <Label for="upload-version">Версия</Label>
+                    <Input
+                      id="upload-version"
+                      v-model="uploadForm.version"
+                      type="text"
+                      placeholder="Например: 1.3.0"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label for="upload-description">Описание</Label>
+                    <Textarea
+                      id="upload-description"
+                      v-model="uploadForm.description"
+                      placeholder="Описание изменений в новой версии"
+                      rows="3"
+                    />
+                  </div>
+                  <Button type="submit" :disabled="isUploading">
+                    <Loader2 v-if="isUploading" class="mr-2 h-4 w-4 animate-spin" />
+                    Загрузить файл
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+
             <!-- Доступные обновления -->
-            <Card class="p-6" v-if="softwareInfo.updateStatus === 'available'">
+            <Card class="p-6" v-if="availableUpdates.length > 0">
               <CardHeader>
                 <CardTitle>Доступные обновления</CardTitle>
                 <CardDescription>Новые версии программного обеспечения</CardDescription>
               </CardHeader>
               <CardContent>
                 <div class="space-y-4">
-                  <div class="border rounded-lg p-4">
+                  <div v-for="update in availableUpdates" :key="update.id" class="border rounded-lg p-4">
                     <div class="flex justify-between items-start">
                       <div>
-                        <h4 class="font-medium">Версия {{ availableUpdate.version }}</h4>
-                        <p class="text-sm text-muted-foreground mt-1">{{ availableUpdate.description }}</p>
-                        <p class="text-xs text-muted-foreground mt-2">Размер: {{ availableUpdate.size }}</p>
+                        <h4 class="font-medium">Версия {{ update.version }}</h4>
+                        <p class="text-sm text-muted-foreground mt-1">{{ update.description || 'Описание не указано' }}</p>
+                        <p class="text-xs text-muted-foreground mt-2">
+                          Размер: {{ update.file_size ? update.file_size.toFixed(1) + ' МБ' : 'Неизвестно' }}
+                        </p>
+                        <p class="text-xs text-muted-foreground">
+                          Загружено: {{ formatDate(update.created_at) }}
+                        </p>
                       </div>
-                      <Button @click="downloadUpdate" :disabled="isDownloading">
-                        <Loader2 v-if="isDownloading" class="mr-2 h-4 w-4 animate-spin" />
-                        Скачать
-                      </Button>
+                      <div class="flex gap-2">
+                        <Button @click="downloadUpdate(update.id)" :disabled="isDownloading" size="sm">
+                          <Loader2 v-if="isDownloading" class="mr-2 h-4 w-4 animate-spin" />
+                          Скачать
+                        </Button>
+                        <Button 
+                          @click="deleteUpdate(update.id)" 
+                          variant="destructive" 
+                          size="sm"
+                          v-if="update.uploaded_by === userData?.id"
+                        >
+                          Удалить
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -372,19 +435,23 @@
             <Card class="p-6">
               <CardHeader>
                 <CardTitle>История обновлений</CardTitle>
-                <CardDescription>Список установленных обновлений</CardDescription>
+                <CardDescription>Список загруженных файлов обновления</CardDescription>
               </CardHeader>
               <CardContent>
-                <div class="space-y-3">
+                <div class="space-y-3" v-if="updateHistory.length > 0">
                   <div v-for="update in updateHistory" :key="update.id" class="flex justify-between items-center py-2 border-b last:border-b-0">
                     <div>
                       <p class="text-sm font-medium">Версия {{ update.version }}</p>
-                      <p class="text-xs text-muted-foreground">{{ update.date }}</p>
+                      <p class="text-xs text-muted-foreground">{{ formatDate(update.created_at) }}</p>
+                      <p class="text-xs text-muted-foreground">{{ update.file_name }}</p>
                     </div>
                     <div class="text-xs text-muted-foreground">
-                      {{ update.status }}
+                      {{ update.file_size ? update.file_size.toFixed(1) + ' МБ' : 'Неизвестно' }}
                     </div>
                   </div>
+                </div>
+                <div v-else class="text-center text-muted-foreground py-4">
+                  <p>История обновлений пуста</p>
                 </div>
               </CardContent>
             </Card>
@@ -396,12 +463,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
 import { Loader2 } from 'lucide-vue-next'
+
+// Роутер для перенаправления
+const router = useRouter()
 
 // Состояние аутентификации
 const isAuthenticated = ref(false)
@@ -414,43 +486,26 @@ const activeTab = ref('profile')
 // Состояние для обновлений ПО
 const isDownloading = ref(false)
 const isCheckingUpdates = ref(false)
+const isUploading = ref(false)
 
 // Информация о ПО
 const softwareInfo = ref({
   version: '1.2.3',
   lastUpdate: '15.12.2024',
-  updateStatus: 'available', // 'available' | 'up-to-date'
+  updateStatus: 'up-to-date', // 'available' | 'up-to-date'
   autoUpdate: true
 })
 
-// Доступное обновление
-const availableUpdate = ref({
-  version: '1.3.0',
-  description: 'Новые функции анализа, улучшенная производительность и исправления ошибок',
-  size: '45.2 MB'
-})
+// Доступные обновления
+const availableUpdates = ref([])
+const updateHistory = ref([])
 
-// История обновлений
-const updateHistory = ref([
-  {
-    id: 1,
-    version: '1.2.3',
-    date: '15.12.2024',
-    status: 'Установлено'
-  },
-  {
-    id: 2,
-    version: '1.2.1',
-    date: '01.12.2024',
-    status: 'Установлено'
-  },
-  {
-    id: 3,
-    version: '1.2.0',
-    date: '20.11.2024',
-    status: 'Установлено'
-  }
-])
+// Форма загрузки файла
+const uploadForm = reactive({
+  file: null,
+  version: '',
+  description: ''
+})
 
 // Формы
 const loginForm = reactive({
@@ -598,16 +653,129 @@ const formatDate = (dateString: string) => {
 }
 
 // Функции для работы с обновлениями ПО
-const downloadUpdate = async () => {
+const handleFileSelect = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  if (target.files && target.files[0]) {
+    uploadForm.file = target.files[0]
+  }
+}
+
+const uploadUpdate = async () => {
+  if (!uploadForm.file || !uploadForm.version) {
+    alert('Пожалуйста, выберите файл и укажите версию')
+    return
+  }
+
+  try {
+    isUploading.value = true
+    
+    const formData = new FormData()
+    formData.append('file', uploadForm.file)
+    formData.append('version', uploadForm.version)
+    if (uploadForm.description) {
+      formData.append('description', uploadForm.description)
+    }
+
+    const token = localStorage.getItem('token')
+    const response = await fetch(`${API_BASE}/software-updates/upload`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: formData
+    })
+
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.detail || 'Ошибка загрузки файла')
+    }
+
+    const result = await response.json()
+    alert('Файл успешно загружен!')
+    
+    // Очищаем форму
+    uploadForm.file = null
+    uploadForm.version = ''
+    uploadForm.description = ''
+    
+    // Обновляем списки
+    await loadSoftwareUpdates()
+    
+  } catch (error) {
+    alert('Ошибка загрузки файла: ' + error.message)
+  } finally {
+    isUploading.value = false
+  }
+}
+
+const downloadUpdate = async (updateId: number) => {
   try {
     isDownloading.value = true
-    // Здесь будет логика загрузки обновления
-    await new Promise(resolve => setTimeout(resolve, 2000)) // Имитация загрузки
-    alert('Обновление успешно загружено!')
+    
+    const token = localStorage.getItem('token')
+    const response = await fetch(`${API_BASE}/software-updates/${updateId}/download`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.detail || 'Ошибка скачивания файла')
+    }
+
+    // Создаем ссылку для скачивания
+    const blob = await response.blob()
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = response.headers.get('content-disposition')?.split('filename=')[1] || 'update.zip'
+    document.body.appendChild(a)
+    a.click()
+    window.URL.revokeObjectURL(url)
+    document.body.removeChild(a)
+    
   } catch (error) {
-    alert('Ошибка загрузки обновления: ' + error.message)
+    alert('Ошибка скачивания файла: ' + error.message)
   } finally {
     isDownloading.value = false
+  }
+}
+
+const deleteUpdate = async (updateId: number) => {
+  if (!confirm('Вы уверены, что хотите удалить этот файл обновления?')) {
+    return
+  }
+
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch(`${API_BASE}/software-updates/${updateId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.detail || 'Ошибка удаления файла')
+    }
+
+    alert('Файл успешно удален!')
+    await loadSoftwareUpdates()
+    
+  } catch (error) {
+    alert('Ошибка удаления файла: ' + error.message)
+  }
+}
+
+const loadSoftwareUpdates = async () => {
+  try {
+    const updates = await apiRequest('/software-updates')
+    availableUpdates.value = updates
+    updateHistory.value = updates
+  } catch (error) {
+    console.error('Ошибка загрузки списка обновлений:', error)
   }
 }
 
@@ -619,12 +787,9 @@ const toggleAutoUpdate = () => {
 const checkForUpdates = async () => {
   try {
     isCheckingUpdates.value = true
-    // Здесь будет логика проверки обновлений
-    await new Promise(resolve => setTimeout(resolve, 1500)) // Имитация проверки
+    await loadSoftwareUpdates()
     
-    // Имитация результата проверки
-    const hasUpdates = Math.random() > 0.5
-    if (hasUpdates) {
+    if (availableUpdates.value.length > 0) {
       softwareInfo.value.updateStatus = 'available'
       alert('Доступны новые обновления!')
     } else {
@@ -645,9 +810,18 @@ onMounted(async () => {
     try {
       await loadUserData()
       isAuthenticated.value = true
+      // Загружаем обновления ПО если пользователь авторизован
+      await loadSoftwareUpdates()
     } catch (error) {
+      // Если токен недействителен, удаляем его и перенаправляем на авторизацию
       localStorage.removeItem('token')
+      isAuthenticated.value = false
+      // Не перенаправляем здесь, так как пользователь может зарегистрироваться
     }
+  } else {
+    // Если токена нет, пользователь не авторизован
+    // Не перенаправляем автоматически, так как пользователь может зарегистрироваться
+    isAuthenticated.value = false
   }
 })
 </script>
