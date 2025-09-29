@@ -9,176 +9,254 @@
           </h1>
         </div>
 
-        <!-- Методики по отраслям -->
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- Методики анализа нефти и нефтепродуктов -->
-          <RouterLink
-            to="/methods-oil"
-            class="group block"
-          >
-            <Card class="h-full hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer">
-              <div class="relative h-48 overflow-hidden">
-                <img
-                  src="/home-photo/4d3fc1ac61ed98d7a6eb1d8d9e6f7267.png"
-                  alt="Методики анализа нефти и нефтепродуктов"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <h3 class="text-2xl font-bold text-white text-center px-4">
-                    Методики анализа нефти и нефтепродуктов
-                  </h3>
-                </div>
-              </div>
-              <CardHeader class="p-6">
-                <CardTitle class="text-lg mb-2">Нефтехимия</CardTitle>
-                <p class="text-muted-foreground text-sm">
-                  Анализ элементного состава нефти, бензина, дизельного топлива и других нефтепродуктов
-                </p>
-              </CardHeader>
-            </Card>
-          </RouterLink>
+         <!-- Методики по отраслям -->
+         <div class="space-y-12">
+           <!-- Методики анализа нефти и нефтепродуктов -->
+           <div class="bg-card rounded-lg border p-8 hover:shadow-lg transition-shadow">
+             <div class="flex items-start gap-6">
+               <div class="flex-shrink-0">
+                 <img
+                   src="/home-photo/4d3fc1ac61ed98d7a6eb1d8d9e6f7267.png"
+                   alt="Нефтехимия"
+                   class="w-24 h-24 object-cover rounded-lg"
+                 />
+               </div>
+               <div class="flex-1">
+                 <div class="flex items-center justify-between mb-4">
+                   <h2 class="text-2xl font-bold text-primary">Методики анализа нефти и нефтепродуктов</h2>
+                   <RouterLink
+                     to="/methods-oil"
+                     class="text-primary hover:text-primary/80 font-medium"
+                   >
+                     Подробнее →
+                   </RouterLink>
+                 </div>
+                 <p class="text-muted-foreground mb-4">
+                   Анализ элементного состава нефти, бензина, дизельного топлива и других нефтепродуктов
+                 </p>
+                 <ul class="space-y-2 text-sm">
+                   <li class="flex items-center gap-2">
+                     <span class="w-2 h-2 bg-primary rounded-full"></span>
+                     Анализ серы в нефтепродуктах
+                   </li>
+                   <li class="flex items-center gap-2">
+                     <span class="w-2 h-2 bg-primary rounded-full"></span>
+                     Определение металлов в топливе
+                   </li>
+                   <li class="flex items-center gap-2">
+                     <span class="w-2 h-2 bg-primary rounded-full"></span>
+                     Контроль качества бензина
+                   </li>
+                 </ul>
+               </div>
+             </div>
+           </div>
 
-          <!-- Методики анализа в области экологии -->
-          <RouterLink
-            to="/methods-eco"
-            class="group block"
-          >
-            <Card class="h-full hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer">
-              <div class="relative h-48 overflow-hidden">
-                <img
-                  src="/home-photo/ecologylittle.png"
-                  alt="Методики анализа в области экологии"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <h3 class="text-2xl font-bold text-white text-center px-4">
-                    Методики анализа в области экологии
-                  </h3>
-                </div>
-              </div>
-              <CardHeader class="p-6">
-                <CardTitle class="text-lg mb-2">Экология</CardTitle>
-                <p class="text-muted-foreground text-sm">
-                  Анализ загрязняющих веществ в воде, почве, воздухе и отходах
-                </p>
-              </CardHeader>
-            </Card>
-          </RouterLink>
+           <!-- Методики анализа в области экологии -->
+           <div class="bg-card rounded-lg border p-8 hover:shadow-lg transition-shadow">
+             <div class="flex items-start gap-6">
+               <div class="flex-shrink-0">
+                 <img
+                   src="/home-photo/ecologylittle.png"
+                   alt="Экология"
+                   class="w-24 h-24 object-cover rounded-lg"
+                 />
+               </div>
+               <div class="flex-1">
+                 <div class="flex items-center justify-between mb-4">
+                   <h2 class="text-2xl font-bold text-primary">Методики анализа в области экологии</h2>
+                   <RouterLink
+                     to="/methods-eco"
+                     class="text-primary hover:text-primary/80 font-medium"
+                   >
+                     Подробнее →
+                   </RouterLink>
+                 </div>
+                 <p class="text-muted-foreground mb-4">
+                   Анализ загрязняющих веществ в воде, почве, воздухе и отходах
+                 </p>
+                 <ul class="space-y-2 text-sm">
+                   <li class="flex items-center gap-2">
+                     <span class="w-2 h-2 bg-primary rounded-full"></span>
+                     Анализ тяжелых металлов в воде
+                   </li>
+                   <li class="flex items-center gap-2">
+                     <span class="w-2 h-2 bg-primary rounded-full"></span>
+                     Контроль загрязнения почвы
+                   </li>
+                   <li class="flex items-center gap-2">
+                     <span class="w-2 h-2 bg-primary rounded-full"></span>
+                     Мониторинг атмосферных выбросов
+                   </li>
+                 </ul>
+               </div>
+             </div>
+           </div>
 
-          <!-- Методики анализа в горнорудной промышленности -->
-          <RouterLink
-            to="/methods-mining"
-            class="group block"
-          >
-            <Card class="h-full hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer">
-              <div class="relative h-48 overflow-hidden">
-                <img
-                  src="/home-photo/gornlittle.png"
-                  alt="Методики анализа в горнорудной промышленности"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <h3 class="text-2xl font-bold text-white text-center px-4">
-                    Методики анализа в горнорудной промышленности
-                  </h3>
-                </div>
-              </div>
-              <CardHeader class="p-6">
-                <CardTitle class="text-lg mb-2">Горнорудная промышленность</CardTitle>
-                <p class="text-muted-foreground text-sm">
-                  Анализ руд, минералов, горных пород и технологических продуктов
-                </p>
-              </CardHeader>
-            </Card>
-          </RouterLink>
+           <!-- Методики анализа в горнорудной промышленности -->
+           <div class="bg-card rounded-lg border p-8 hover:shadow-lg transition-shadow">
+             <div class="flex items-start gap-6">
+               <div class="flex-shrink-0">
+                 <img
+                   src="/home-photo/gornlittle.png"
+                   alt="Горнорудная промышленность"
+                   class="w-24 h-24 object-cover rounded-lg"
+                 />
+               </div>
+               <div class="flex-1">
+                 <div class="flex items-center justify-between mb-4">
+                   <h2 class="text-2xl font-bold text-primary">Методики анализа в горнорудной промышленности</h2>
+                   <RouterLink
+                     to="/methods-mining"
+                     class="text-primary hover:text-primary/80 font-medium"
+                   >
+                     Подробнее →
+                   </RouterLink>
+                 </div>
+                 <p class="text-muted-foreground mb-4">
+                   Анализ руд, минералов, горных пород и технологических продуктов
+                 </p>
+                 <ul class="space-y-2 text-sm">
+                   <li class="flex items-center gap-2">
+                     <span class="w-2 h-2 bg-primary rounded-full"></span>
+                     Анализ рудных концентратов
+                   </li>
+                   <li class="flex items-center gap-2">
+                     <span class="w-2 h-2 bg-primary rounded-full"></span>
+                     Определение содержания металлов
+                   </li>
+                   <li class="flex items-center gap-2">
+                     <span class="w-2 h-2 bg-primary rounded-full"></span>
+                     Контроль качества минерального сырья
+                   </li>
+                 </ul>
+               </div>
+             </div>
+           </div>
 
-          <!-- Методики анализа в продукции металлургии -->
-          <RouterLink
-            to="/methods-metallurgy"
-            class="group block"
-          >
-            <Card class="h-full hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer">
-              <div class="relative h-48 overflow-hidden">
-                <img
-                  src="/home-photo/metlittle.png"
-                  alt="Методики анализа в продукции металлургии"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <h3 class="text-2xl font-bold text-white text-center px-4">
-                    Методики анализа в продукции металлургии
-                  </h3>
-                </div>
-              </div>
-              <CardHeader class="p-6">
-                <CardTitle class="text-lg mb-2">Металлургия</CardTitle>
-                <p class="text-muted-foreground text-sm">
-                  Анализ сплавов, металлов, ферросплавов и металлургических продуктов
-                </p>
-              </CardHeader>
-            </Card>
-          </RouterLink>
+           <!-- Методики анализа в продукции металлургии -->
+           <div class="bg-card rounded-lg border p-8 hover:shadow-lg transition-shadow">
+             <div class="flex items-start gap-6">
+               <div class="flex-shrink-0">
+                 <img
+                   src="/home-photo/metlittle.png"
+                   alt="Металлургия"
+                   class="w-24 h-24 object-cover rounded-lg"
+                 />
+               </div>
+               <div class="flex-1">
+                 <div class="flex items-center justify-between mb-4">
+                   <h2 class="text-2xl font-bold text-primary">Методики анализа в продукции металлургии</h2>
+                   <RouterLink
+                     to="/methods-metallurgy"
+                     class="text-primary hover:text-primary/80 font-medium"
+                   >
+                     Подробнее →
+                   </RouterLink>
+                 </div>
+                 <p class="text-muted-foreground mb-4">
+                   Анализ сплавов, металлов, ферросплавов и металлургических продуктов
+                 </p>
+                 <ul class="space-y-2 text-sm">
+                   <li class="flex items-center gap-2">
+                     <span class="w-2 h-2 bg-primary rounded-full"></span>
+                     Анализ сталей и сплавов
+                   </li>
+                   <li class="flex items-center gap-2">
+                     <span class="w-2 h-2 bg-primary rounded-full"></span>
+                     Контроль ферросплавов
+                   </li>
+                   <li class="flex items-center gap-2">
+                     <span class="w-2 h-2 bg-primary rounded-full"></span>
+                     Определение примесей в металлах
+                   </li>
+                 </ul>
+               </div>
+             </div>
+           </div>
 
-          <!-- Методики анализа для диагностики и контроля -->
-          <RouterLink
-            to="/methods-diagnostics"
-            class="group block"
-          >
-            <Card class="h-full hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer">
-              <div class="relative h-48 overflow-hidden">
-                <img
-                  src="/home-photo/diagnostikalittle2.png"
-                  alt="Методики анализа для диагностики и контроля"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <h3 class="text-2xl font-bold text-white text-center px-4">
-                    Методики анализа для диагностики и контроля
-                  </h3>
-                </div>
-              </div>
-              <CardHeader class="p-6">
-                <CardTitle class="text-lg mb-2">Диагностика и контроль</CardTitle>
-                <p class="text-muted-foreground text-sm">
-                  Анализ износа, коррозии, смазочных материалов и технологических сред
-                </p>
-              </CardHeader>
-            </Card>
-          </RouterLink>
+           <!-- Методики анализа для диагностики и контроля -->
+           <div class="bg-card rounded-lg border p-8 hover:shadow-lg transition-shadow">
+             <div class="flex items-start gap-6">
+               <div class="flex-shrink-0">
+                 <img
+                   src="/home-photo/diagnostikalittle2.png"
+                   alt="Диагностика и контроль"
+                   class="w-24 h-24 object-cover rounded-lg"
+                 />
+               </div>
+               <div class="flex-1">
+                 <div class="flex items-center justify-between mb-4">
+                   <h2 class="text-2xl font-bold text-primary">Методики анализа для диагностики и контроля</h2>
+                   <RouterLink
+                     to="/methods-diagnostics"
+                     class="text-primary hover:text-primary/80 font-medium"
+                   >
+                     Подробнее →
+                   </RouterLink>
+                 </div>
+                 <p class="text-muted-foreground mb-4">
+                   Анализ износа, коррозии, смазочных материалов и технологических сред
+                 </p>
+                 <ul class="space-y-2 text-sm">
+                   <li class="flex items-center gap-2">
+                     <span class="w-2 h-2 bg-primary rounded-full"></span>
+                     Диагностика износа двигателей
+                   </li>
+                   <li class="flex items-center gap-2">
+                     <span class="w-2 h-2 bg-primary rounded-full"></span>
+                     Анализ коррозионных отложений
+                   </li>
+                   <li class="flex items-center gap-2">
+                     <span class="w-2 h-2 bg-primary rounded-full"></span>
+                     Контроль смазочных материалов
+                   </li>
+                 </ul>
+               </div>
+             </div>
+           </div>
 
-          <!-- Методики анализа в газовой промышленности -->
-          <RouterLink
-            to="/methods-gas"
-            class="group block"
-          >
-            <Card class="h-full hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer">
-              <div class="relative h-48 overflow-hidden">
-                <img
-                  src="/home-photo/06bba93af58b01ffc5367e30d6485f7c.png"
-                  alt="Методики анализа в газовой промышленности"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <h3 class="text-2xl font-bold text-white text-center px-4">
-                    Методики анализа в газовой промышленности
-                  </h3>
-                </div>
-              </div>
-              <CardHeader class="p-6">
-                <CardTitle class="text-lg mb-2">Газовая промышленность</CardTitle>
-                <p class="text-muted-foreground text-sm">
-                  Анализ природного газа, углеводородов и газовых смесей
-                </p>
-              </CardHeader>
-            </Card>
-          </RouterLink>
-        </div>
+           <!-- Методики анализа в газовой промышленности -->
+           <div class="bg-card rounded-lg border p-8 hover:shadow-lg transition-shadow">
+             <div class="flex items-start gap-6">
+               <div class="flex-shrink-0">
+                 <img
+                   src="/home-photo/06bba93af58b01ffc5367e30d6485f7c.png"
+                   alt="Газовая промышленность"
+                   class="w-24 h-24 object-cover rounded-lg"
+                 />
+               </div>
+               <div class="flex-1">
+                 <div class="flex items-center justify-between mb-4">
+                   <h2 class="text-2xl font-bold text-primary">Методики анализа в газовой промышленности</h2>
+                   <RouterLink
+                     to="/methods-gas"
+                     class="text-primary hover:text-primary/80 font-medium"
+                   >
+                     Подробнее →
+                   </RouterLink>
+                 </div>
+                 <p class="text-muted-foreground mb-4">
+                   Анализ природного газа, углеводородов и газовых смесей
+                 </p>
+                 <ul class="space-y-2 text-sm">
+                   <li class="flex items-center gap-2">
+                     <span class="w-2 h-2 bg-primary rounded-full"></span>
+                     Анализ состава природного газа
+                   </li>
+                   <li class="flex items-center gap-2">
+                     <span class="w-2 h-2 bg-primary rounded-full"></span>
+                     Определение серы в газе
+                   </li>
+                   <li class="flex items-center gap-2">
+                     <span class="w-2 h-2 bg-primary rounded-full"></span>
+                     Контроль качества углеводородов
+                   </li>
+                 </ul>
+               </div>
+             </div>
+           </div>
+         </div>
 
 
        
