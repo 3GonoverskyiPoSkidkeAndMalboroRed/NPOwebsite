@@ -98,17 +98,17 @@ const featureList: FeatureProps[] = [
     description:
       "Leverages social proof elements to establish trust and credibility.",
   },
-  {
-    title: "Решаемые задачи",
-    description:
-      "Make your lead capture form visually appealing and strategically.",
-    href: "/tasks",
-  },
-  {
-    title: "Методики",
-    description:
-      "Make your lead capture form visually appealing and strategically.",
-  },
+  // {
+  //   title: "Решаемые задачи",
+  //   description:
+  //     "Make your lead capture form visually appealing and strategically.",
+  //   href: "/tasks",
+  // },
+  // {
+  //   title: "Методики",
+  //   description:
+  //     "Make your lead capture form visually appealing and strategically.",
+  // },
 ];
 
 // const isOpen = ref<boolean>(false); // Удалено, так как мобильная навигация закомментирована
