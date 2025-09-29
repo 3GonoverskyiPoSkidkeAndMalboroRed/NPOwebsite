@@ -7,9 +7,6 @@
           <h1 class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text">
             Методики анализа элементного состава
           </h1>
-          <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Комплексные методики анализа элементного состава для различных отраслей промышленности
-          </p>
         </div>
 
         <!-- Методики по отраслям -->
@@ -183,32 +180,8 @@
           </RouterLink>
         </div>
 
-        <!-- Дополнительная информация -->
-        <div class="mt-16 text-center">
-          <div class="bg-muted/50 rounded-lg p-8 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold mb-4">Преимущества наших методик</h2>
-            <div class="grid md:grid-cols-3 gap-6 text-left">
-              <div class="space-y-2">
-                <h3 class="font-semibold text-primary">Высокая точность</h3>
-                <p class="text-sm text-muted-foreground">
-                  Методики обеспечивают точность анализа до 0.001%
-                </p>
-              </div>
-              <div class="space-y-2">
-                <h3 class="font-semibold text-primary">Быстрота анализа</h3>
-                <p class="text-sm text-muted-foreground">
-                  Время анализа от 30 секунд до 5 минут
-                </p>
-              </div>
-              <div class="space-y-2">
-                <h3 class="font-semibold text-primary">Соответствие ГОСТ</h3>
-                <p class="text-sm text-muted-foreground">
-                  Все методики соответствуют российским стандартам
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+
+       
       </div>
     </section>
   </div>
