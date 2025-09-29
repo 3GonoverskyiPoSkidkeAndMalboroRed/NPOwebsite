@@ -285,7 +285,7 @@
           <!-- Таб "Обновление ПО" -->
           <div v-if="activeTab === 'software-updates'" class="space-y-6">
             <!-- Текущая версия ПО -->
-            <Card class="p-6">
+            <!-- <Card class="p-6">
               <CardHeader>
                 <CardTitle>Текущая версия ПО</CardTitle>
                 <CardDescription>Информация о версии программного обеспечения</CardDescription>
@@ -316,7 +316,7 @@
                   </div>
                 </div>
               </CardContent>
-            </Card>
+            </Card> -->
 
             <!-- Загрузка файлов обновления -->
             <Card class="p-6">
@@ -407,7 +407,7 @@
             </Card>
 
             <!-- Настройки обновлений -->
-            <Card class="p-6">
+            <!-- <Card class="p-6">
               <CardHeader>
                 <CardTitle>Настройки обновлений</CardTitle>
                 <CardDescription>Управление автоматическими обновлениями</CardDescription>
@@ -440,10 +440,10 @@
                   </div>
                 </div>
               </CardContent>
-            </Card>
+            </Card> -->
 
             <!-- История обновлений -->
-            <Card class="p-6">
+            <!-- <Card class="p-6">
               <CardHeader>
                 <CardTitle>История обновлений</CardTitle>
                 <CardDescription>Список загруженных файлов обновления</CardDescription>
@@ -466,6 +466,12 @@
                 </div>
               </CardContent>
             </Card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
           </div>
         </div>
       </div>
@@ -508,12 +514,12 @@ const softwareInfo = ref({
 })
 
 // Доступные обновления
-const availableUpdates = ref([])
-const updateHistory = ref([])
+const availableUpdates = ref<any[]>([])
+const updateHistory = ref<any[]>([])
 
 // Форма загрузки файла
 const uploadForm = reactive({
-  file: null,
+  file: null as File | null,
   version: '',
   description: ''
 })
@@ -581,7 +587,7 @@ const login = async () => {
     isAuthenticated.value = true
     // Переключаемся на таб профиля после успешного входа
     activeTab.value = 'profile'
-  } catch (error) {
+  } catch (error: any) {
     alert('Ошибка входа: ' + error.message)
   } finally {
     isLoading.value = false
@@ -609,7 +615,7 @@ const register = async () => {
       phone: '',
       email: ''
     })
-  } catch (error) {
+  } catch (error: any) {
     alert('Ошибка регистрации: ' + error.message)
   } finally {
     isLoading.value = false
@@ -630,7 +636,7 @@ const loadUserData = async () => {
       phone: data.phone || '',
       email: data.email || ''
     })
-  } catch (error) {
+  } catch (error: any) {
     console.error('Ошибка загрузки данных пользователя:', error)
   }
 }
@@ -646,7 +652,7 @@ const updateProfile = async () => {
     
     userData.value = data
     alert('Профиль успешно обновлен!')
-  } catch (error) {
+  } catch (error: any) {
     alert('Ошибка обновления профиля: ' + error.message)
   } finally {
     isLoading.value = false
@@ -716,7 +722,7 @@ const uploadUpdate = async () => {
     // Обновляем списки
     await loadSoftwareUpdates()
     
-  } catch (error) {
+  } catch (error: any) {
     alert('Ошибка загрузки файла: ' + error.message)
   } finally {
     isUploading.value = false
@@ -750,7 +756,7 @@ const downloadUpdate = async (updateId: number) => {
     window.URL.revokeObjectURL(url)
     document.body.removeChild(a)
     
-  } catch (error) {
+  } catch (error: any) {
     alert('Ошибка скачивания файла: ' + error.message)
   } finally {
     isDownloading.value = false
@@ -779,7 +785,7 @@ const deleteUpdate = async (updateId: number) => {
     alert('Файл успешно удален!')
     await loadSoftwareUpdates()
     
-  } catch (error) {
+  } catch (error: any) {
     alert('Ошибка удаления файла: ' + error.message)
   }
 }
@@ -789,7 +795,7 @@ const loadSoftwareUpdates = async () => {
     const updates = await apiRequest('/software-updates')
     availableUpdates.value = updates
     updateHistory.value = updates
-  } catch (error) {
+  } catch (error: any) {
     console.error('Ошибка загрузки списка обновлений:', error)
   }
 }
@@ -811,7 +817,7 @@ const checkForUpdates = async () => {
       softwareInfo.value.updateStatus = 'up-to-date'
       alert('Система актуальна, обновления не найдены.')
     }
-  } catch (error) {
+  } catch (error: any) {
     alert('Ошибка проверки обновлений: ' + error.message)
   } finally {
     isCheckingUpdates.value = false
@@ -839,7 +845,7 @@ onMounted(async () => {
       await loadSoftwareUpdates()
       // Переключаемся на таб профиля для авторизованных пользователей
       activeTab.value = 'profile'
-    } catch (error) {
+    } catch (error: any) {
       // Если токен недействителен, удаляем его
       localStorage.removeItem('token')
       isAuthenticated.value = false
