@@ -1,9 +1,14 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
 
 import { useColorMode } from "@vueuse/core";
 const mode = useColorMode();
 mode.value = "dark";
+
+// Роутер для умной навигации
+const router = useRouter();
+const route = useRoute();
 
 import {
   NavigationMenu,
@@ -65,6 +70,23 @@ const routeList: RouteProps[] = [
 
 ];
 
+// Определяем, находимся ли мы на главной странице
+const isHomePage = computed(() => route.path === '/');
+
+// Метод для умной навигации
+const handleNavigation = (href: string) => {
+  if (isHomePage.value) {
+    // На главной странице - используем якорные ссылки
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  } else {
+    // На других страницах - переходим на главную с якорем
+    router.push(`/${href}`);
+  }
+};
+
 const featureList: FeatureProps[] = [
   {
     title: "Анализаторы",
@@ -89,7 +111,7 @@ const featureList: FeatureProps[] = [
   },
 ];
 
-const isOpen = ref<boolean>(false);
+// const isOpen = ref<boolean>(false); // Удалено, так как мобильная навигация закомментирована
 </script>
 
 <template>
@@ -150,13 +172,11 @@ const isOpen = ref<boolean>(false);
                 as-child
                 variant="ghost"
                 class="justify-start text-base"
+                @click="handleNavigation(href)"
               >
-                <a
-                  @click="isOpen = false"
-                  :href="href"
-                >
+                <span>
                   {{ label }}
-                </a>
+                </span>
               </Button>
             </div>
           </div>
@@ -224,10 +244,11 @@ const isOpen = ref<boolean>(false);
               as-child
               variant="ghost"
               class="justify-start text-base"
+              @click="handleNavigation(href)"
             >
-              <a :href="href">
+              <span>
                 {{ label }}
-              </a>
+              </span>
             </Button>
           </NavigationMenuLink>
         </NavigationMenuItem>
