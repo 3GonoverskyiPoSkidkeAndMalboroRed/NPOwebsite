@@ -8,134 +8,24 @@
           <p class="text-muted-foreground">Управление вашими данными и настройками</p>
         </div>
 
-        <!-- Форма входа/регистрации -->
-        <div v-if="!isAuthenticated" class="grid md:grid-cols-2 gap-8">
-          <!-- Форма входа -->
-          <Card class="p-6">
-            <CardHeader>
-              <CardTitle>Вход в систему</CardTitle>
-              <CardDescription>Войдите в свой аккаунт</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form @submit.prevent="login" class="space-y-4">
-                <div>
-                  <Label for="login-username">Логин</Label>
-                  <Input
-                    id="login-username"
-                    v-model="loginForm.login"
-                    type="text"
-                    placeholder="Введите логин"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label for="login-password">Пароль</Label>
-                  <Input
-                    id="login-password"
-                    v-model="loginForm.password"
-                    type="password"
-                    placeholder="Введите пароль"
-                    required
-                  />
-                </div>
-                <Button type="submit" class="w-full" :disabled="isLoading">
-                  <Loader2 v-if="isLoading" class="mr-2 h-4 w-4 animate-spin" />
-                  Войти
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-
-          <!-- Форма регистрации -->
-          <Card class="p-6">
-            <CardHeader>
-              <CardTitle>Регистрация</CardTitle>
-              <CardDescription>Создайте новый аккаунт</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form @submit.prevent="register" class="space-y-4">
-                <div>
-                  <Label for="reg-login">Логин</Label>
-                  <Input
-                    id="reg-login"
-                    v-model="registerForm.login"
-                    type="text"
-                    placeholder="Введите логин"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label for="reg-password">Пароль</Label>
-                  <Input
-                    id="reg-password"
-                    v-model="registerForm.password"
-                    type="password"
-                    placeholder="Введите пароль"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label for="reg-organization">Организация</Label>
-                  <Input
-                    id="reg-organization"
-                    v-model="registerForm.organization"
-                    type="text"
-                    placeholder="Название организации"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label for="reg-fullname">ФИО</Label>
-                  <Input
-                    id="reg-fullname"
-                    v-model="registerForm.full_name"
-                    type="text"
-                    placeholder="Фамилия Имя Отчество"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label for="reg-position">Должность</Label>
-                  <Input
-                    id="reg-position"
-                    v-model="registerForm.position"
-                    type="text"
-                    placeholder="Должность"
-                  />
-                </div>
-                <div>
-                  <Label for="reg-phone">Телефон</Label>
-                  <Input
-                    id="reg-phone"
-                    v-model="registerForm.phone"
-                    type="tel"
-                    placeholder="+7 (xxx) xxx-xx-xx"
-                  />
-                </div>
-                <div>
-                  <Label for="reg-email">Email</Label>
-                  <Input
-                    id="reg-email"
-                    v-model="registerForm.email"
-                    type="email"
-                    placeholder="email@example.com"
-                  />
-                </div>
-                <Button type="submit" class="w-full" :disabled="isLoading">
-                  <Loader2 v-if="isLoading" class="mr-2 h-4 w-4 animate-spin" />
-                  Зарегистрироваться
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-        </div>
-
         <!-- Профиль пользователя -->
-        <div v-else class="space-y-6">
+        <div class="space-y-6">
           <!-- Навигация по табам -->
           <div class="border-b border-border">
             <nav class="-mb-px flex space-x-8">
               <button
+                @click="activeTab = 'auth'"
+                :class="[
+                  'py-2 px-1 border-b-2 font-medium text-sm transition-colors',
+                  activeTab === 'auth'
+                    ? 'border-primary text-primary'
+                    : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border'
+                ]"
+              >
+                Авторизация
+              </button>
+              <button
+                v-if="isAuthenticated"
                 @click="activeTab = 'profile'"
                 :class="[
                   'py-2 px-1 border-b-2 font-medium text-sm transition-colors',
@@ -147,6 +37,7 @@
                 Профиль
               </button>
               <button
+                v-if="isAuthenticated"
                 @click="activeTab = 'software-updates'"
                 :class="[
                   'py-2 px-1 border-b-2 font-medium text-sm transition-colors',
@@ -161,6 +52,126 @@
           </div>
 
           <!-- Содержимое табов -->
+          <!-- Таб авторизации -->
+          <div v-if="activeTab === 'auth'" class="space-y-6">
+            <Card class="p-6">
+              <CardHeader>
+                <CardTitle>Вход в систему</CardTitle>
+                <CardDescription>Войдите в свой аккаунт для доступа к профилю и обновлениям ПО</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form @submit.prevent="login" class="space-y-4">
+                  <div>
+                    <Label for="login-username">Логин</Label>
+                    <Input
+                      id="login-username"
+                      v-model="loginForm.login"
+                      type="text"
+                      placeholder="Введите логин"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label for="login-password">Пароль</Label>
+                    <Input
+                      id="login-password"
+                      v-model="loginForm.password"
+                      type="password"
+                      placeholder="Введите пароль"
+                      required
+                    />
+                  </div>
+                  <Button type="submit" class="w-full" :disabled="isLoading">
+                    <Loader2 v-if="isLoading" class="mr-2 h-4 w-4 animate-spin" />
+                    Войти
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+
+            <Card class="p-6">
+              <CardHeader>
+                <CardTitle>Регистрация</CardTitle>
+                <CardDescription>Создайте новый аккаунт</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form @submit.prevent="register" class="space-y-4">
+                  <div>
+                    <Label for="reg-login">Логин</Label>
+                    <Input
+                      id="reg-login"
+                      v-model="registerForm.login"
+                      type="text"
+                      placeholder="Введите логин"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label for="reg-password">Пароль</Label>
+                    <Input
+                      id="reg-password"
+                      v-model="registerForm.password"
+                      type="password"
+                      placeholder="Введите пароль"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label for="reg-organization">Организация</Label>
+                    <Input
+                      id="reg-organization"
+                      v-model="registerForm.organization"
+                      type="text"
+                      placeholder="Название организации"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label for="reg-fullname">ФИО</Label>
+                    <Input
+                      id="reg-fullname"
+                      v-model="registerForm.full_name"
+                      type="text"
+                      placeholder="Фамилия Имя Отчество"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label for="reg-position">Должность</Label>
+                    <Input
+                      id="reg-position"
+                      v-model="registerForm.position"
+                      type="text"
+                      placeholder="Должность"
+                    />
+                  </div>
+                  <div>
+                    <Label for="reg-phone">Телефон</Label>
+                    <Input
+                      id="reg-phone"
+                      v-model="registerForm.phone"
+                      type="tel"
+                      placeholder="+7 (xxx) xxx-xx-xx"
+                    />
+                  </div>
+                  <div>
+                    <Label for="reg-email">Email</Label>
+                    <Input
+                      id="reg-email"
+                      v-model="registerForm.email"
+                      type="email"
+                      placeholder="email@example.com"
+                    />
+                  </div>
+                  <Button type="submit" class="w-full" :disabled="isLoading">
+                    <Loader2 v-if="isLoading" class="mr-2 h-4 w-4 animate-spin" />
+                    Зарегистрироваться
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
+
           <div v-if="activeTab === 'profile'" class="space-y-6">
             <!-- Информация о пользователе -->
             <Card class="p-6">
@@ -568,6 +579,8 @@ const login = async () => {
     localStorage.setItem('token', response.access_token)
     await loadUserData()
     isAuthenticated.value = true
+    // Переключаемся на таб профиля после успешного входа
+    activeTab.value = 'profile'
   } catch (error) {
     alert('Ошибка входа: ' + error.message)
   } finally {
@@ -645,6 +658,8 @@ const logout = () => {
   localStorage.removeItem('token')
   isAuthenticated.value = false
   userData.value = null
+  // Переключаемся на таб авторизации после выхода
+  activeTab.value = 'auth'
 }
 
 // Функция форматирования даты
@@ -803,6 +818,16 @@ const checkForUpdates = async () => {
   }
 }
 
+// Watcher для отслеживания изменений активного таба
+watch(activeTab, (newTab) => {
+  // Если пользователь пытается перейти к защищенным разделам без авторизации
+  if (!isAuthenticated.value && (newTab === 'profile' || newTab === 'software-updates')) {
+    // Перенаправляем на главную страницу или показываем форму авторизации
+    // В данном случае просто сбрасываем таб на форму авторизации
+    activeTab.value = 'auth'
+  }
+})
+
 // Проверяем аутентификацию при загрузке
 onMounted(async () => {
   const token = localStorage.getItem('token')
@@ -812,16 +837,20 @@ onMounted(async () => {
       isAuthenticated.value = true
       // Загружаем обновления ПО если пользователь авторизован
       await loadSoftwareUpdates()
+      // Переключаемся на таб профиля для авторизованных пользователей
+      activeTab.value = 'profile'
     } catch (error) {
-      // Если токен недействителен, удаляем его и перенаправляем на авторизацию
+      // Если токен недействителен, удаляем его
       localStorage.removeItem('token')
       isAuthenticated.value = false
-      // Не перенаправляем здесь, так как пользователь может зарегистрироваться
+      // Переключаемся на таб авторизации
+      activeTab.value = 'auth'
     }
   } else {
     // Если токена нет, пользователь не авторизован
-    // Не перенаправляем автоматически, так как пользователь может зарегистрироваться
     isAuthenticated.value = false
+    // Переключаемся на таб авторизации
+    activeTab.value = 'auth'
   }
 })
 </script>
