@@ -8,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from pydantic import BaseModel, EmailStr
 from datetime import datetime, timedelta
 import os
-import hashlib
+import bcrypt
 import jwt
 from typing import List, Optional
 
@@ -108,10 +108,17 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # Функции для работы с паролями и токенами
 def hash_password(password: str) -> str:
-    return hashlib.sha256(password.encode()).hexdigest()
+    """Хеширует пароль с использованием bcrypt"""
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
+    return hashed.decode('utf-8')
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return hash_password(plain_password) == hashed_password
+    """Проверяет пароль с использованием bcrypt"""
+    try:
+        return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
+    except (ValueError, TypeError):
+        return False
 
 def create_access_token(data: dict):
     to_encode = data.copy()
