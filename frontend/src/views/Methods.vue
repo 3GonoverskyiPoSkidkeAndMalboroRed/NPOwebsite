@@ -32,7 +32,6 @@ interface MethodItem {
   title: string;
   image: string;
   link: string;
-  description: string;
   items: string[];
 }
 
@@ -41,7 +40,6 @@ const methods: MethodItem[] = [
     title: "Методики анализа нефти и нефтепродуктов",
     image: "/home-photo/4d3fc1ac61ed98d7a6eb1d8d9e6f7267.png",
     link: "/methods-oil",
-    description: "Анализ элементного состава нефти, бензина, дизельного топлива и других нефтепродуктов",
     items: [
       "Анализ серы в нефтепродуктах",
       "Определение металлов в топливе",
@@ -52,7 +50,6 @@ const methods: MethodItem[] = [
     title: "Методики анализа в области экологии",
     image: "/home-photo/ecologylittle.png",
     link: "/methods-eco",
-    description: "Анализ загрязняющих веществ в воде, почве, воздухе и отходах",
     items: [
       "Анализ тяжелых металлов в воде",
       "Контроль загрязнения почвы",
@@ -63,7 +60,6 @@ const methods: MethodItem[] = [
     title: "Методики анализа в горнорудной промышленности",
     image: "/home-photo/gornlittle.png",
     link: "/methods-mining",
-    description: "Анализ руд, минералов, горных пород и технологических продуктов",
     items: [
       "Анализ рудных концентратов",
       "Определение содержания металлов",
@@ -74,7 +70,6 @@ const methods: MethodItem[] = [
     title: "Методики анализа в продукции металлургии",
     image: "/home-photo/metlittle.png",
     link: "/methods-metallurgy",
-    description: "Анализ сплавов, металлов, ферросплавов и металлургических продуктов",
     items: [
       "Анализ сталей и сплавов",
       "Контроль ферросплавов",
@@ -85,7 +80,6 @@ const methods: MethodItem[] = [
     title: "Методики анализа для диагностики и контроля",
     image: "/home-photo/diagnostikalittle2.png",
     link: "/methods-diagnostics",
-    description: "Анализ износа, коррозии, смазочных материалов и технологических сред",
     items: [
       "Диагностика износа двигателей",
       "Анализ коррозионных отложений",
@@ -96,7 +90,6 @@ const methods: MethodItem[] = [
     title: "Методики анализа в газовой промышленности",
     image: "/home-photo/06bba93af58b01ffc5367e30d6485f7c.png",
     link: "/methods-gas",
-    description: "Анализ природного газа, углеводородов и газовых смесей",
     items: [
       "Анализ состава природного газа",
       "Определение серы в газе",

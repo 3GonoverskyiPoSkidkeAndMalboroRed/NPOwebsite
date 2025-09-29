@@ -11,16 +11,7 @@
       <div class="flex-1">
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-2xl font-bold text-primary">{{ method.title }}</h2>
-          <RouterLink
-            :to="method.link"
-            class="text-primary hover:text-primary/80 font-medium"
-          >
-            Подробнее →
-          </RouterLink>
         </div>
-        <p class="text-muted-foreground mb-4">
-          {{ method.description }}
-        </p>
         <ul class="space-y-2 text-sm">
           <li 
             v-for="item in method.items" 
