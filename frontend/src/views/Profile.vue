@@ -60,7 +60,7 @@
                 <CardDescription>Войдите в свой аккаунт для доступа к профилю и обновлениям ПО</CardDescription>
               </CardHeader>
               <CardContent>
-                <form @submit.prevent="login" class="space-y-4">
+                <form @submit.prevent="handleLogin" class="space-y-4">
                   <div>
                     <Label for="login-username">Логин</Label>
                     <Input
@@ -95,7 +95,7 @@
                 <CardDescription>Создайте новый аккаунт</CardDescription>
               </CardHeader>
               <CardContent>
-                <form @submit.prevent="register" class="space-y-4">
+                <form @submit.prevent="handleRegister" class="space-y-4">
                   <div>
                     <Label for="reg-login">Логин</Label>
                     <Input
@@ -220,7 +220,7 @@
                 <CardDescription>Обновите ваши данные</CardDescription>
               </CardHeader>
               <CardContent>
-                <form @submit.prevent="updateProfile" class="space-y-4">
+                <form @submit.prevent="handleUpdateProfile" class="space-y-4">
                   <div class="grid md:grid-cols-2 gap-4">
                     <div>
                       <Label for="edit-organization">Организация</Label>
@@ -273,7 +273,7 @@
                       <Loader2 v-if="isLoading" class="mr-2 h-4 w-4 animate-spin" />
                       Сохранить изменения
                     </Button>
-                    <Button type="button" variant="destructive" @click="logout">
+                    <Button type="button" variant="destructive" @click="handleLogout">
                       Выйти
                     </Button>
                   </div>
@@ -488,17 +488,16 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Loader2 } from 'lucide-vue-next'
+import { useAuth } from '@/composables/useAuth'
 
 // Роутер для перенаправления
 const router = useRouter()
 
-// Состояние аутентификации
-const isAuthenticated = ref(false)
-const isLoading = ref(false)
-const userData = ref<any>(null)
+// Используем composable для авторизации
+const { isAuthenticated, userData, isLoading, login, register, logout, updateProfile, loadUserData, checkAuth } = useAuth()
 
-// Состояние табов
-const activeTab = ref('profile')
+// Состояние табов - по умолчанию показываем авторизацию
+const activeTab = ref('auth')
 
 // Состояние для обновлений ПО
 const isDownloading = ref(false)
@@ -548,61 +547,29 @@ const editForm = reactive({
   email: ''
 })
 
-// API базовый URL
-const API_BASE = 'http://192.168.81.74:8000'
-
-// Функции для работы с API
-const apiRequest = async (url: string, options: RequestInit = {}) => {
-  const token = localStorage.getItem('token')
-  const headers = {
-    'Content-Type': 'application/json',
-    ...(token && { 'Authorization': `Bearer ${token}` }),
-    ...options.headers
-  }
-
-  const response = await fetch(`${API_BASE}${url}`, {
-    ...options,
-    headers
-  })
-
-  if (!response.ok) {
-    const error = await response.json()
-    throw new Error(error.detail || 'Ошибка запроса')
-  }
-
-  return response.json()
-}
-
 // Функция входа
-const login = async () => {
+const handleLogin = async () => {
   try {
-    isLoading.value = true
-    const response = await apiRequest('/auth/login', {
-      method: 'POST',
-      body: JSON.stringify(loginForm)
-    })
-    
-    localStorage.setItem('token', response.access_token)
-    await loadUserData()
-    isAuthenticated.value = true
+    await login(loginForm)
     // Переключаемся на таб профиля после успешного входа
     activeTab.value = 'profile'
+    // Заполняем форму редактирования
+    Object.assign(editForm, {
+      organization: userData.value.organization || '',
+      full_name: userData.value.full_name || '',
+      position: userData.value.position || '',
+      phone: userData.value.phone || '',
+      email: userData.value.email || ''
+    })
   } catch (error: any) {
     alert('Ошибка входа: ' + error.message)
-  } finally {
-    isLoading.value = false
   }
 }
 
 // Функция регистрации
-const register = async () => {
+const handleRegister = async () => {
   try {
-    isLoading.value = true
-    await apiRequest('/auth/register', {
-      method: 'POST',
-      body: JSON.stringify(registerForm)
-    })
-    
+    await register(registerForm)
     alert('Регистрация успешна! Теперь вы можете войти в систему.')
     
     // Очищаем форму регистрации
@@ -617,53 +584,22 @@ const register = async () => {
     })
   } catch (error: any) {
     alert('Ошибка регистрации: ' + error.message)
-  } finally {
-    isLoading.value = false
-  }
-}
-
-// Функция загрузки данных пользователя
-const loadUserData = async () => {
-  try {
-    const data = await apiRequest('/auth/me')
-    userData.value = data
-    
-    // Заполняем форму редактирования
-    Object.assign(editForm, {
-      organization: data.organization || '',
-      full_name: data.full_name || '',
-      position: data.position || '',
-      phone: data.phone || '',
-      email: data.email || ''
-    })
-  } catch (error: any) {
-    console.error('Ошибка загрузки данных пользователя:', error)
   }
 }
 
 // Функция обновления профиля
-const updateProfile = async () => {
+const handleUpdateProfile = async () => {
   try {
-    isLoading.value = true
-    const data = await apiRequest('/auth/me', {
-      method: 'PUT',
-      body: JSON.stringify(editForm)
-    })
-    
-    userData.value = data
+    await updateProfile(editForm)
     alert('Профиль успешно обновлен!')
   } catch (error: any) {
     alert('Ошибка обновления профиля: ' + error.message)
-  } finally {
-    isLoading.value = false
   }
 }
 
 // Функция выхода
-const logout = () => {
-  localStorage.removeItem('token')
-  isAuthenticated.value = false
-  userData.value = null
+const handleLogout = () => {
+  logout()
   // Переключаемся на таб авторизации после выхода
   activeTab.value = 'auth'
 }
@@ -698,7 +634,7 @@ const uploadUpdate = async () => {
     }
 
     const token = localStorage.getItem('token')
-    const response = await fetch(`${API_BASE}/software-updates/upload`, {
+    const response = await fetch(`http://192.168.81.74:8000/software-updates/upload`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -734,7 +670,7 @@ const downloadUpdate = async (updateId: number) => {
     isDownloading.value = true
     
     const token = localStorage.getItem('token')
-    const response = await fetch(`${API_BASE}/software-updates/${updateId}/download`, {
+    const response = await fetch(`http://192.168.81.74:8000/software-updates/${updateId}/download`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -770,7 +706,7 @@ const deleteUpdate = async (updateId: number) => {
 
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`${API_BASE}/software-updates/${updateId}`, {
+    const response = await fetch(`http://192.168.81.74:8000/software-updates/${updateId}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -792,7 +728,18 @@ const deleteUpdate = async (updateId: number) => {
 
 const loadSoftwareUpdates = async () => {
   try {
-    const updates = await apiRequest('/software-updates')
+    const token = localStorage.getItem('token')
+    const response = await fetch(`http://192.168.81.74:8000/software-updates`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+
+    if (!response.ok) {
+      throw new Error('Ошибка загрузки списка обновлений')
+    }
+
+    const updates = await response.json()
     availableUpdates.value = updates
     updateHistory.value = updates
   } catch (error: any) {
@@ -828,34 +775,29 @@ const checkForUpdates = async () => {
 watch(activeTab, (newTab) => {
   // Если пользователь пытается перейти к защищенным разделам без авторизации
   if (!isAuthenticated.value && (newTab === 'profile' || newTab === 'software-updates')) {
-    // Перенаправляем на главную страницу или показываем форму авторизации
-    // В данном случае просто сбрасываем таб на форму авторизации
+    // Сбрасываем таб на форму авторизации
     activeTab.value = 'auth'
   }
 })
 
 // Проверяем аутентификацию при загрузке
 onMounted(async () => {
-  const token = localStorage.getItem('token')
-  if (token) {
-    try {
-      await loadUserData()
-      isAuthenticated.value = true
-      // Загружаем обновления ПО если пользователь авторизован
-      await loadSoftwareUpdates()
-      // Переключаемся на таб профиля для авторизованных пользователей
-      activeTab.value = 'profile'
-    } catch (error: any) {
-      // Если токен недействителен, удаляем его
-      localStorage.removeItem('token')
-      isAuthenticated.value = false
-      // Переключаемся на таб авторизации
-      activeTab.value = 'auth'
-    }
+  const isAuth = await checkAuth()
+  if (isAuth) {
+    // Загружаем обновления ПО если пользователь авторизован
+    await loadSoftwareUpdates()
+    // Переключаемся на таб профиля для авторизованных пользователей
+    activeTab.value = 'profile'
+    // Заполняем форму редактирования
+    Object.assign(editForm, {
+      organization: userData.value.organization || '',
+      full_name: userData.value.full_name || '',
+      position: userData.value.position || '',
+      phone: userData.value.phone || '',
+      email: userData.value.email || ''
+    })
   } else {
-    // Если токена нет, пользователь не авторизован
-    isAuthenticated.value = false
-    // Переключаемся на таб авторизации
+    // Если пользователь не авторизован, показываем только вкладку авторизации
     activeTab.value = 'auth'
   }
 })

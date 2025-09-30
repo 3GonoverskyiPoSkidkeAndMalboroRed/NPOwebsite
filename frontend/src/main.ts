@@ -200,6 +200,40 @@ const router = createRouter({
   routes,
 });
 
+// Guard для защиты маршрутов - защищаем только /profile
+router.beforeEach(async (to, from, next) => {
+  // Проверяем, является ли маршрут защищенным (только /profile)
+  if (to.path === '/profile') {
+    // Проверяем авторизацию только для страницы профиля
+    const token = localStorage.getItem('token');
+    if (!token) {
+      // Если токена нет, разрешаем доступ к /profile (покажет форму авторизации)
+      next();
+      return;
+    }
+    
+    // Проверяем валидность токена
+    try {
+      const response = await fetch('http://192.168.81.74:8000/auth/me', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (!response.ok) {
+        // Токен недействителен, удаляем его, но разрешаем доступ к /profile
+        localStorage.removeItem('token');
+      }
+    } catch (error) {
+      // Ошибка сети, удаляем токен, но разрешаем доступ к /profile
+      localStorage.removeItem('token');
+    }
+  }
+  
+  // Для всех остальных маршрутов разрешаем доступ без проверки
+  next();
+});
+
 const app = createApp(App);
 app.use(router);
 app.mount("#app");
