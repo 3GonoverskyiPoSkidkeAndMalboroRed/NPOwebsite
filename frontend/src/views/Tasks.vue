@@ -1,13 +1,12 @@
 <template>
   <div class="min-h-screen bg-background">
     <!-- Hero Section -->
-    <section class="py-20 px-4 bg-gradient-to-b from-background to-muted/20">
-      <div class="max-w-7xl mx-auto">
+    <section class="py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-          <h1 class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text">
+          <h1 class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
             Решаемые задачи
           </h1>
-
         </div>
 
         <!-- Основные категории задач -->
