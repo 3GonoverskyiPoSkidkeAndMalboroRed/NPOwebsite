@@ -8,36 +8,49 @@ import bcrypt
 import jwt
 from typing import Optional
 
-from database import get_db, User, SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
+from database import get_db, User, SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, validate_serial_number, get_device_type_by_serial
 
 # Создаем роутер для аутентификации
 auth_router = APIRouter(prefix="/auth", tags=["Аутентификация"])
 
 # Pydantic модели для пользователей
 class UserCreate(BaseModel):
-    login: str
+    serial_number: str  # Серийный номер прибора
+    inn: str  # ИНН
+    kpp: str  # КПП
     password: str
-    organization: str
-    full_name: str
+    full_name: str  # ФИО
+    position: str  # Должность
+    organization: str  # Организация
+    phone: str  # Телефон
+    email: str  # Email
+
+class UserUpdate(BaseModel):
+    full_name: Optional[str] = None
     position: Optional[str] = None
+    organization: Optional[str] = None
     phone: Optional[str] = None
     email: Optional[str] = None
 
-class UserUpdate(BaseModel):
-    organization: Optional[str] = None
-    full_name: Optional[str] = None
-    position: Optional[str] = None
-    phone: Optional[str] = None
-    email: Optional[str] = None
+class DeviceTypeResponse(BaseModel):
+    id: int
+    name: str
+    description: str
+    
+    class Config:
+        from_attributes = True
 
 class UserResponse(BaseModel):
     id: int
-    login: str
-    organization: str
+    serial_number: str
+    device_type: Optional[DeviceTypeResponse] = None
+    inn: str
+    kpp: str
     full_name: str
-    position: Optional[str] = None
-    phone: Optional[str] = None
-    email: Optional[str] = None
+    position: str
+    organization: str
+    phone: str
+    email: str
     created_at: datetime
     updated_at: datetime
     
@@ -45,7 +58,9 @@ class UserResponse(BaseModel):
         from_attributes = True
 
 class UserLogin(BaseModel):
-    login: str
+    serial_number: str  # Серийный номер прибора
+    inn: str  # ИНН
+    kpp: str  # КПП
     password: str
 
 class Token(BaseModel):
@@ -94,19 +109,37 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
 @auth_router.post("/register", response_model=UserResponse)
 async def register_user(user: UserCreate, db: Session = Depends(get_db)):
     """Регистрация нового пользователя"""
-    # Проверяем, существует ли пользователь с таким логином
-    existing_user = db.query(User).filter(User.login == user.login).first()
+    # Валидация серийного номера с использованием БД
+    if not validate_serial_number(user.serial_number, db):
+        raise HTTPException(status_code=400, detail="Неверный серийный номер прибора")
+    
+    # Получаем тип прибора по серийному номеру
+    device_type = get_device_type_by_serial(user.serial_number, db)
+    
+    # Проверяем, существует ли пользователь с таким серийным номером
+    existing_user = db.query(User).filter(User.serial_number == user.serial_number).first()
     if existing_user:
-        raise HTTPException(status_code=400, detail="Пользователь с таким логином уже существует")
+        raise HTTPException(status_code=400, detail="Пользователь с таким серийным номером уже существует")
+    
+    # Проверяем, существует ли пользователь с такой комбинацией ИНН/КПП
+    existing_org_user = db.query(User).filter(
+        User.inn == user.inn, 
+        User.kpp == user.kpp
+    ).first()
+    if existing_org_user:
+        raise HTTPException(status_code=400, detail="Пользователь с такой комбинацией ИНН/КПП уже существует")
     
     # Создаем нового пользователя
     hashed_password = hash_password(user.password)
     db_user = User(
-        login=user.login,
+        serial_number=user.serial_number,
+        device_type_id=device_type.id if device_type else None,
+        inn=user.inn,
+        kpp=user.kpp,
         password_hash=hashed_password,
-        organization=user.organization,
         full_name=user.full_name,
         position=user.position,
+        organization=user.organization,
         phone=user.phone,
         email=user.email
     )
@@ -120,9 +153,15 @@ async def register_user(user: UserCreate, db: Session = Depends(get_db)):
 @auth_router.post("/login", response_model=Token)
 async def login_user(user_credentials: UserLogin, db: Session = Depends(get_db)):
     """Вход в систему"""
-    user = db.query(User).filter(User.login == user_credentials.login).first()
+    # Ищем пользователя по серийному номеру, ИНН и КПП
+    user = db.query(User).filter(
+        User.serial_number == user_credentials.serial_number,
+        User.inn == user_credentials.inn,
+        User.kpp == user_credentials.kpp
+    ).first()
+    
     if not user or not verify_password(user_credentials.password, user.password_hash):
-        raise HTTPException(status_code=401, detail="Неверный логин или пароль")
+        raise HTTPException(status_code=401, detail="Неверные данные для входа")
     
     access_token = create_access_token(data={"sub": str(user.id)})
     return {"access_token": access_token, "token_type": "bearer"}

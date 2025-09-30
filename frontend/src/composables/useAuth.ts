@@ -47,7 +47,12 @@ export function useAuth() {
   }
 
   // Функция входа
-  const login = async (loginForm: { login: string; password: string }) => {
+  const login = async (loginForm: { 
+    serial_number: string; 
+    inn: string; 
+    kpp: string; 
+    password: string 
+  }) => {
     try {
       isLoading.value = true
       const response = await apiRequest('/auth/login', {

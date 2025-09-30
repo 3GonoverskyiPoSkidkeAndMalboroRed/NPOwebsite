@@ -62,14 +62,36 @@
               <CardContent>
                 <form @submit.prevent="handleLogin" class="space-y-4">
                   <div>
-                    <Label for="login-username">Логин</Label>
+                    <Label for="login-serial">Серийный номер прибора</Label>
                     <Input
-                      id="login-username"
-                      v-model="loginForm.login"
+                      id="login-serial"
+                      v-model="loginForm.serial_number"
                       type="text"
-                      placeholder="Введите логин"
+                      placeholder="SE0260001, G6001, MSW8037 и т.д."
                       required
                     />
+                  </div>
+                  <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <Label for="login-inn">ИНН</Label>
+                      <Input
+                        id="login-inn"
+                        v-model="loginForm.inn"
+                        type="text"
+                        placeholder="ИНН организации"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label for="login-kpp">КПП</Label>
+                      <Input
+                        id="login-kpp"
+                        v-model="loginForm.kpp"
+                        type="text"
+                        placeholder="КПП организации"
+                        required
+                      />
+                    </div>
                   </div>
                   <div>
                     <Label for="login-password">Пароль</Label>
@@ -97,14 +119,39 @@
               <CardContent>
                 <form @submit.prevent="handleRegister" class="space-y-4">
                   <div>
-                    <Label for="reg-login">Логин</Label>
+                    <Label for="reg-serial">Серийный номер прибора</Label>
                     <Input
-                      id="reg-login"
-                      v-model="registerForm.login"
+                      id="reg-serial"
+                      v-model="registerForm.serial_number"
                       type="text"
-                      placeholder="Введите логин"
+                      placeholder="SE0260001, G6001, MSW8037 и т.д."
                       required
                     />
+                    <p class="text-xs text-muted-foreground mt-1">
+                      Примеры: SE02 60000-60999, G 6000-6999, MSW 8037,8040,12000-12999
+                    </p>
+                  </div>
+                  <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <Label for="reg-inn">ИНН</Label>
+                      <Input
+                        id="reg-inn"
+                        v-model="registerForm.inn"
+                        type="text"
+                        placeholder="ИНН организации"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label for="reg-kpp">КПП</Label>
+                      <Input
+                        id="reg-kpp"
+                        v-model="registerForm.kpp"
+                        type="text"
+                        placeholder="КПП организации"
+                        required
+                      />
+                    </div>
                   </div>
                   <div>
                     <Label for="reg-password">Пароль</Label>
@@ -113,16 +160,6 @@
                       v-model="registerForm.password"
                       type="password"
                       placeholder="Введите пароль"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Label for="reg-organization">Организация</Label>
-                    <Input
-                      id="reg-organization"
-                      v-model="registerForm.organization"
-                      type="text"
-                      placeholder="Название организации"
                       required
                     />
                   </div>
@@ -143,6 +180,17 @@
                       v-model="registerForm.position"
                       type="text"
                       placeholder="Должность"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label for="reg-organization">Организация</Label>
+                    <Input
+                      id="reg-organization"
+                      v-model="registerForm.organization"
+                      type="text"
+                      placeholder="Название организации"
+                      required
                     />
                   </div>
                   <div>
@@ -152,6 +200,7 @@
                       v-model="registerForm.phone"
                       type="tel"
                       placeholder="+7 (xxx) xxx-xx-xx"
+                      required
                     />
                   </div>
                   <div>
@@ -161,6 +210,7 @@
                       v-model="registerForm.email"
                       type="email"
                       placeholder="email@example.com"
+                      required
                     />
                   </div>
                   <Button type="submit" class="w-full" :disabled="isLoading">
@@ -182,8 +232,16 @@
               <CardContent>
                 <div class="grid md:grid-cols-2 gap-4">
                   <div>
-                    <Label class="text-sm font-medium">Логин</Label>
-                    <p class="text-sm text-muted-foreground">{{ userData.login }}</p>
+                    <Label class="text-sm font-medium">Серийный номер прибора</Label>
+                    <p class="text-sm text-muted-foreground">{{ userData.serial_number }}</p>
+                  </div>
+                  <div>
+                    <Label class="text-sm font-medium">ИНН</Label>
+                    <p class="text-sm text-muted-foreground">{{ userData.inn }}</p>
+                  </div>
+                  <div>
+                    <Label class="text-sm font-medium">КПП</Label>
+                    <p class="text-sm text-muted-foreground">{{ userData.kpp }}</p>
                   </div>
                   <div>
                     <Label class="text-sm font-medium">Организация</Label>
@@ -195,15 +253,15 @@
                   </div>
                   <div>
                     <Label class="text-sm font-medium">Должность</Label>
-                    <p class="text-sm text-muted-foreground">{{ userData.position || 'Не указано' }}</p>
+                    <p class="text-sm text-muted-foreground">{{ userData.position }}</p>
                   </div>
                   <div>
                     <Label class="text-sm font-medium">Телефон</Label>
-                    <p class="text-sm text-muted-foreground">{{ userData.phone || 'Не указано' }}</p>
+                    <p class="text-sm text-muted-foreground">{{ userData.phone }}</p>
                   </div>
                   <div>
                     <Label class="text-sm font-medium">Email</Label>
-                    <p class="text-sm text-muted-foreground">{{ userData.email || 'Не указано' }}</p>
+                    <p class="text-sm text-muted-foreground">{{ userData.email }}</p>
                   </div>
                   <div>
                     <Label class="text-sm font-medium">Дата регистрации</Label>
@@ -533,16 +591,20 @@ const uploadForm = reactive({
 
 // Формы
 const loginForm = reactive({
-  login: '',
+  serial_number: '',
+  inn: '',
+  kpp: '',
   password: ''
 })
 
 const registerForm = reactive({
-  login: '',
+  serial_number: '',
+  inn: '',
+  kpp: '',
   password: '',
-  organization: '',
   full_name: '',
   position: '',
+  organization: '',
   phone: '',
   email: ''
 })
