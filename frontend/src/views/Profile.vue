@@ -170,8 +170,12 @@
                       v-model="registerForm.full_name"
                       type="text"
                       placeholder="Фамилия Имя Отчество"
+                      @input="handleFullNameInput"
                       required
                     />
+                    <p class="text-xs text-muted-foreground mt-1">
+                      Введите ФИО на русском языке
+                    </p>
                   </div>
                   <div>
                     <Label for="reg-position">Должность</Label>
@@ -200,8 +204,13 @@
                       v-model="registerForm.phone"
                       type="tel"
                       placeholder="+7 (xxx) xxx-xx-xx"
+                      @input="handlePhoneInput"
+                      @paste="handlePhonePaste"
                       required
                     />
+                    <p class="text-xs text-muted-foreground mt-1">
+                      Введите номер в формате +7 (xxx) xxx-xx-xx
+                    </p>
                   </div>
                   <div>
                     <Label for="reg-email">Email</Label>
@@ -296,6 +305,7 @@
                         v-model="editForm.full_name"
                         type="text"
                         placeholder="Фамилия Имя Отчество"
+                        @input="handleFullNameInput"
                       />
                     </div>
                     <div>
@@ -314,6 +324,8 @@
                         v-model="editForm.phone"
                         type="tel"
                         placeholder="+7 (xxx) xxx-xx-xx"
+                        @input="handlePhoneInput"
+                        @paste="handlePhonePaste"
                       />
                     </div>
                     <div class="md:col-span-2">
@@ -547,7 +559,6 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, watch } from 'vue'
-import { useRouter } from 'vue-router'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -555,28 +566,24 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Loader2 } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
-
-// Роутер для перенаправления
-const router = useRouter()
+import { useInputMasks } from '@/composables/useInputMasks'
 
 // Используем composable для авторизации
-const { isAuthenticated, userData, isLoading, login, register, logout, updateProfile, loadUserData, checkAuth } = useAuth()
+const { isAuthenticated, userData, isLoading, login, register, logout, updateProfile, checkAuth } = useAuth()
+
+// Используем composable для масок ввода
+const { 
+  handleFullNameInput, 
+  handlePhoneInput, 
+  handlePhonePaste
+} = useInputMasks()
 
 // Состояние табов - по умолчанию показываем авторизацию
 const activeTab = ref('auth')
 
 // Состояние для обновлений ПО
 const isDownloading = ref(false)
-const isCheckingUpdates = ref(false)
 const isUploading = ref(false)
-
-// Информация о ПО
-const softwareInfo = ref({
-  version: '1.2.3',
-  lastUpdate: '15.12.2024',
-  updateStatus: 'up-to-date', // 'available' | 'up-to-date'
-  autoUpdate: true
-})
 
 // Доступные обновления
 const availableUpdates = ref<any[]>([])
@@ -721,7 +728,7 @@ const uploadUpdate = async () => {
       throw new Error(error.detail || 'Ошибка загрузки файла')
     }
 
-    const result = await response.json()
+    await response.json()
     alert('Файл успешно загружен!')
     
     // Очищаем форму
@@ -839,29 +846,6 @@ const loadSoftwareUpdates = async () => {
   }
 }
 
-const toggleAutoUpdate = () => {
-  softwareInfo.value.autoUpdate = !softwareInfo.value.autoUpdate
-  alert(`Автоматические обновления ${softwareInfo.value.autoUpdate ? 'включены' : 'отключены'}`)
-}
-
-const checkForUpdates = async () => {
-  try {
-    isCheckingUpdates.value = true
-    await loadSoftwareUpdates()
-    
-    if (availableUpdates.value.length > 0) {
-      softwareInfo.value.updateStatus = 'available'
-      alert('Доступны новые обновления!')
-    } else {
-      softwareInfo.value.updateStatus = 'up-to-date'
-      alert('Система актуальна, обновления не найдены.')
-    }
-  } catch (error: any) {
-    alert('Ошибка проверки обновлений: ' + error.message)
-  } finally {
-    isCheckingUpdates.value = false
-  }
-}
 
 // Watcher для отслеживания изменений активного таба
 watch(activeTab, async (newTab) => {
