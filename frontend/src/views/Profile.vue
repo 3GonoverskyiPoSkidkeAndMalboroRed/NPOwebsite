@@ -367,13 +367,21 @@
             </Card>
 
             <!-- Доступные обновления -->
-            <Card class="p-6" v-if="availableUpdates.length > 0">
+            <Card class="p-6">
               <CardHeader>
                 <CardTitle>Доступные обновления</CardTitle>
-                <CardDescription>Новые версии программного обеспечения</CardDescription>
+                <CardDescription>
+                  Новые версии программного обеспечения 
+                  <span v-if="availableUpdates.length > 0">(найдено: {{ availableUpdates.length }})</span>
+                  <span v-else class="text-muted-foreground">(обновления не найдены)</span>
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <div class="space-y-4">
+                <div v-if="availableUpdates.length === 0" class="text-center text-muted-foreground py-8">
+                  <p>Доступные обновления не найдены</p>
+                  <p class="text-sm mt-2">Загрузите файлы обновления, используя форму выше</p>
+                </div>
+                <div v-else class="space-y-4">
                   <div v-for="update in availableUpdates" :key="update.id" class="border rounded-lg p-4">
                     <div class="flex justify-between items-start">
                       <div>
@@ -634,6 +642,10 @@ const uploadUpdate = async () => {
     }
 
     const token = localStorage.getItem('token')
+    if (!token) {
+      throw new Error('Токен авторизации не найден')
+    }
+
     const response = await fetch(`http://192.168.81.74:8000/software-updates/upload`, {
       method: 'POST',
       headers: {
@@ -670,6 +682,10 @@ const downloadUpdate = async (updateId: number) => {
     isDownloading.value = true
     
     const token = localStorage.getItem('token')
+    if (!token) {
+      throw new Error('Токен авторизации не найден')
+    }
+
     const response = await fetch(`http://192.168.81.74:8000/software-updates/${updateId}/download`, {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -706,6 +722,10 @@ const deleteUpdate = async (updateId: number) => {
 
   try {
     const token = localStorage.getItem('token')
+    if (!token) {
+      throw new Error('Токен авторизации не найден')
+    }
+
     const response = await fetch(`http://192.168.81.74:8000/software-updates/${updateId}`, {
       method: 'DELETE',
       headers: {
@@ -729,21 +749,31 @@ const deleteUpdate = async (updateId: number) => {
 const loadSoftwareUpdates = async () => {
   try {
     const token = localStorage.getItem('token')
+    if (!token) {
+      console.log('Токен не найден, пропускаем загрузку обновлений')
+      return
+    }
+
     const response = await fetch(`http://192.168.81.74:8000/software-updates`, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
       }
     })
 
     if (!response.ok) {
-      throw new Error('Ошибка загрузки списка обновлений')
+      throw new Error(`Ошибка загрузки списка обновлений: ${response.status}`)
     }
 
     const updates = await response.json()
     availableUpdates.value = updates
     updateHistory.value = updates
+    console.log('Загружены обновления ПО:', updates)
   } catch (error: any) {
     console.error('Ошибка загрузки списка обновлений:', error)
+    // Очищаем списки при ошибке
+    availableUpdates.value = []
+    updateHistory.value = []
   }
 }
 
@@ -772,11 +802,16 @@ const checkForUpdates = async () => {
 }
 
 // Watcher для отслеживания изменений активного таба
-watch(activeTab, (newTab) => {
+watch(activeTab, async (newTab) => {
   // Если пользователь пытается перейти к защищенным разделам без авторизации
   if (!isAuthenticated.value && (newTab === 'profile' || newTab === 'software-updates')) {
     // Сбрасываем таб на форму авторизации
     activeTab.value = 'auth'
+  }
+  
+  // Если переключаемся на вкладку обновлений ПО и пользователь авторизован
+  if (newTab === 'software-updates' && isAuthenticated.value) {
+    await loadSoftwareUpdates()
   }
 })
 
