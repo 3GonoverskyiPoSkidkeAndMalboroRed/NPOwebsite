@@ -131,7 +131,6 @@ const navigateToInstrument = (route: string) => {
                   </p>
                   
                 </div>
-
                 <!-- Правая часть - Изображение -->
                 <div 
                   class="flex-2 rounded-lg border-2  bg-white overflow-hidden cursor-pointer hover:shadow-lg transition-shadow h-64 md:h-auto"
@@ -181,7 +180,7 @@ const navigateToInstrument = (route: string) => {
 
 @keyframes img-shadow-animation {
   from {
-    opacity: 0.5;
+    opacity: 0.1;
     transform: translateY(30px);
   }
 
