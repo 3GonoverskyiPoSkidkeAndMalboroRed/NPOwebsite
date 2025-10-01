@@ -4,6 +4,8 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-vue-next";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 // Данные о приборах
@@ -79,13 +81,13 @@ const navigateToInstrument = (route: string) => {
 </script>
 
 <template>
-  <section id="hero" class="container px-4 sm:px-6 lg:px-8">
+  <section id="hero" class="container">
     <div
-      class="grid place-items-center lg:max-w-screen-xl gap-4 sm:gap-6 lg:gap-8 mx-auto py-8 sm:py-12 md:py-16 lg:py-24 xl:py-32"
+      class="grid place-items-center lg:max-w-screen-xl gap-8 mx-auto py-20 md:py-32"
     >
-      <div class="text-center space-y-4 sm:space-y-6 lg:space-y-8">
+      <div class="text-center space-y-8">
         <div
-          class="max-w-screen-md mx-auto text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold"
+          class="max-w-screen-md mx-auto text-center text-5xl md:text-6xl font-bold"
         >
           <h1>
            
@@ -96,38 +98,42 @@ const navigateToInstrument = (route: string) => {
             которые мы производим
           </h1>
         </div>
+
+
+        
       </div>
 
       <!-- Карусель с приборами -->
-      <div class="relative group mt-6 sm:mt-8 lg:mt-12 w-full max-w-6xl mx-auto overflow-hidden">
+      <div class="relative group mt-14 w-full max-w-6xl mx-auto">
         <!-- gradient shadow -->
         <div
-          class="absolute -top-2 sm:-top-4 lg:-top-6 right-2 sm:right-4 lg:right-12 w-[80%] sm:w-[85%] lg:w-[90%] h-6 sm:h-8 lg:h-12 xl:h-[80%] bg-primary/50 blur-3xl rounded-full img-shadow-animation"
+          class="absolute -top-6 right-12 w-[90%] h-12 lg:h-[80%] bg-primary/50 blur-3xl rounded-full img-shadow-animation"
         ></div>
 
         <Carousel class="w-full">
-          <CarouselContent class="-ml-1 sm:-ml-2 md:-ml-4">
+          <CarouselContent class="-ml-2 md:-ml-4">
             <CarouselItem 
               v-for="instrument in instruments" 
               :key="instrument.id"
-              class="pl-1 sm:pl-2 md:pl-4"
+              class="pl-2 md:pl-4"
             >
-              <div class="flex flex-col lg:flex-row gap-3 sm:gap-4 h-auto lg:h-96">
+              <div class="flex flex-col md:flex-row gap-4 h-auto md:h-96">
                 <!-- Левая часть - Текстовый блок -->
                 <div 
-                  class="flex-1 rounded-lg p-3 sm:p-4 lg:p-6 flex flex-col justify-center cursor-pointer hover:shadow-lg transition-shadow"
+                  class="flex-1 rounded-lg p-6 flex flex-col justify-center cursor-pointer hover:shadow-lg transition-shadow"
                   @click="navigateToInstrument(instrument.route)"
                 >
-                  <h3 class="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold mb-2 sm:mb-3 lg:mb-4">
+                  <h3 class="text-2xl md:text-3xl font-bold mb-4 ">
                     {{ instrument.name }}
                   </h3>
-                  <p class="text-sm sm:text-base lg:text-lg mb-3 sm:mb-4 lg:mb-6">
+                  <p class="text-lg  mb-6">
                     {{ instrument.description }}
                   </p>
                 </div>
+
                 <!-- Правая часть - Изображение -->
                 <div 
-                  class="flex-2 rounded-lg border-2 bg-white overflow-hidden cursor-pointer hover:shadow-lg transition-shadow h-40 sm:h-48 md:h-56 lg:h-auto"
+                  class="flex-2 rounded-lg border-2  bg-white overflow-hidden cursor-pointer hover:shadow-lg transition-shadow h-64 md:h-auto"
                   @click="navigateToInstrument(instrument.route)"
                 >
                   <div class="relative h-full">
@@ -145,9 +151,11 @@ const navigateToInstrument = (route: string) => {
           </CarouselContent>
           
           <!-- Навигационные кнопки -->
-          <CarouselPrevious class="carousel-buttons left-1/2 transform -translate-x-1/2 -translate-x-8 sm:-translate-x-12 md:-translate-x-16 top-full mt-4 sm:mt-6 lg:mt-8 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg w-8 h-8 sm:w-10 sm:h-10" />
-          <CarouselNext class="carousel-buttons left-1/2 transform -translate-x-1/2 translate-x-8 sm:translate-x-12 md:translate-x-16 top-full mt-4 sm:mt-6 lg:mt-8 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg w-8 h-8 sm:w-10 sm:h-10" />
+          <CarouselPrevious class="left-1/2 transform -translate-x-1/2 -translate-x-16 top-full mt-8 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg" />
+          <CarouselNext class="left-1/2 transform -translate-x-1/2 translate-x-16 top-full mt-8 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg" />
         </Carousel>
+
+        
       </div>
     </div>
   </section>
@@ -172,7 +180,7 @@ const navigateToInstrument = (route: string) => {
 
 @keyframes img-shadow-animation {
   from {
-    opacity: 0.1;
+    opacity: 0.5;
     transform: translateY(30px);
   }
 
@@ -183,37 +191,11 @@ const navigateToInstrument = (route: string) => {
 }
 @keyframes img-border-animation {
   from {
-    border-top-color: rgb(var(--primary) / 0.1);
+    @apply border-t-primary/10;
   }
 
   to {
-    border-top-color: rgb(var(--primary) / 0.6);
-  }
-}
-
-/* Дополнительные стили для адаптивности */
-@media (max-width: 640px) {
-  .container {
-    overflow-x: hidden;
-  }
-}
-
-/* Обеспечиваем, что кнопки карусели не выходят за границы */
-@media (max-width: 480px) {
-  .carousel-buttons {
-    transform: scale(0.8);
-  }
-}
-
-/* Дополнительная защита для очень маленьких экранов */
-@media (max-width: 360px) {
-  .carousel-buttons {
-    transform: scale(0.7);
-  }
-  
-  .container {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    @apply border-t-primary/60;
   }
 }
 </style>
