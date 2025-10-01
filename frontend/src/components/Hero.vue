@@ -114,7 +114,7 @@ const navigateToInstrument = (route: string) => {
               <div class="flex flex-col lg:flex-row gap-3 sm:gap-4 h-auto lg:h-96">
                 <!-- Левая часть - Изображение -->
                 <div 
-                  class="flex-3 rounded-lg border-2 bg-white overflow-hidden cursor-pointer hover:shadow-lg transition-shadow h-40 sm:h-48 md:h-56 lg:h-auto"
+                  class="flex-3 rounded-lg border-2 bg-white overflow-hidden cursor-pointer hover:shadow-lg transition-shadow h-72 sm:h-48 md:h-56 lg:h-auto"
                   @click="navigateToInstrument(instrument.route)"
                 >
                   <div class="relative h-full">
