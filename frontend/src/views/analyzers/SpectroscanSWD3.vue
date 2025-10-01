@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen bg-background">
-    <!-- Hero Section -->
+  <DevicePageLayout>
+        <!-- Hero Section -->
     <DeviceHero
       title="СПЕКТРОСКАН SW-D3"
       description="Рентгенофлуоресцентный волнодисперсионный анализатор серы для автомобильного топлива"
@@ -54,11 +54,7 @@
       </template>
     </DeviceTabs>
 
-    <!-- CTA Section -->
-    <DeviceCTA
-      title="Заинтересовал анализатор?"
-      description="Получите подробную консультацию и техническое предложение от наших специалистов"
-    />
+
 
     <!-- Модальное окно для просмотра изображений -->
     <DeviceImageModal
@@ -69,7 +65,8 @@
       @close="closeImageModal"
       @update:current-index="currentImageIndex = $event"
     />
-  </div>
+  </DevicePageLayout>
+
 </template>
 
 <script setup lang="ts">
@@ -84,6 +81,7 @@ import DeviceTasks from "@/components/device/DeviceTasks.vue";
 import DeviceMaterials from "@/components/device/DeviceMaterials.vue";
 import DeviceCTA from "@/components/device/DeviceCTA.vue";
 import DeviceImageModal from "@/components/device/DeviceImageModal.vue";
+import DevicePageLayout from "@/components/device/DevicePageLayout.vue";
 
 // Управление вкладками
 const activeTab = ref('description');

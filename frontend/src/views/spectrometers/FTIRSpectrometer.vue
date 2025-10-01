@@ -43,11 +43,7 @@
       </template>
     </DeviceTabs>
 
-    <!-- CTA Section -->
-    <DeviceCTA
-      title="Заинтересовал спектрометр?"
-      description="Получите подробную консультацию и техническое предложение от наших специалистов"
-    />
+
   </DevicePageLayout>
 </template>
 
