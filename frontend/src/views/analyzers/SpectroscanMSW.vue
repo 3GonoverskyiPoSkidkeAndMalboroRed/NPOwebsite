@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-background">
+  <DevicePageLayout>
     <!-- Hero Section -->
     <DeviceHero
       title="СПЕКТРОСКАН MSW"
@@ -69,7 +69,7 @@
       @close="closeImageModal"
       @update:current-index="currentImageIndex = $event"
     />
-  </div>
+  </DevicePageLayout>
 </template>
 
 <script setup lang="ts">
@@ -84,6 +84,7 @@ import DeviceTasks from "@/components/device/DeviceTasks.vue";
 import DeviceMaterials from "@/components/device/DeviceMaterials.vue";
 import DeviceCTA from "@/components/device/DeviceCTA.vue";
 import DeviceImageModal from "@/components/device/DeviceImageModal.vue";
+import DevicePageLayout from "@/components/device/DevicePageLayout.vue";
 
 // Управление вкладками
 const activeTab = ref('description');

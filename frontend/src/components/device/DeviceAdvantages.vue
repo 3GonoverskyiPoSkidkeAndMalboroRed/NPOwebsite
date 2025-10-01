@@ -4,7 +4,7 @@
     
     <div class="prose prose-lg max-w-none">
       <div class="space-y-4">
-        <div class="p-4 bg-muted/30 rounded-lg">
+        <div class="p-4 rounded-lg">
           <h4 class="font-semibold mb-2">Основные преимущества:</h4>
           <ul class="space-y-2">
             <li v-for="(advantage, index) in advantages" :key="index" class="flex items-start gap-2">

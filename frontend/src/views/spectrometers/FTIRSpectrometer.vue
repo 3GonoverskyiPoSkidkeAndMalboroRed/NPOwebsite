@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-background">
+  <DevicePageLayout>
     <!-- Hero Section -->
     <DeviceHero
       title="СПЕКТРОМЕТР ИК-Фурье"
@@ -48,7 +48,7 @@
       title="Заинтересовал спектрометр?"
       description="Получите подробную консультацию и техническое предложение от наших специалистов"
     />
-  </div>
+  </DevicePageLayout>
 </template>
 
 <script setup lang="ts">
@@ -60,6 +60,7 @@ import DeviceSpecifications from "@/components/device/DeviceSpecifications.vue";
 import DeviceAdvantages from "@/components/device/DeviceAdvantages.vue";
 import DeviceTasks from "@/components/device/DeviceTasks.vue";
 import DeviceCTA from "@/components/device/DeviceCTA.vue";
+import DevicePageLayout from "@/components/device/DevicePageLayout.vue";
 
 // Управление вкладками
 const activeTab = ref('description');
