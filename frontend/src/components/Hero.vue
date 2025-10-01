@@ -4,8 +4,6 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-vue-next";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 // Данные о приборах
@@ -145,9 +143,13 @@ const navigateToInstrument = (route: string) => {
             </CarouselItem>
           </CarouselContent>
           
-          <!-- Навигационные кнопки -->
-          <CarouselPrevious class="carousel-buttons left-1/2 transform -translate-x-1/2 -translate-x-8 sm:-translate-x-12 md:-translate-x-16 top-full mt-4 sm:mt-6 lg:mt-8 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg w-8 h-8 sm:w-10 sm:h-10" />
-          <CarouselNext class="carousel-buttons left-1/2 transform -translate-x-1/2 translate-x-8 sm:translate-x-12 md:translate-x-16 top-full mt-4 sm:mt-6 lg:mt-8 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg w-8 h-8 sm:w-10 sm:h-10" />
+          <!-- Навигационные кнопки для ПК (снизу) -->
+          <CarouselPrevious class="carousel-buttons hidden md:flex left-1/2 transform -translate-x-1/2 -translate-x-8 sm:-translate-x-12 md:-translate-x-16 top-full mt-4 sm:mt-6 lg:mt-8 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg w-8 h-8 sm:w-10 sm:h-10" />
+          <CarouselNext class="carousel-buttons hidden md:flex left-1/2 transform -translate-x-1/2 translate-x-8 sm:translate-x-12 md:translate-x-16 top-full mt-4 sm:mt-6 lg:mt-8 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg w-8 h-8 sm:w-10 sm:h-10" />
+          
+          <!-- Дополнительные кнопки навигации по бокам для ПК -->
+          <CarouselPrevious class="carousel-buttons hidden lg:flex absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-black border-gray-300 shadow-lg w-10 h-10 z-10" />
+          <CarouselNext class="carousel-buttons hidden lg:flex absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-black border-gray-300 shadow-lg w-10 h-10 z-10" />
         </Carousel>
       </div>
     </div>
