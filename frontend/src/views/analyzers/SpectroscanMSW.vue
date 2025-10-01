@@ -20,11 +20,11 @@
               </Button>
             </div>
           </div>
-          <div class="relative">
+          <div class="relative h-72 md:h-80 overflow-hidden">
             <img 
-              src="/analyzers/MSW.jpg" 
+              src="/analyzers/MSW/resized/MSW.jpg" 
               alt="СПЕКТРОСКАН MSW" 
-              class="w-full h-auto rounded-lg shadow-lg cursor-pointer hover:opacity-90 transition-opacity"
+              class="w-full h-full object-cover rounded-lg shadow-lg cursor-pointer hover:opacity-90 transition-opacity"
               @click="openImageModal(0)"
             />
           </div>
@@ -328,7 +328,7 @@ const currentImageIndex = ref(0);
 
 // Массив изображений MSW анализатора
 const images = [
-  '/analyzers/MSW.jpg'
+  '/analyzers/MSW/resized/MSW.jpg'
 ];
 
 // Функции для работы с модальным окном
