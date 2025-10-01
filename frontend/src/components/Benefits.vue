@@ -60,23 +60,23 @@ const applications: ApplicationProps[] = [
 <template>
   <section
     id="benefits"
-    class="container py-24 sm:py-32"
+    class="container px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24 lg:py-32"
   >
-    <div class="text-center mb-16">
-      <h2 class="text-3xl md:text-4xl font-bold mb-4">
+    <div class="text-center mb-12 sm:mb-16">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
         Области применения и решаемые задачи
       </h2>
     </div>
 
-    <div class="grid sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-3 gap-3">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
       <RouterLink
         v-for="application in applications"
         :key="application.title"
         :to="application.link"
         class="block"
       >
-        <Card class="group hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer">
-          <div class="relative h-32 overflow-hidden">
+        <Card class="group hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer h-full">
+          <div class="relative h-28 sm:h-32 overflow-hidden">
             <img
               :src="application.image"
               :alt="application.title"
@@ -85,8 +85,8 @@ const applications: ApplicationProps[] = [
             <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
           </div>
           
-          <CardHeader class="pb-2 px-3">
-            <CardTitle class="text-sm text-center group-hover:text-primary transition-colors duration-300 leading-tight">
+          <CardHeader class="pb-2 px-3 py-3">
+            <CardTitle class="text-xs sm:text-sm text-center group-hover:text-primary transition-colors duration-300 leading-tight">
               {{ application.title }}
             </CardTitle>
           </CardHeader>
@@ -94,10 +94,10 @@ const applications: ApplicationProps[] = [
       </RouterLink>
     </div>
 
-    <div class="text-center mt-12">
+    <div class="text-center mt-8 sm:mt-12">
       <RouterLink
         to="/tasks"
-        class="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors duration-300"
+        class="inline-flex items-center justify-center px-6 py-3 text-sm sm:text-base font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors duration-300"
       >
         Подробнее
       </RouterLink>

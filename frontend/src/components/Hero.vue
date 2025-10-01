@@ -4,8 +4,6 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-vue-next";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 // Данные о приборах
@@ -81,13 +79,13 @@ const navigateToInstrument = (route: string) => {
 </script>
 
 <template>
-  <section id="hero" class="container">
+  <section id="hero" class="container px-4 sm:px-6 lg:px-8">
     <div
-      class="grid place-items-center lg:max-w-screen-xl gap-8 mx-auto py-20 md:py-32"
+      class="grid place-items-center lg:max-w-screen-xl gap-6 lg:gap-8 mx-auto py-12 sm:py-16 md:py-20 lg:py-32"
     >
-      <div class="text-center space-y-8">
+      <div class="text-center space-y-6 lg:space-y-8">
         <div
-          class="max-w-screen-md mx-auto text-center text-5xl md:text-6xl font-bold"
+          class="max-w-screen-md mx-auto text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold"
         >
           <h1>
            
@@ -98,42 +96,38 @@ const navigateToInstrument = (route: string) => {
             которые мы производим
           </h1>
         </div>
-
-
-        
       </div>
 
       <!-- Карусель с приборами -->
-      <div class="relative group mt-14 w-full max-w-6xl mx-auto">
+      <div class="relative group mt-8 sm:mt-10 lg:mt-14 w-full max-w-6xl mx-auto">
         <!-- gradient shadow -->
         <div
-          class="absolute -top-6 right-12 w-[90%] h-12 lg:h-[80%] bg-primary/50 blur-3xl rounded-full img-shadow-animation"
+          class="absolute -top-4 sm:-top-6 right-4 sm:right-12 w-[85%] sm:w-[90%] h-8 sm:h-12 lg:h-[80%] bg-primary/50 blur-3xl rounded-full img-shadow-animation"
         ></div>
 
         <Carousel class="w-full">
-          <CarouselContent class="-ml-2 md:-ml-4">
+          <CarouselContent class="-ml-1 sm:-ml-2 md:-ml-4">
             <CarouselItem 
               v-for="instrument in instruments" 
               :key="instrument.id"
-              class="pl-2 md:pl-4"
+              class="pl-1 sm:pl-2 md:pl-4"
             >
-              <div class="flex flex-col md:flex-row gap-4 h-auto md:h-96">
+              <div class="flex flex-col lg:flex-row gap-3 sm:gap-4 h-auto lg:h-96">
                 <!-- Левая часть - Текстовый блок -->
                 <div 
-                  class="flex-1 rounded-lg p-6 flex flex-col justify-center cursor-pointer hover:shadow-lg transition-shadow"
+                  class="flex-1 rounded-lg p-4 sm:p-6 flex flex-col justify-center cursor-pointer hover:shadow-lg transition-shadow"
                   @click="navigateToInstrument(instrument.route)"
                 >
-                  <h3 class="text-2xl md:text-3xl font-bold mb-4 ">
+                  <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 sm:mb-4">
                     {{ instrument.name }}
                   </h3>
-                  <p class="text-lg  mb-6">
+                  <p class="text-base sm:text-lg mb-4 sm:mb-6">
                     {{ instrument.description }}
                   </p>
-                  
                 </div>
                 <!-- Правая часть - Изображение -->
                 <div 
-                  class="flex-2 rounded-lg border-2  bg-white overflow-hidden cursor-pointer hover:shadow-lg transition-shadow h-64 md:h-auto"
+                  class="flex-2 rounded-lg border-2 bg-white overflow-hidden cursor-pointer hover:shadow-lg transition-shadow h-48 sm:h-56 md:h-64 lg:h-auto"
                   @click="navigateToInstrument(instrument.route)"
                 >
                   <div class="relative h-full">
@@ -151,11 +145,9 @@ const navigateToInstrument = (route: string) => {
           </CarouselContent>
           
           <!-- Навигационные кнопки -->
-          <CarouselPrevious class="left-1/2 transform -translate-x-1/2 -translate-x-16 top-full mt-8 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg" />
-          <CarouselNext class="left-1/2 transform -translate-x-1/2 translate-x-16 top-full mt-8 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg" />
+          <CarouselPrevious class="left-1/2 transform -translate-x-1/2 -translate-x-12 sm:-translate-x-16 top-full mt-6 sm:mt-8 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg" />
+          <CarouselNext class="left-1/2 transform -translate-x-1/2 translate-x-12 sm:translate-x-16 top-full mt-6 sm:mt-8 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg" />
         </Carousel>
-
-        
       </div>
     </div>
   </section>
@@ -191,11 +183,11 @@ const navigateToInstrument = (route: string) => {
 }
 @keyframes img-border-animation {
   from {
-    @apply border-t-primary/10;
+    border-top-color: rgb(var(--primary) / 0.1);
   }
 
   to {
-    @apply border-t-primary/60;
+    border-top-color: rgb(var(--primary) / 0.6);
   }
 }
 </style>

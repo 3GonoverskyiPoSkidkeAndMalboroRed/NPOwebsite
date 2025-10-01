@@ -18,19 +18,19 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-// import {
-//   Sheet,
-//   SheetContent,
-//   SheetFooter,
-//   SheetHeader,
-//   SheetTitle,
-//   SheetTrigger,
-// } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 import { Button } from "@/components/ui/button";
-// import { Separator } from "@/components/ui/separator";
+import { Separator } from "@/components/ui/separator";
 
-// import { Menu } from "lucide-vue-next";
+import { Menu } from "lucide-vue-next";
 import GithubIcon from "@/icons/GithubIcon.vue";
 import ToggleTheme from "./ToggleTheme.vue";
 
@@ -95,23 +95,24 @@ const featureList: FeatureProps[] = [
   },
   {
     title: "Спектрометры",
-    description:
-      "Leverages social proof elements to establish trust and credibility.",
+    description: "Рентгенофлуоресцентные спектрометры для элементного анализа",
+    href: "/spectrometers",
   },
-  // {
-  //   title: "Решаемые задачи",
-  //   description:
-  //     "Make your lead capture form visually appealing and strategically.",
-  //   href: "/tasks",
-  // },
-  // {
-  //   title: "Методики",
-  //   description:
-  //     "Make your lead capture form visually appealing and strategically.",
-  // },
+  {
+    title: "Решаемые задачи",
+    description: "Области применения и методики анализа",
+    href: "/tasks",
+  },
+  {
+    title: "Методики",
+    description: "Аттестованные методики анализа",
+    href: "/methods",
+  },
 ];
 
-// const isOpen = ref<boolean>(false); // Удалено, так как мобильная навигация закомментирована
+import { ref } from "vue";
+
+const isOpen = ref<boolean>(false);
 </script>
 
 <template>
@@ -119,76 +120,134 @@ const featureList: FeatureProps[] = [
     :class="{
       'shadow-light': mode === 'light',
       'shadow-dark': mode === 'dark',
-      'w-[90%] md:w-[70%] lg:w-[75%] lg:max-w-screen-xl top-5 mx-auto sticky border z-40 rounded-2xl flex justify-between items-center p-2 bg-card shadow-md': true,
+      'w-[95%] sm:w-[90%] md:w-[80%] lg:w-[75%] lg:max-w-screen-xl top-3 sm:top-5 mx-auto sticky border z-40 rounded-xl sm:rounded-2xl flex justify-between items-center p-2 sm:p-3 bg-card shadow-md': true,
     }"
   >
     <a
       href="/"
-      class="font-bold text-lg flex items-center"
+      class="font-bold text-base sm:text-lg flex items-center"
     >
       <img 
         src="/logospectron-Photoroom.png" 
         alt="ООО СПЕКТРОН" 
-        class="w-20 h-16 mr-2 rounded-lg object-contain"
+        class="w-16 h-12 sm:w-20 sm:h-16 mr-2 rounded-lg object-contain"
       />
-
+      <span class="hidden sm:block text-sm sm:text-base font-semibold">НПО "СПЕКТРОН"</span>
     </a>
 
-    <!-- Mobile
-    <div class="flex items-center lg:hidden">
+    <!-- Mobile Navigation -->
+    <div class="flex items-center gap-2 lg:hidden">
+      <!-- Кнопки для мобильных -->
+      <div class="flex items-center gap-1">
+        <Button
+          as-child
+          size="sm"
+          variant="ghost"
+          class="p-2"
+        >
+          <router-link to="/profile">
+            <span class="sr-only">Личный кабинет</span>
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </router-link>
+        </Button>
+
+        <ToggleTheme />
+
+        <Button
+          as-child
+          size="sm"
+          variant="ghost"
+          class="p-2"
+        >
+          <a
+            href="https://github.com/leoMirandaa/shadcn-vue-landing-page.git"
+            target="_blank"
+            class="flex items-center"
+          >
+            <GithubIcon class="h-4 w-4" />
+          </a>
+        </Button>
+      </div>
+
       <Sheet v-model:open="isOpen">
         <SheetTrigger as-child>
-          <Menu
-            @click="isOpen = true"
-            class="cursor-pointer"
-          />
+          <Button variant="ghost" size="sm" class="p-2">
+            <Menu class="h-5 w-5" />
+          </Button>
         </SheetTrigger>
 
         <SheetContent
-          side="left"
-          class="flex flex-col justify-between rounded-tr-2xl rounded-br-2xl bg-card"
+          side="right"
+          class="flex flex-col bg-card w-[300px] sm:w-[400px]"
         >
-          <div>
-            <SheetHeader class="mb-4 ml-4">
-              <SheetTitle class="flex items-center">
-                <a
-                  href="/"
-                  class="flex items-center"
-                >
-                  <img 
-                    src="/logospectron.png" 
-                    alt="SPECTRON Logo" 
-                    class="w-9 h-9 mr-2 rounded-lg object-contain"
-                  />
-                  Рентгеновские спектрометры и анализаторы
-                </a>
-              </SheetTitle>
-            </SheetHeader>
+          <SheetHeader class="mb-6">
+            <SheetTitle class="flex items-center">
+              <img 
+                src="/logospectron-Photoroom.png" 
+                alt="SPECTRON Logo" 
+                class="w-12 h-10 mr-3 rounded-lg object-contain"
+              />
+              <span class="text-sm font-semibold">НПО "СПЕКТРОН"</span>
+            </SheetTitle>
+          </SheetHeader>
 
-            <div class="flex flex-col gap-2">
-              <Button
-                v-for="{ href, label } in routeList"
-                :key="label"
-                as-child
-                variant="ghost"
-                class="justify-start text-base"
-                @click="handleNavigation(href)"
-              >
-                <span>
+          <div class="flex-1 space-y-4">
+            <!-- Приборы -->
+            <div>
+              <h3 class="text-sm font-semibold text-muted-foreground mb-3">Приборы ({{ featureList.length }})</h3>
+              <div class="space-y-2">
+                <router-link
+                  v-for="{ title, description, href } in featureList"
+                  :key="title"
+                  :to="href || '/'"
+                  class="block p-3 rounded-lg hover:bg-muted transition-colors"
+                  @click="isOpen = false"
+                >
+                  <p class="font-medium text-sm">{{ title }}</p>
+                  <p class="text-xs text-muted-foreground mt-1">{{ description }}</p>
+                </router-link>
+              </div>
+            </div>
+
+            <Separator />
+
+            <!-- Основная навигация -->
+            <div>
+              <h3 class="text-sm font-semibold text-muted-foreground mb-3">Навигация ({{ routeList.length }})</h3>
+              <div class="space-y-2">
+                <button
+                  v-for="{ href, label } in routeList"
+                  :key="label"
+                  class="block w-full text-left p-3 rounded-lg hover:bg-muted transition-colors text-sm"
+                  @click="handleNavigation(href); isOpen = false"
+                >
                   {{ label }}
-                </span>
-              </Button>
+                </button>
+              </div>
             </div>
           </div>
 
-          <SheetFooter class="flex-col sm:flex-col justify-start items-start">
-            <Separator class="mb-2" />
+          <SheetFooter class="mt-6 pt-4 border-t">
+            <div class="space-y-3 w-full">
+              <router-link
+                to="/profile"
+                class="block w-full p-3 rounded-lg hover:bg-muted transition-colors text-sm"
+                @click="isOpen = false"
+              >
+                Личный кабинет
+              </router-link>
 
-            <ToggleTheme />
+              <div class="flex items-center justify-between p-3">
+                <span class="text-sm text-muted-foreground">Тема:</span>
+                <ToggleTheme />
+              </div>
+            </div>
           </SheetFooter>
         </SheetContent>
       </Sheet>
-    </div> -->
+    </div>
 
     <!-- Desktop -->
     <NavigationMenu class="hidden lg:block">
