@@ -9,24 +9,69 @@
           </h1>
         </div>
 
-         <!-- Методики по отраслям -->
-         <div class="space-y-12">
-           <MethodBlock
-             v-for="method in methods"
-             :key="method.title"
-             :method="method"
-           />
-         </div>
+        <!-- Детальная страница методики -->
+        <div v-if="showMethodDetail" class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <div class="px-4 py-4 border-b border-gray-200">
+            <button 
+              @click="showMethodDetail = false"
+              class="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+              </svg>
+              Назад к списку методик
+            </button>
+          </div>
+          <MethodHeader :title="selectedMethod.title" />
+          
+          <MethodDescription 
+            :standards-description="selectedMethod.standardsDescription"
+            :method-description="selectedMethod.methodDescription"
+          />
+          
+          <ApplicationButton @application="handleApplication" />
+          
+          <MethodTabs 
+            :tabs="tabs"
+            :active-tab="activeTab"
+            @tab-change="handleTabChange"
+          />
+          
+          <MethodContent 
+            :active-tab="activeTab"
+            :description-content="selectedMethod.descriptionContent"
+            :limitations="selectedMethod.limitations"
+            :procedure="selectedMethod.procedure"
+            :documentation="selectedMethod.documentation"
+            :equipment="selectedMethod.equipment"
+          />
+          
+          <MethodFooter />
+        </div>
 
-
-       
+        <!-- Список методик по отраслям -->
+        <div v-else class="space-y-12">
+          <MethodBlock
+            v-for="method in methods"
+            :key="method.title"
+            :method="method"
+            @method-select="handleMethodSelect"
+          />
+        </div>
       </div>
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, reactive } from 'vue';
 import MethodBlock from "@/components/MethodBlock.vue";
+import MethodHeader from "@/components/method/MethodHeader.vue";
+import MethodDescription from "@/components/method/MethodDescription.vue";
+import ApplicationButton from "@/components/method/ApplicationButton.vue";
+import MethodTabs from "@/components/method/MethodTabs.vue";
+import MethodContent from "@/components/method/MethodContent.vue";
+import MethodFooter from "@/components/method/MethodFooter.vue";
 
 interface MethodItem {
   title: string;
@@ -38,6 +83,95 @@ interface MethodItem {
     link: string;
   }[];
 }
+
+interface DetailedMethod {
+  title: string;
+  standardsDescription: string;
+  methodDescription: string;
+  descriptionContent: string[];
+  limitations: string;
+  procedure: string[];
+  documentation: {
+    title: string;
+    description: string;
+    link?: string;
+  }[];
+  equipment: {
+    name: string;
+    description: string;
+    specifications?: string;
+  }[];
+}
+
+// Состояние для переключения между списком и детальной страницей
+const showMethodDetail = ref(false);
+const activeTab = ref('range');
+
+// Вкладки
+const tabs = [
+  { id: 'description', label: 'Описание методики' },
+  { id: 'range', label: 'Диапазон измерений' },
+  { id: 'documentation', label: 'Документация' },
+  { id: 'equipment', label: 'Доп. оборудование' }
+];
+
+// Выбранная методика (пример данных для серы)
+const selectedMethod = reactive<DetailedMethod>({
+  title: "Определение серы в нефти и нефтепродуктах по ГОСТ Р ЕН ИСО 20847-2010 и ГОСТ ISO 20847-2014",
+  standardsDescription: "Стандарты идентичны ISO 20847:2004 Petroleum products - Determination of sulfur content of automotive fuels - Energy-dispersive X-ray fluorescence spectrometry (Нефтепродукты. Определение содержания серы в автомобильных топливах методом рентгенофлуоресцентной энергодисперсионной спектрометрии).",
+  methodDescription: "ISO 20847 устанавливает метод определения содержания серы в диапазоне от 30 до 500 мг/кг в автомобильных бензинах, в том числе содержащих до 2,7% масс. кислорода, и в дизельных топливах, в том числе содержащих до 5% об. метиловых эфиров жирных кислот (FAME).",
+  descriptionContent: [
+    "Метод основан на рентгенофлуоресцентной энергодисперсионной спектрометрии для определения содержания серы в нефтепродуктах.",
+    "Применяется для анализа автомобильных бензинов и дизельных топлив с различными добавками.",
+    "Метод не требует предварительной подготовки проб и обеспечивает высокую точность измерений."
+  ],
+  limitations: "Метод не применим к этилированным моторным бензинам, бензинам с заменителем свинца, содержащим 8-20 мг/кг калия, или к продуктам и исходным сырьевым материалам, содержащим свинец, кремний, фосфор, кальций, калий или галогены в концентрациях более чем 0,1 содержания измеренной серы.",
+  procedure: [
+    "Предварительной подготовки проб к анализу не требуется.",
+    "Испытуемый образец, помещенный в кювету, облучают потоком первичного излучения рентгеновской трубки.",
+    "Измеряют скорость счета импульсов от S-Ка-рентгенофлуоресцентного излучения.",
+    "Содержание серы определяют по калибровочной кривой, построенной для измеряемого диапазона серы."
+  ],
+  documentation: [
+    {
+      title: "ГОСТ Р ЕН ИСО 20847-2010",
+      description: "Нефтепродукты. Определение содержания серы в автомобильных топливах методом рентгенофлуоресцентной энергодисперсионной спектрометрии",
+      link: "#"
+    },
+    {
+      title: "ГОСТ ISO 20847-2014",
+      description: "Нефтепродукты. Определение содержания серы в автомобильных топливах методом рентгенофлуоресцентной энергодисперсионной спектрометрии",
+      link: "#"
+    }
+  ],
+  equipment: [
+    {
+      name: "Рентгенофлуоресцентный спектрометр",
+      description: "Энергодисперсионный рентгенофлуоресцентный спектрометр для определения серы",
+      specifications: "Диапазон измерения: 30-500 мг/кг, точность: ±5%"
+    },
+    {
+      name: "Кювета для образцов",
+      description: "Специальная кювета для размещения образцов нефтепродуктов",
+      specifications: "Материал: полиэтилен, объем: 5 мл"
+    }
+  ]
+});
+
+// Обработчики событий
+const handleMethodSelect = () => {
+  // Здесь можно загрузить данные для конкретной методики
+  showMethodDetail.value = true;
+};
+
+const handleTabChange = (tabId: string) => {
+  activeTab.value = tabId;
+};
+
+const handleApplication = () => {
+  // Логика отправки заявки
+  console.log('Отправка заявки');
+};
 
 const methods: MethodItem[] = [
   {

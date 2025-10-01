@@ -7,11 +7,11 @@
           <h2 class="text-lg sm:text-xl lg:text-2xl font-bold text-primary">{{ method.title }}</h2>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3 sm:gap-4">
-          <RouterLink
+          <button
             v-for="item in method.items"
             :key="item.text"
-            :to="item.link"
-            class="group block p-3 sm:p-4 rounded-lg border hover:shadow-md transition-all duration-200 hover:border-primary/50"
+            @click="handleMethodClick(item.text)"
+            class="group block p-3 sm:p-4 rounded-lg border hover:shadow-md transition-all duration-200 hover:border-primary/50 w-full text-left"
           >
             <div class="flex items-center gap-2 sm:gap-3">
               <img
@@ -25,7 +25,7 @@
                 </p>
               </div>
             </div>
-          </RouterLink>
+          </button>
         </div>
       </div>
     </div>
@@ -33,8 +33,6 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink } from "vue-router";
-
 interface MethodItem {
   title: string;
   image: string;
@@ -49,4 +47,12 @@ interface MethodItem {
 defineProps<{
   method: MethodItem;
 }>();
+
+const emit = defineEmits<{
+  'method-select': [methodTitle: string]
+}>();
+
+const handleMethodClick = (methodTitle: string) => {
+  emit('method-select', methodTitle);
+};
 </script>
