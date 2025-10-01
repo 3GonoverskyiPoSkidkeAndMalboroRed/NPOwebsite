@@ -26,7 +26,7 @@ const instruments = ref([
     id: 'IS-T',
     name: 'СПЕКТРОСКАН IS-T',
     description: 'Анализатор серы поточный',
-    image: '/analyzers/IS-T/IS-T_1.jpg',
+    image: '/analyzers/IS-T/resized/Без названия (2).jpg',
     route: '/analyzers/is-t'
   },
   {
@@ -65,10 +65,10 @@ const instruments = ref([
     route: '/spectrometers'
   },
   {
-    id: 'MAX-GF1-C',
+    id: 'MAX-GF1(2)E-C',
     name: 'СПЕКТРОСКАН МАКС-GF1(2)E-С',
     description: 'Рентгенофлуоресцентный спектрометр с газовым потоком (модификация С)',
-    image: '/spectrometrs/МАКС-GF1(2)E-С/МАКС-GF1(2)E-С_1.png',
+    image: '/spectrometrs/МАКС-GF1(2)E-С/Без названия (5).jpg',
     route: '/spectrometers'
   },
 ]);
