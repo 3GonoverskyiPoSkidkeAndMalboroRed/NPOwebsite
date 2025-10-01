@@ -10,7 +10,7 @@
           <button
             v-for="item in method.items"
             :key="item.text"
-            @click="handleMethodClick(item.text)"
+            @click="handleMethodClick(item)"
             class="group block p-3 sm:p-4 rounded-lg border hover:shadow-md transition-all duration-200 hover:border-primary/50 w-full text-left"
           >
             <div class="flex items-center gap-2 sm:gap-3">
@@ -41,6 +41,7 @@ interface MethodItem {
     text: string;
     image: string;
     link: string;
+    id?: number; // Добавляем ID методики
   }[];
 }
 
@@ -49,10 +50,10 @@ defineProps<{
 }>();
 
 const emit = defineEmits<{
-  'method-select': [methodTitle: string]
+  'method-select': [methodId?: number]
 }>();
 
-const handleMethodClick = (methodTitle: string) => {
-  emit('method-select', methodTitle);
+const handleMethodClick = (item: { text: string; image: string; link: string; id?: number }) => {
+  emit('method-select', item.id);
 };
 </script>

@@ -11,6 +11,7 @@ from database import get_db, Analysis, User, SoftwareUpdate, UPLOAD_DIR, SECRET_
 # Импортируем роутеры
 from auth import auth_router
 from files import files_router
+from endpoints.methods import methods_router
 
 # Pydantic модели
 class AnalysisCreate(BaseModel):
@@ -56,6 +57,7 @@ app.add_middleware(
 # Подключаем роутеры
 app.include_router(auth_router)
 app.include_router(files_router)
+app.include_router(methods_router)
 
 @app.get("/")
 async def root():

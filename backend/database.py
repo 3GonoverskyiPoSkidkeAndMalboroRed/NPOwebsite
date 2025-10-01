@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, Text, Float, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, Text, Float, ForeignKey, JSON
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
@@ -75,6 +75,23 @@ class SoftwareUpdate(Base):
     file_name = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     uploaded_by = Column(Integer, nullable=False)  # ID пользователя, загрузившего файл
+
+class Method(Base):
+    __tablename__ = "methods"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, nullable=False, index=True)
+    standards_description = Column(Text)
+    method_description = Column(Text)
+    description_content = Column(JSON)  # Массив строк
+    limitations = Column(Text)
+    procedure = Column(JSON)  # Массив строк
+    documentation = Column(JSON)  # Массив объектов
+    equipment = Column(JSON)  # Массив объектов
+    category = Column(String, nullable=False, index=True)  # Категория методики (oil, eco, mining, etc.)
+    is_active = Column(Integer, default=1)  # 1 - активна, 0 - неактивна
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 # Создание таблиц
 Base.metadata.create_all(bind=engine)
