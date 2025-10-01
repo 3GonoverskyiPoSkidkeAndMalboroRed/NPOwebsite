@@ -98,16 +98,6 @@ const featureList: FeatureProps[] = [
     description: "Рентгенофлуоресцентные спектрометры для элементного анализа",
     href: "/spectrometers",
   },
-  {
-    title: "Решаемые задачи",
-    description: "Области применения и методики анализа",
-    href: "/tasks",
-  },
-  {
-    title: "Методики",
-    description: "Аттестованные методики анализа",
-    href: "/methods",
-  },
 ];
 
 import { ref } from "vue";
