@@ -15,35 +15,35 @@ const instruments = ref([
     name: 'СПЕКТРОСКАН CLSW',
     description: 'Анализатор хлора и серы',
     image: '/analyzers/CLSW/CLSW_1.jpg',
-    route: '/analyzers'
+    route: '/analyzers/clsw'
   },
   {
     id: 'SE',
     name: 'СПЕКТРОСКАН SE',
     description: 'Анализатор серы',
     image: '/analyzers/SE/SE_1.jpg',
-    route: '/analyzers'
+    route: '/analyzers/se'
   },
   {
     id: 'IS-T',
     name: 'СПЕКТРОСКАН IS-T',
     description: 'Анализатор серы поточный',
     image: '/analyzers/IS-T/IS-T_1.jpg',
-    route: '/turbidity-analyzers'
+    route: '/analyzers/is-t'
   },
   {
     id: 'MSW',
     name: 'СПЕКТРОСКАН MSW',
     description: 'Анализатор серы и металлов',
     image: '/analyzers/MSW.jpg',
-    route: '/elemental-analyzers'
+    route: '/analyzers/msw'
   },
   {
     id: 'META',
     name: 'СПЕКТРОСКАН МЕТА',
     description: 'Анализатор серы и азота',
     image: '/analyzers/META/META_1.jpg',
-    route: '/gas-analyzers'
+    route: '/analyzers/meta'
   },
   {
     id: 'GVM',
