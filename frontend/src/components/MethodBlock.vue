@@ -1,18 +1,12 @@
 <template>
   <div class="bg-card rounded-lg border p-4 sm:p-6 lg:p-8 hover:shadow-lg transition-shadow">
     <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
-      <div class="flex-shrink-0 w-full sm:w-auto">
-        <img
-          :src="method.image"
-          :alt="method.title"
-          class="w-full sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-cover rounded-lg"
-        />
-      </div>
+
       <div class="flex-1 w-full">
         <div class="flex items-center justify-between mb-3 sm:mb-4">
           <h2 class="text-lg sm:text-xl lg:text-2xl font-bold text-primary">{{ method.title }}</h2>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3 sm:gap-4">
           <RouterLink
             v-for="item in method.items"
             :key="item.text"
@@ -45,7 +39,6 @@ interface MethodItem {
   title: string;
   image: string;
   link: string;
-  description: string;
   items: {
     text: string;
     image: string;
