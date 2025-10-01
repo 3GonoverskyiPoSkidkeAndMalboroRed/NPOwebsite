@@ -24,8 +24,22 @@
             <img 
               src="/analyzers/SW-D3/SW-D3_1.jpg" 
               alt="СПЕКТРОСКАН SW-D3" 
-              class="w-full h-auto rounded-lg shadow-lg"
+              class="w-full h-auto rounded-lg shadow-lg cursor-pointer hover:opacity-90 transition-opacity"
+              @click="openImageModal(0)"
             />
+            
+            <!-- Миниатюры всех изображений -->
+            <div class="flex gap-2 mt-4 justify-center">
+              <img 
+                v-for="(image, index) in images" 
+                :key="index"
+                :src="image" 
+                :alt="`СПЕКТРОСКАН SW-D3 - изображение ${index + 1}`"
+                class="w-16 h-16 object-cover rounded cursor-pointer hover:opacity-70 transition-opacity border-2 border-transparent hover:border-primary"
+                :class="{ 'border-primary': index === 0 }"
+                @click="openImageModal(index)"
+              />
+            </div>
           </div>
         </div>
 
@@ -280,15 +294,148 @@
         </div>
       </div>
     </section>
+
+    <!-- Модальное окно для просмотра изображений -->
+    <div 
+      v-if="isModalOpen" 
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+      @click="closeImageModal"
+    >
+      <div class="relative max-w-7xl max-h-[90vh] w-full mx-4">
+        <!-- Кнопка закрытия -->
+        <button 
+          @click.stop="closeImageModal"
+          class="absolute top-4 right-4 z-10 bg-black/50 text-white rounded-full p-2 hover:bg-black/70 transition-colors"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+
+        <!-- Кнопка "Назад" -->
+        <button 
+          v-if="images.length > 1"
+          @click.stop="previousImage"
+          class="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 text-white rounded-full p-3 hover:bg-black/70 transition-colors"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        </button>
+
+        <!-- Кнопка "Вперед" -->
+        <button 
+          v-if="images.length > 1"
+          @click.stop="nextImage"
+          class="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 text-white rounded-full p-3 hover:bg-black/70 transition-colors"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+
+        <!-- Изображение -->
+        <img 
+          :src="images[currentImageIndex]" 
+          :alt="`СПЕКТРОСКАН SW-D3 - изображение ${currentImageIndex + 1}`"
+          class="w-full h-full object-contain rounded-lg"
+          @click.stop
+        />
+
+        <!-- Индикатор текущего изображения -->
+        <div v-if="images.length > 1" class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
+          {{ currentImageIndex + 1 }} / {{ images.length }}
+        </div>
+
+        <!-- Миниатюры в модальном окне -->
+        <div v-if="images.length > 1" class="absolute bottom-16 left-1/2 -translate-x-1/2 flex gap-2">
+          <button 
+            v-for="(image, index) in images" 
+            :key="index"
+            @click.stop="currentImageIndex = index"
+            class="w-12 h-12 rounded overflow-hidden border-2 transition-all"
+            :class="currentImageIndex === index ? 'border-white' : 'border-white/50 hover:border-white/80'"
+          >
+            <img 
+              :src="image" 
+              :alt="`Миниатюра ${index + 1}`"
+              class="w-full h-full object-cover"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { Button } from "@/components/ui/button";
 
 // Управление вкладками
 const activeTab = ref('description');
+
+// Управление модальным окном изображений
+const isModalOpen = ref(false);
+const currentImageIndex = ref(0);
+
+// Массив изображений SW-D3 анализатора
+const images = [
+  '/analyzers/SW-D3/SW-D3_1.jpg',
+  '/analyzers/SW-D3/SW-D3_2.jpg',
+  '/analyzers/SW-D3/SW-D3_3.jpg'
+];
+
+// Функции для работы с модальным окном
+const openImageModal = (index: number) => {
+  currentImageIndex.value = index;
+  isModalOpen.value = true;
+};
+
+const closeImageModal = () => {
+  isModalOpen.value = false;
+};
+
+const nextImage = () => {
+  if (currentImageIndex.value < images.length - 1) {
+    currentImageIndex.value++;
+  } else {
+    currentImageIndex.value = 0; // Циклический переход к первому изображению
+  }
+};
+
+const previousImage = () => {
+  if (currentImageIndex.value > 0) {
+    currentImageIndex.value--;
+  } else {
+    currentImageIndex.value = images.length - 1; // Циклический переход к последнему изображению
+  }
+};
+
+// Обработка клавиатурных событий
+const handleKeydown = (event: KeyboardEvent) => {
+  if (!isModalOpen.value) return;
+  
+  switch (event.key) {
+    case 'Escape':
+      closeImageModal();
+      break;
+    case 'ArrowLeft':
+      previousImage();
+      break;
+    case 'ArrowRight':
+      nextImage();
+      break;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('keydown', handleKeydown);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleKeydown);
+});
 
 const tabs = [
   { id: 'description', label: 'Описание' },

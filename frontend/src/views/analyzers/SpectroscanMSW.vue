@@ -24,7 +24,8 @@
             <img 
               src="/analyzers/MSW.jpg" 
               alt="СПЕКТРОСКАН MSW" 
-              class="w-full h-auto rounded-lg shadow-lg"
+              class="w-full h-auto rounded-lg shadow-lg cursor-pointer hover:opacity-90 transition-opacity"
+              @click="openImageModal(0)"
             />
           </div>
         </div>
@@ -284,15 +285,80 @@
         </div>
       </div>
     </section>
+
+    <!-- Модальное окно для просмотра изображений -->
+    <div 
+      v-if="isModalOpen" 
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+      @click="closeImageModal"
+    >
+      <div class="relative max-w-7xl max-h-[90vh] w-full mx-4">
+        <!-- Кнопка закрытия -->
+        <button 
+          @click.stop="closeImageModal"
+          class="absolute top-4 right-4 z-10 bg-black/50 text-white rounded-full p-2 hover:bg-black/70 transition-colors"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+
+        <!-- Изображение -->
+        <img 
+          :src="images[currentImageIndex]" 
+          :alt="`СПЕКТРОСКАН MSW - изображение ${currentImageIndex + 1}`"
+          class="w-full h-full object-contain rounded-lg"
+          @click.stop
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { Button } from "@/components/ui/button";
 
 // Управление вкладками
 const activeTab = ref('description');
+
+// Управление модальным окном изображений
+const isModalOpen = ref(false);
+const currentImageIndex = ref(0);
+
+// Массив изображений MSW анализатора
+const images = [
+  '/analyzers/MSW.jpg'
+];
+
+// Функции для работы с модальным окном
+const openImageModal = (index: number) => {
+  currentImageIndex.value = index;
+  isModalOpen.value = true;
+};
+
+const closeImageModal = () => {
+  isModalOpen.value = false;
+};
+
+// Обработка клавиатурных событий
+const handleKeydown = (event: KeyboardEvent) => {
+  if (!isModalOpen.value) return;
+  
+  switch (event.key) {
+    case 'Escape':
+      closeImageModal();
+      break;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('keydown', handleKeydown);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleKeydown);
+});
 
 const tabs = [
   { id: 'description', label: 'Описание' },
