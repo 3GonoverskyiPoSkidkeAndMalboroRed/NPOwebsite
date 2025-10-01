@@ -11,47 +11,47 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 // Данные о приборах
 const instruments = ref([
   {
-    id: 'conductivity',
-    name: 'Кондуктометры',
-    description: 'Измерение электропроводности растворов и жидкостей',
-    image: 'spectroscan-msw.jpg',
+    id: 'CLSW',
+    name: 'СПЕКТРОСКАН CLSW',
+    description: 'Анализатор хлора и серы',
+    image: '/analyzers/CLSW/CLSW_1.jpg',
     route: '/analyzers'
   },
   {
-    id: 'ph',
-    name: 'pH-метры',
-    description: 'Измерение кислотности и щелочности растворов',
-    image: 'spectroscan-msw.jpg',
-    route: '/ph-analyzers'
+    id: 'SE',
+    name: 'СПЕКТРОСКАН SE',
+    description: 'Анализатор серы',
+    image: '/analyzers/SE/SE_1.jpg',
+    route: '/analyzers'
   },
   {
-    id: 'turbidity',
-    name: 'Турбидиметры',
-    description: 'Измерение мутности и прозрачности жидкостей',
-    image: 'spectroscan-msw.jpg',
+    id: 'IS-T',
+    name: 'СПЕКТРОСКАН IS-T',
+    description: 'Анализатор серы поточный',
+    image: '/analyzers/IS-T/IS-T_1.jpg',
     route: '/turbidity-analyzers'
   },
   {
-    id: 'elemental',
-    name: 'Элементные анализаторы',
-    description: 'Анализ элементного состава веществ',
-    image: 'spectroscan-msw.jpg',
+    id: 'MSW',
+    name: 'СПЕКТРОСКАН MSW',
+    description: 'Анализатор серы и металлов',
+    image: '/analyzers/MSW.jpg',
     route: '/elemental-analyzers'
   },
   {
-    id: 'gas',
-    name: 'Газовые анализаторы',
-    description: 'Анализ газового состава и концентраций',
-    image: 'hero-image-light.jpg',
+    id: 'META',
+    name: 'СПЕКТРОСКАН МЕТА',
+    description: 'Анализатор серы и азота',
+    image: '/analyzers/META/META_1.jpg',
     route: '/gas-analyzers'
   },
   {
-    id: 'moisture',
-    name: 'Влагомеры',
-    description: 'Измерение влажности материалов и веществ',
-    image: 'hero-image-dark.jpg',
-    route: '/moisture-analyzers'
-  }
+    id: 'GVM',
+    name: 'СПЕКТРОСКАН МАКС-GVM',
+    description: 'Вакуумный волнодисперсионный рентгенофлуоресцентный спектрометр',
+    image: '/spectrometers/МАКС-GVM/МАКС-GVM_1.jpg',
+    route: '/gas-analyzers'
+  },
 ]);
 
 const navigateToInstrument = (route: string) => {
