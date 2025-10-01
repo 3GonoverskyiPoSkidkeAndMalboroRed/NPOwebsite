@@ -1,6 +1,3 @@
-# Основной docker-compose файл для разработки
-# Использует dev-режим с auto-reload по умолчанию
-
 services:
   # PostgreSQL база данных
   db:
@@ -19,7 +16,7 @@ services:
       - npo_network
     restart: unless-stopped
 
-  # FastAPI бэкенд (dev режим с auto-reload)
+  # FastAPI бэкенд
   backend:
     build:
       context: ./backend

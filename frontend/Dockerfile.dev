@@ -1,0 +1,20 @@
+# Dockerfile для разработки с hot-reload
+FROM node:18-alpine
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Копируем package.json и package-lock.json
+COPY package*.json ./
+
+# Устанавливаем все зависимости
+RUN npm ci --include=dev
+
+# Копируем исходный код
+COPY . .
+
+# Открываем порт 5173 (стандартный порт Vite dev-сервера)
+EXPOSE 5173
+
+# Запускаем dev-сервер с hot-reload
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]

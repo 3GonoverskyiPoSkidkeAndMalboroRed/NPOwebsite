@@ -1,11 +1,8 @@
-# Основной docker-compose файл для разработки
-# Использует dev-режим с auto-reload по умолчанию
-
 services:
   # PostgreSQL база данных
   db:
     image: postgres:15-alpine
-    container_name: npo_postgres
+    container_name: npo_postgres_prod
     environment:
       POSTGRES_DB: npo_db
       POSTGRES_USER: user
@@ -19,12 +16,12 @@ services:
       - npo_network
     restart: unless-stopped
 
-  # FastAPI бэкенд (dev режим с auto-reload)
+  # FastAPI бэкенд (продакшен)
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: npo_backend
+    container_name: npo_backend_prod
     environment:
       DATABASE_URL: postgresql://user:password@db:5432/npo_db
       PYTHONPATH: /app
@@ -35,33 +32,26 @@ services:
     networks:
       - npo_network
     restart: unless-stopped
-    volumes:
-      - ./backend:/app
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
 
-  # Vue.js фронтенд (dev режим с hot-reload)
+  # Vue.js фронтенд (продакшен)
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile.dev
-    container_name: npo_frontend
+      dockerfile: Dockerfile
+    container_name: npo_frontend_prod
     ports:
-      - "0.0.0.0:3000:5173"
+      - "0.0.0.0:3000:80"
     depends_on:
       - backend
     networks:
       - npo_network
     restart: unless-stopped
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    environment:
-      - CHOKIDAR_USEPOLLING=true
 
-  # Nginx для проксирования (опционально)
+  # Nginx для проксирования
   nginx:
     image: nginx:alpine
-    container_name: npo_nginx
+    container_name: npo_nginx_prod
     ports:
       - "0.0.0.0:8081:80"
     volumes:
