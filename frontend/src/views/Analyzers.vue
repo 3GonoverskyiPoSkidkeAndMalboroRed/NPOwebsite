@@ -82,7 +82,7 @@
 </template>
 
 <script setup lang="ts">
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { 
   Microscope, 
   TestTube, 
@@ -98,7 +98,7 @@ const categories = [
     title: "СПЕКТРОСКАН MSW",
     description: "Рентгенофлуоресцентный волнодисперсионный анализатор для измерения серы, свинца, марганца и железа",
     icon: Microscope,
-    image: "/spectroscan-msw.jpg", // Путь к изображению СПЕКТРОСКАН MSW
+    image: "/analyzers/MSW.jpg", // Путь к изображению СПЕКТРОСКАН MSW
     href: "/analyzers/msw",
     features: [
       "Определение серы в нефти и нефтепродуктах",
@@ -112,7 +112,7 @@ const categories = [
     title: "СПЕКТРОСКАН SW-D3",
     description: "Рентгенофлуоресцентный волнодисперсионный анализатор серы для автомобильного топлива",
     icon: TestTube,
-    image: "/spectroscan-msw.jpg",// Путь к изображению СПЕКТРОСКАН SW-D3
+    image: "/analyzers/SW-D3/SW-D3_1.jpg",// Путь к изображению СПЕКТРОСКАН SW-D3
     href: "/analyzers/sw-d3",
     features: [
       "Арбитражный метод измерения серы",
@@ -126,7 +126,7 @@ const categories = [
     title: "СПЕКТРОСКАН CLSW",
     description: "Рентгенофлуоресцентный волнодисперсионный анализатор для определения хлора и серы",
     icon: Activity,
-    image: "/spectroscan-msw.jpg",// Путь к изображению СПЕКТРОСКАН CLSW
+    image: "/analyzers/CLSW/CLSW_1.jpg",// Путь к изображению СПЕКТРОСКАН CLSW
     href: "/analyzers/clsw",
     features: [
       "Определение хлорорганических соединений",
@@ -140,7 +140,7 @@ const categories = [
     title: "СПЕКТРОСКАН SE",
     description: "Энергодисперсионный анализатор нового поколения для определения серы",
     icon: Zap,
-    image: "/spectroscan-msw.jpg", // Путь к изображению СПЕКТРОСКАН SE
+    image: "/analyzers/SE/SE_1.jpg", // Путь к изображению СПЕКТРОСКАН SE
     href: "/analyzers/se",
     features: [
       "Соответствие ГОСТ 32139-2019",
@@ -154,7 +154,7 @@ const categories = [
     title: "СПЕКТРОСКАН IS-T",
     description: "Рентгено-абсорбционный поточный анализатор для определения серы в потоке",
     icon: Shield,
-    image: "/spectroscan-msw.jpg", // Путь к изображению СПЕКТРОСКАН IS-T
+    image: "/analyzers/IS-T/IS-T_1.jpg", // Путь к изображению СПЕКТРОСКАН IS-T
     href: "/analyzers/is-t",
     features: [
       "Непрерывный анализ в потоке",
@@ -168,7 +168,7 @@ const categories = [
     title: "СПЕКТРОСКАН МЕТА",
     description: "Элементный анализатор для определения серы и азота методом УФ-флуоресценции",
     icon: Target,
-    image: "/spectroscan-msw.jpg", // Путь к изображению СПЕКТРОСКАН МЕТА
+    image: "/analyzers/META/META_1.jpg", // Путь к изображению СПЕКТРОСКАН МЕТА
     href: "/analyzers/meta",
     features: [
       "УФ-флуоресценция для серы",
