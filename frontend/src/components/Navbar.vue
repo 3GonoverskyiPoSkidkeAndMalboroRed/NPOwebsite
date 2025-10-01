@@ -31,7 +31,6 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 import { Menu } from "lucide-vue-next";
-import GithubIcon from "@/icons/GithubIcon.vue";
 import ToggleTheme from "./ToggleTheme.vue";
 
 interface RouteProps {
@@ -145,20 +144,7 @@ const isOpen = ref<boolean>(false);
 
         <ToggleTheme />
 
-        <Button
-          as-child
-          size="sm"
-          variant="ghost"
-          class="p-2"
-        >
-          <a
-            href="https://github.com/leoMirandaa/shadcn-vue-landing-page.git"
-            target="_blank"
-            class="flex items-center"
-          >
-            <GithubIcon class="h-4 w-4" />
-          </a>
-        </Button>
+       
       </div>
 
       <Sheet v-model:open="isOpen">
@@ -318,20 +304,7 @@ const isOpen = ref<boolean>(false);
 
       <ToggleTheme />
 
-      <Button
-        as-child
-        size="sm"
-        variant="ghost"
-        aria-label="View on GitHub"
-      >
-        <a
-          aria-label="View on GitHub"
-          href="https://github.com/leoMirandaa/shadcn-vue-landing-page.git"
-          target="_blank"
-        >
-          <GithubIcon class="size-5" />
-        </a>
-      </Button>
+      
     </div>
   </header>
 </template>
