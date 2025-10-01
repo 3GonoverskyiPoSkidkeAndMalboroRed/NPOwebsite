@@ -129,14 +129,7 @@ const navigateToInstrument = (route: string) => {
                   <p class="text-lg  mb-6">
                     {{ instrument.description }}
                   </p>
-                  <Button 
-                    variant="outline" 
-                    size="lg"
-                    class="w-fit border-gray-400  hover:bg-gray-50"
-                  >
-                    Подробнее
-                    <ArrowRight class="ml-2 h-4 w-4" />
-                  </Button>
+                  
                 </div>
 
                 <!-- Правая часть - Изображение -->
