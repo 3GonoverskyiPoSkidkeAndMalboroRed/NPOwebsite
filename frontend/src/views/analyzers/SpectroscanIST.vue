@@ -22,7 +22,7 @@
           </div>
           <div class="relative">
             <img 
-              src="/analyzers/IS-T/IS-T_1.jpg" 
+              src="/analyzers/IS-T/resized/Без названия (2).jpg" 
               alt="СПЕКТРОСКАН IS-T" 
               class="w-full h-auto rounded-lg shadow-lg cursor-pointer hover:opacity-90 transition-opacity"
               @click="openImageModal(0)"
@@ -382,9 +382,9 @@ const currentImageIndex = ref(0);
 
 // Массив изображений IS-T анализатора
 const images = [
-  '/analyzers/IS-T/IS-T_1.jpg',
-  '/analyzers/IS-T/IS-T_2.jpg',
-  '/analyzers/IS-T/IS-T_3.jpg'
+  '/analyzers/IS-T/resized/Без названия (2).jpg',
+  '/analyzers/IS-T/resized/Без названия (3).jpg',
+  '/analyzers/IS-T/resized/Без названия (4).jpg'
 ];
 
 // Функции для работы с модальным окном

@@ -154,7 +154,7 @@ const categories = [
     title: "СПЕКТРОСКАН IS-T",
     description: "Рентгено-абсорбционный поточный анализатор для определения серы в потоке",
     icon: Shield,
-    image: "/analyzers/IS-T/IS-T_1.jpg", // Путь к изображению СПЕКТРОСКАН IS-T
+    image: "/analyzers/IS-T/resized/Без названия (2).jpg", // Путь к изображению СПЕКТРОСКАН IS-T
     href: "/analyzers/is-t",
     features: [
       "Непрерывный анализ в потоке",
