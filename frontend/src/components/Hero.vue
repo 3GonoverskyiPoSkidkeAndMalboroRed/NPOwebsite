@@ -81,11 +81,11 @@ const navigateToInstrument = (route: string) => {
 <template>
   <section id="hero" class="container px-4 sm:px-6 lg:px-8">
     <div
-      class="grid place-items-center lg:max-w-screen-xl gap-6 lg:gap-8 mx-auto py-12 sm:py-16 md:py-20 lg:py-32"
+      class="grid place-items-center lg:max-w-screen-xl gap-4 sm:gap-6 lg:gap-8 mx-auto py-8 sm:py-12 md:py-16 lg:py-24 xl:py-32"
     >
-      <div class="text-center space-y-6 lg:space-y-8">
+      <div class="text-center space-y-4 sm:space-y-6 lg:space-y-8">
         <div
-          class="max-w-screen-md mx-auto text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold"
+          class="max-w-screen-md mx-auto text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold"
         >
           <h1>
            
@@ -99,10 +99,10 @@ const navigateToInstrument = (route: string) => {
       </div>
 
       <!-- Карусель с приборами -->
-      <div class="relative group mt-8 sm:mt-10 lg:mt-14 w-full max-w-6xl mx-auto">
+      <div class="relative group mt-6 sm:mt-8 lg:mt-12 w-full max-w-6xl mx-auto overflow-hidden">
         <!-- gradient shadow -->
         <div
-          class="absolute -top-4 sm:-top-6 right-4 sm:right-12 w-[85%] sm:w-[90%] h-8 sm:h-12 lg:h-[80%] bg-primary/50 blur-3xl rounded-full img-shadow-animation"
+          class="absolute -top-2 sm:-top-4 lg:-top-6 right-2 sm:right-4 lg:right-12 w-[80%] sm:w-[85%] lg:w-[90%] h-6 sm:h-8 lg:h-12 xl:h-[80%] bg-primary/50 blur-3xl rounded-full img-shadow-animation"
         ></div>
 
         <Carousel class="w-full">
@@ -115,19 +115,19 @@ const navigateToInstrument = (route: string) => {
               <div class="flex flex-col lg:flex-row gap-3 sm:gap-4 h-auto lg:h-96">
                 <!-- Левая часть - Текстовый блок -->
                 <div 
-                  class="flex-1 rounded-lg p-4 sm:p-6 flex flex-col justify-center cursor-pointer hover:shadow-lg transition-shadow"
+                  class="flex-1 rounded-lg p-3 sm:p-4 lg:p-6 flex flex-col justify-center cursor-pointer hover:shadow-lg transition-shadow"
                   @click="navigateToInstrument(instrument.route)"
                 >
-                  <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 sm:mb-4">
+                  <h3 class="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold mb-2 sm:mb-3 lg:mb-4">
                     {{ instrument.name }}
                   </h3>
-                  <p class="text-base sm:text-lg mb-4 sm:mb-6">
+                  <p class="text-sm sm:text-base lg:text-lg mb-3 sm:mb-4 lg:mb-6">
                     {{ instrument.description }}
                   </p>
                 </div>
                 <!-- Правая часть - Изображение -->
                 <div 
-                  class="flex-2 rounded-lg border-2 bg-white overflow-hidden cursor-pointer hover:shadow-lg transition-shadow h-48 sm:h-56 md:h-64 lg:h-auto"
+                  class="flex-2 rounded-lg border-2 bg-white overflow-hidden cursor-pointer hover:shadow-lg transition-shadow h-40 sm:h-48 md:h-56 lg:h-auto"
                   @click="navigateToInstrument(instrument.route)"
                 >
                   <div class="relative h-full">
@@ -145,8 +145,8 @@ const navigateToInstrument = (route: string) => {
           </CarouselContent>
           
           <!-- Навигационные кнопки -->
-          <CarouselPrevious class="left-1/2 transform -translate-x-1/2 -translate-x-12 sm:-translate-x-16 top-full mt-6 sm:mt-8 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg" />
-          <CarouselNext class="left-1/2 transform -translate-x-1/2 translate-x-12 sm:translate-x-16 top-full mt-6 sm:mt-8 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg" />
+          <CarouselPrevious class="carousel-buttons left-1/2 transform -translate-x-1/2 -translate-x-8 sm:-translate-x-12 md:-translate-x-16 top-full mt-4 sm:mt-6 lg:mt-8 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg w-8 h-8 sm:w-10 sm:h-10" />
+          <CarouselNext class="carousel-buttons left-1/2 transform -translate-x-1/2 translate-x-8 sm:translate-x-12 md:translate-x-16 top-full mt-4 sm:mt-6 lg:mt-8 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg w-8 h-8 sm:w-10 sm:h-10" />
         </Carousel>
       </div>
     </div>
@@ -188,6 +188,32 @@ const navigateToInstrument = (route: string) => {
 
   to {
     border-top-color: rgb(var(--primary) / 0.6);
+  }
+}
+
+/* Дополнительные стили для адаптивности */
+@media (max-width: 640px) {
+  .container {
+    overflow-x: hidden;
+  }
+}
+
+/* Обеспечиваем, что кнопки карусели не выходят за границы */
+@media (max-width: 480px) {
+  .carousel-buttons {
+    transform: scale(0.8);
+  }
+}
+
+/* Дополнительная защита для очень маленьких экранов */
+@media (max-width: 360px) {
+  .carousel-buttons {
+    transform: scale(0.7);
+  }
+  
+  .container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 }
 </style>

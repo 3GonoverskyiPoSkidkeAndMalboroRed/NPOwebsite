@@ -1,22 +1,22 @@
 <template>
   <div class="min-h-screen bg-background">
-    <div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
       <div class="max-w-4xl mx-auto">
         <!-- Заголовок -->
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold text-foreground mb-2">Личный кабинет</h1>
-          <p class="text-muted-foreground">Управление вашими данными и настройками</p>
+        <div class="mb-6 sm:mb-8">
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-2">Личный кабинет</h1>
+          <p class="text-sm sm:text-base text-muted-foreground">Управление вашими данными и настройками</p>
         </div>
 
         <!-- Профиль пользователя -->
         <div class="space-y-6">
           <!-- Навигация по табам -->
           <div class="border-b border-border">
-            <nav class="-mb-px flex space-x-8">
+            <nav class="-mb-px flex flex-wrap space-x-2 sm:space-x-8">
               <button
                 @click="activeTab = 'auth'"
                 :class="[
-                  'py-2 px-1 border-b-2 font-medium text-sm transition-colors',
+                  'py-2 px-1 border-b-2 font-medium text-xs sm:text-sm transition-colors whitespace-nowrap',
                   activeTab === 'auth'
                     ? 'border-primary text-primary'
                     : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border'
@@ -28,7 +28,7 @@
                 v-if="isAuthenticated"
                 @click="activeTab = 'profile'"
                 :class="[
-                  'py-2 px-1 border-b-2 font-medium text-sm transition-colors',
+                  'py-2 px-1 border-b-2 font-medium text-xs sm:text-sm transition-colors whitespace-nowrap',
                   activeTab === 'profile'
                     ? 'border-primary text-primary'
                     : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border'
@@ -40,7 +40,7 @@
                 v-if="isAuthenticated"
                 @click="activeTab = 'software-updates'"
                 :class="[
-                  'py-2 px-1 border-b-2 font-medium text-sm transition-colors',
+                  'py-2 px-1 border-b-2 font-medium text-xs sm:text-sm transition-colors whitespace-nowrap',
                   activeTab === 'software-updates'
                     ? 'border-primary text-primary'
                     : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border'
@@ -53,53 +53,57 @@
 
           <!-- Содержимое табов -->
           <!-- Таб авторизации -->
-          <div v-if="activeTab === 'auth'" class="space-y-6">
-            <Card class="p-6">
-              <CardHeader>
-                <CardTitle>Вход в систему</CardTitle>
-                <CardDescription>Войдите в свой аккаунт для доступа к профилю и обновлениям ПО</CardDescription>
+          <div v-if="activeTab === 'auth'" class="space-y-4 sm:space-y-6">
+            <Card class="p-4 sm:p-6">
+              <CardHeader class="pb-4">
+                <CardTitle class="text-lg sm:text-xl">Вход в систему</CardTitle>
+                <CardDescription class="text-sm sm:text-base">Войдите в свой аккаунт для доступа к профилю и обновлениям ПО</CardDescription>
               </CardHeader>
               <CardContent>
                 <form @submit.prevent="handleLogin" class="space-y-4">
                   <div>
-                    <Label for="login-serial">Серийный номер прибора</Label>
+                    <Label for="login-serial" class="text-sm sm:text-base">Серийный номер прибора</Label>
                     <Input
                       id="login-serial"
                       v-model="loginForm.serial_number"
                       type="text"
                       placeholder="SE0260001, G6001, MSW8037 и т.д."
+                      class="mt-1"
                       required
                     />
                   </div>
-                  <div class="grid md:grid-cols-2 gap-4">
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <Label for="login-inn">ИНН</Label>
+                      <Label for="login-inn" class="text-sm sm:text-base">ИНН</Label>
                       <Input
                         id="login-inn"
                         v-model="loginForm.inn"
                         type="text"
                         placeholder="ИНН организации"
+                        class="mt-1"
                         required
                       />
                     </div>
                     <div>
-                      <Label for="login-kpp">КПП</Label>
+                      <Label for="login-kpp" class="text-sm sm:text-base">КПП</Label>
                       <Input
                         id="login-kpp"
                         v-model="loginForm.kpp"
                         type="text"
                         placeholder="КПП организации"
+                        class="mt-1"
                         required
                       />
                     </div>
                   </div>
                   <div>
-                    <Label for="login-password">Пароль</Label>
+                    <Label for="login-password" class="text-sm sm:text-base">Пароль</Label>
                     <Input
                       id="login-password"
                       v-model="loginForm.password"
                       type="password"
                       placeholder="Введите пароль"
+                      class="mt-1"
                       required
                     />
                   </div>
@@ -111,65 +115,70 @@
               </CardContent>
             </Card>
 
-            <Card class="p-6">
-              <CardHeader>
-                <CardTitle>Регистрация</CardTitle>
-                <CardDescription>Создайте новый аккаунт</CardDescription>
+            <Card class="p-4 sm:p-6">
+              <CardHeader class="pb-4">
+                <CardTitle class="text-lg sm:text-xl">Регистрация</CardTitle>
+                <CardDescription class="text-sm sm:text-base">Создайте новый аккаунт</CardDescription>
               </CardHeader>
               <CardContent>
                 <form @submit.prevent="handleRegister" class="space-y-4">
                   <div>
-                    <Label for="reg-serial">Серийный номер прибора</Label>
+                    <Label for="reg-serial" class="text-sm sm:text-base">Серийный номер прибора</Label>
                     <Input
                       id="reg-serial"
                       v-model="registerForm.serial_number"
                       type="text"
                       placeholder="SE0260001, G6001, MSW8037 и т.д."
+                      class="mt-1"
                       required
                     />
                     <p class="text-xs text-muted-foreground mt-1">
                       Примеры: SE02 60000-60999, G 6000-6999, MSW 8037,8040,12000-12999
                     </p>
                   </div>
-                  <div class="grid md:grid-cols-2 gap-4">
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <Label for="reg-inn">ИНН</Label>
+                      <Label for="reg-inn" class="text-sm sm:text-base">ИНН</Label>
                       <Input
                         id="reg-inn"
                         v-model="registerForm.inn"
                         type="text"
                         placeholder="ИНН организации"
+                        class="mt-1"
                         required
                       />
                     </div>
                     <div>
-                      <Label for="reg-kpp">КПП</Label>
+                      <Label for="reg-kpp" class="text-sm sm:text-base">КПП</Label>
                       <Input
                         id="reg-kpp"
                         v-model="registerForm.kpp"
                         type="text"
                         placeholder="КПП организации"
+                        class="mt-1"
                         required
                       />
                     </div>
                   </div>
                   <div>
-                    <Label for="reg-password">Пароль</Label>
+                    <Label for="reg-password" class="text-sm sm:text-base">Пароль</Label>
                     <Input
                       id="reg-password"
                       v-model="registerForm.password"
                       type="password"
                       placeholder="Введите пароль"
+                      class="mt-1"
                       required
                     />
                   </div>
                   <div>
-                    <Label for="reg-fullname">ФИО</Label>
+                    <Label for="reg-fullname" class="text-sm sm:text-base">ФИО</Label>
                     <Input
                       id="reg-fullname"
                       v-model="registerForm.full_name"
                       type="text"
                       placeholder="Фамилия Имя Отчество"
+                      class="mt-1"
                       @input="handleFullNameInput"
                       required
                     />
@@ -178,32 +187,35 @@
                     </p>
                   </div>
                   <div>
-                    <Label for="reg-position">Должность</Label>
+                    <Label for="reg-position" class="text-sm sm:text-base">Должность</Label>
                     <Input
                       id="reg-position"
                       v-model="registerForm.position"
                       type="text"
                       placeholder="Должность"
+                      class="mt-1"
                       required
                     />
                   </div>
                   <div>
-                    <Label for="reg-organization">Организация</Label>
+                    <Label for="reg-organization" class="text-sm sm:text-base">Организация</Label>
                     <Input
                       id="reg-organization"
                       v-model="registerForm.organization"
                       type="text"
                       placeholder="Название организации"
+                      class="mt-1"
                       required
                     />
                   </div>
                   <div>
-                    <Label for="reg-phone">Телефон</Label>
+                    <Label for="reg-phone" class="text-sm sm:text-base">Телефон</Label>
                     <Input
                       id="reg-phone"
                       v-model="registerForm.phone"
                       type="tel"
                       placeholder="+7 (xxx) xxx-xx-xx"
+                      class="mt-1"
                       @input="handlePhoneInput"
                       @paste="handlePhonePaste"
                       required
@@ -213,12 +225,13 @@
                     </p>
                   </div>
                   <div>
-                    <Label for="reg-email">Email</Label>
+                    <Label for="reg-email" class="text-sm sm:text-base">Email</Label>
                     <Input
                       id="reg-email"
                       v-model="registerForm.email"
                       type="email"
                       placeholder="email@example.com"
+                      class="mt-1"
                       required
                     />
                   </div>
@@ -231,119 +244,124 @@
             </Card>
           </div>
 
-          <div v-if="activeTab === 'profile'" class="space-y-6">
+          <div v-if="activeTab === 'profile'" class="space-y-4 sm:space-y-6">
             <!-- Информация о пользователе -->
-            <Card class="p-6">
-              <CardHeader>
-                <CardTitle>Информация о пользователе</CardTitle>
-                <CardDescription>Ваши личные данные</CardDescription>
+            <Card class="p-4 sm:p-6">
+              <CardHeader class="pb-4">
+                <CardTitle class="text-lg sm:text-xl">Информация о пользователе</CardTitle>
+                <CardDescription class="text-sm sm:text-base">Ваши личные данные</CardDescription>
               </CardHeader>
               <CardContent>
-                <div class="grid md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <Label class="text-sm font-medium">Серийный номер прибора</Label>
-                    <p class="text-sm text-muted-foreground">{{ userData.serial_number }}</p>
+                    <p class="text-sm text-muted-foreground mt-1">{{ userData.serial_number }}</p>
                   </div>
                   <div>
                     <Label class="text-sm font-medium">ИНН</Label>
-                    <p class="text-sm text-muted-foreground">{{ userData.inn }}</p>
+                    <p class="text-sm text-muted-foreground mt-1">{{ userData.inn }}</p>
                   </div>
                   <div>
                     <Label class="text-sm font-medium">КПП</Label>
-                    <p class="text-sm text-muted-foreground">{{ userData.kpp }}</p>
+                    <p class="text-sm text-muted-foreground mt-1">{{ userData.kpp }}</p>
                   </div>
                   <div>
                     <Label class="text-sm font-medium">Организация</Label>
-                    <p class="text-sm text-muted-foreground">{{ userData.organization }}</p>
+                    <p class="text-sm text-muted-foreground mt-1">{{ userData.organization }}</p>
                   </div>
                   <div>
                     <Label class="text-sm font-medium">ФИО</Label>
-                    <p class="text-sm text-muted-foreground">{{ userData.full_name }}</p>
+                    <p class="text-sm text-muted-foreground mt-1">{{ userData.full_name }}</p>
                   </div>
                   <div>
                     <Label class="text-sm font-medium">Должность</Label>
-                    <p class="text-sm text-muted-foreground">{{ userData.position }}</p>
+                    <p class="text-sm text-muted-foreground mt-1">{{ userData.position }}</p>
                   </div>
                   <div>
                     <Label class="text-sm font-medium">Телефон</Label>
-                    <p class="text-sm text-muted-foreground">{{ userData.phone }}</p>
+                    <p class="text-sm text-muted-foreground mt-1">{{ userData.phone }}</p>
                   </div>
                   <div>
                     <Label class="text-sm font-medium">Email</Label>
-                    <p class="text-sm text-muted-foreground">{{ userData.email }}</p>
+                    <p class="text-sm text-muted-foreground mt-1">{{ userData.email }}</p>
                   </div>
                   <div>
                     <Label class="text-sm font-medium">Дата регистрации</Label>
-                    <p class="text-sm text-muted-foreground">{{ formatDate(userData.created_at) }}</p>
+                    <p class="text-sm text-muted-foreground mt-1">{{ formatDate(userData.created_at) }}</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
             <!-- Редактирование профиля -->
-            <Card class="p-6">
-              <CardHeader>
-                <CardTitle>Редактировать профиль</CardTitle>
-                <CardDescription>Обновите ваши данные</CardDescription>
+            <Card class="p-4 sm:p-6">
+              <CardHeader class="pb-4">
+                <CardTitle class="text-lg sm:text-xl">Редактировать профиль</CardTitle>
+                <CardDescription class="text-sm sm:text-base">Обновите ваши данные</CardDescription>
               </CardHeader>
               <CardContent>
                 <form @submit.prevent="handleUpdateProfile" class="space-y-4">
-                  <div class="grid md:grid-cols-2 gap-4">
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <Label for="edit-organization">Организация</Label>
+                      <Label for="edit-organization" class="text-sm sm:text-base">Организация</Label>
                       <Input
                         id="edit-organization"
                         v-model="editForm.organization"
                         type="text"
                         placeholder="Название организации"
+                        class="mt-1"
                       />
                     </div>
                     <div>
-                      <Label for="edit-fullname">ФИО</Label>
+                      <Label for="edit-fullname" class="text-sm sm:text-base">ФИО</Label>
                       <Input
                         id="edit-fullname"
                         v-model="editForm.full_name"
                         type="text"
                         placeholder="Фамилия Имя Отчество"
+                        class="mt-1"
                         @input="handleFullNameInput"
                       />
                     </div>
                     <div>
-                      <Label for="edit-position">Должность</Label>
+                      <Label for="edit-position" class="text-sm sm:text-base">Должность</Label>
                       <Input
                         id="edit-position"
                         v-model="editForm.position"
                         type="text"
                         placeholder="Должность"
+                        class="mt-1"
                       />
                     </div>
                     <div>
-                      <Label for="edit-phone">Телефон</Label>
+                      <Label for="edit-phone" class="text-sm sm:text-base">Телефон</Label>
                       <Input
                         id="edit-phone"
                         v-model="editForm.phone"
                         type="tel"
                         placeholder="+7 (xxx) xxx-xx-xx"
+                        class="mt-1"
                         @input="handlePhoneInput"
                         @paste="handlePhonePaste"
                       />
                     </div>
-                    <div class="md:col-span-2">
-                      <Label for="edit-email">Email</Label>
+                    <div class="sm:col-span-2">
+                      <Label for="edit-email" class="text-sm sm:text-base">Email</Label>
                       <Input
                         id="edit-email"
                         v-model="editForm.email"
                         type="email"
                         placeholder="email@example.com"
+                        class="mt-1"
                       />
                     </div>
                   </div>
-                  <div class="flex gap-2">
-                    <Button type="submit" :disabled="isLoading">
+                  <div class="flex flex-col sm:flex-row gap-2">
+                    <Button type="submit" :disabled="isLoading" class="w-full sm:w-auto">
                       <Loader2 v-if="isLoading" class="mr-2 h-4 w-4 animate-spin" />
                       Сохранить изменения
                     </Button>
-                    <Button type="button" variant="destructive" @click="handleLogout">
+                    <Button type="button" variant="destructive" @click="handleLogout" class="w-full sm:w-auto">
                       Выйти
                     </Button>
                   </div>
@@ -353,56 +371,23 @@
           </div>
 
           <!-- Таб "Обновление ПО" -->
-          <div v-if="activeTab === 'software-updates'" class="space-y-6">
-            <!-- Текущая версия ПО -->
-            <!-- <Card class="p-6">
-              <CardHeader>
-                <CardTitle>Текущая версия ПО</CardTitle>
-                <CardDescription>Информация о версии программного обеспечения</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div class="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <Label class="text-sm font-medium">Версия системы</Label>
-                    <p class="text-sm text-muted-foreground">{{ softwareInfo.version }}</p>
-                  </div>
-                  <div>
-                    <Label class="text-sm font-medium">Дата последнего обновления</Label>
-                    <p class="text-sm text-muted-foreground">{{ softwareInfo.lastUpdate }}</p>
-                  </div>
-                  <div>
-                    <Label class="text-sm font-medium">Статус обновлений</Label>
-                    <p class="text-sm text-muted-foreground">
-                      <span :class="softwareInfo.updateStatus === 'available' ? 'text-green-600' : 'text-muted-foreground'">
-                        {{ softwareInfo.updateStatus === 'available' ? 'Доступны обновления' : 'Система актуальна' }}
-                      </span>
-                    </p>
-                  </div>
-                  <div>
-                    <Label class="text-sm font-medium">Автоматические обновления</Label>
-                    <p class="text-sm text-muted-foreground">
-                      {{ softwareInfo.autoUpdate ? 'Включены' : 'Отключены' }}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card> -->
-
+          <div v-if="activeTab === 'software-updates'" class="space-y-4 sm:space-y-6">
             <!-- Загрузка файлов обновления -->
-            <Card class="p-6">
-              <CardHeader>
-                <CardTitle>Загрузка файлов обновления</CardTitle>
-                <CardDescription>Загрузите новые файлы обновления ПО</CardDescription>
+            <Card class="p-4 sm:p-6">
+              <CardHeader class="pb-4">
+                <CardTitle class="text-lg sm:text-xl">Загрузка файлов обновления</CardTitle>
+                <CardDescription class="text-sm sm:text-base">Загрузите новые файлы обновления ПО</CardDescription>
               </CardHeader>
               <CardContent>
                 <form @submit.prevent="uploadUpdate" class="space-y-4">
                   <div>
-                    <Label for="upload-file">Файл обновления</Label>
+                    <Label for="upload-file" class="text-sm sm:text-base">Файл обновления</Label>
                     <Input
                       id="upload-file"
                       type="file"
                       @change="handleFileSelect"
                       accept=".zip,.exe,.msi,.deb,.rpm,.dmg,.pkg"
+                      class="mt-1"
                       required
                     />
                     <p class="text-xs text-muted-foreground mt-1">
@@ -410,25 +395,27 @@
                     </p>
                   </div>
                   <div>
-                    <Label for="upload-version">Версия</Label>
+                    <Label for="upload-version" class="text-sm sm:text-base">Версия</Label>
                     <Input
                       id="upload-version"
                       v-model="uploadForm.version"
                       type="text"
                       placeholder="Например: 1.3.0"
+                      class="mt-1"
                       required
                     />
                   </div>
                   <div>
-                    <Label for="upload-description">Описание</Label>
+                    <Label for="upload-description" class="text-sm sm:text-base">Описание</Label>
                     <Textarea
                       id="upload-description"
                       v-model="uploadForm.description"
                       placeholder="Описание изменений в новой версии"
                       rows="3"
+                      class="mt-1"
                     />
                   </div>
-                  <Button type="submit" :disabled="isUploading">
+                  <Button type="submit" :disabled="isUploading" class="w-full sm:w-auto">
                     <Loader2 v-if="isUploading" class="mr-2 h-4 w-4 animate-spin" />
                     Загрузить файл
                   </Button>
@@ -437,26 +424,26 @@
             </Card>
 
             <!-- Доступные обновления -->
-            <Card class="p-6">
-              <CardHeader>
-                <CardTitle>Доступные обновления</CardTitle>
-                <CardDescription>
+            <Card class="p-4 sm:p-6">
+              <CardHeader class="pb-4">
+                <CardTitle class="text-lg sm:text-xl">Доступные обновления</CardTitle>
+                <CardDescription class="text-sm sm:text-base">
                   Новые версии программного обеспечения 
                   <span v-if="availableUpdates.length > 0">(найдено: {{ availableUpdates.length }})</span>
                   <span v-else class="text-muted-foreground">(обновления не найдены)</span>
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div v-if="availableUpdates.length === 0" class="text-center text-muted-foreground py-8">
-                  <p>Доступные обновления не найдены</p>
-                  <p class="text-sm mt-2">Загрузите файлы обновления, используя форму выше</p>
+                <div v-if="availableUpdates.length === 0" class="text-center text-muted-foreground py-6 sm:py-8">
+                  <p class="text-sm sm:text-base">Доступные обновления не найдены</p>
+                  <p class="text-xs sm:text-sm mt-2">Загрузите файлы обновления, используя форму выше</p>
                 </div>
                 <div v-else class="space-y-4">
-                  <div v-for="update in availableUpdates" :key="update.id" class="border rounded-lg p-4">
-                    <div class="flex justify-between items-start">
-                      <div>
-                        <h4 class="font-medium">Версия {{ update.version }}</h4>
-                        <p class="text-sm text-muted-foreground mt-1">{{ update.description || 'Описание не указано' }}</p>
+                  <div v-for="update in availableUpdates" :key="update.id" class="border rounded-lg p-3 sm:p-4">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
+                      <div class="flex-1">
+                        <h4 class="font-medium text-sm sm:text-base">Версия {{ update.version }}</h4>
+                        <p class="text-xs sm:text-sm text-muted-foreground mt-1">{{ update.description || 'Описание не указано' }}</p>
                         <p class="text-xs text-muted-foreground mt-2">
                           Размер: {{ update.file_size ? update.file_size.toFixed(1) + ' МБ' : 'Неизвестно' }}
                         </p>
@@ -464,8 +451,8 @@
                           Загружено: {{ formatDate(update.created_at) }}
                         </p>
                       </div>
-                      <div class="flex gap-2">
-                        <Button @click="downloadUpdate(update.id)" :disabled="isDownloading" size="sm">
+                      <div class="flex flex-col sm:flex-row gap-2">
+                        <Button @click="downloadUpdate(update.id)" :disabled="isDownloading" size="sm" class="w-full sm:w-auto">
                           <Loader2 v-if="isDownloading" class="mr-2 h-4 w-4 animate-spin" />
                           Скачать
                         </Button>
@@ -473,6 +460,7 @@
                           @click="deleteUpdate(update.id)" 
                           variant="destructive" 
                           size="sm"
+                          class="w-full sm:w-auto"
                           v-if="update.uploaded_by === userData?.id"
                         >
                           Удалить

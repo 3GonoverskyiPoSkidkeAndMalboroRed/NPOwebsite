@@ -1,32 +1,32 @@
 <template>
-  <div class="bg-card rounded-lg border p-8 hover:shadow-lg transition-shadow">
-    <div class="flex items-start gap-6">
-      <div class="flex-shrink-0">
+  <div class="bg-card rounded-lg border p-4 sm:p-6 lg:p-8 hover:shadow-lg transition-shadow">
+    <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
+      <div class="flex-shrink-0 w-full sm:w-auto">
         <img
           :src="method.image"
           :alt="method.title"
-          class="w-24 h-24 object-cover rounded-lg"
+          class="w-full sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-cover rounded-lg"
         />
       </div>
-      <div class="flex-1">
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="text-2xl font-bold text-primary">{{ method.title }}</h2>
+      <div class="flex-1 w-full">
+        <div class="flex items-center justify-between mb-3 sm:mb-4">
+          <h2 class="text-lg sm:text-xl lg:text-2xl font-bold text-primary">{{ method.title }}</h2>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           <RouterLink
             v-for="item in method.items"
             :key="item.text"
             :to="item.link"
-            class="group block p-4 rounded-lg border hover:shadow-md transition-all duration-200 hover:border-primary/50"
+            class="group block p-3 sm:p-4 rounded-lg border hover:shadow-md transition-all duration-200 hover:border-primary/50"
           >
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2 sm:gap-3">
               <img
                 :src="item.image"
                 :alt="item.text"
-                class="w-12 h-12 object-cover rounded-lg flex-shrink-0"
+                class="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-lg flex-shrink-0"
               />
               <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
+                <p class="text-xs sm:text-sm font-medium text-foreground group-hover:text-primary transition-colors">
                   {{ item.text }}
                 </p>
               </div>
