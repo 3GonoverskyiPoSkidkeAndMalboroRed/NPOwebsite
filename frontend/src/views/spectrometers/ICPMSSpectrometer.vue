@@ -52,13 +52,13 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import DeviceHero from "@/components/DeviceHero.vue";
-import DeviceTabs from "@/components/DeviceTabs.vue";
-import DeviceDescription from "@/components/DeviceDescription.vue";
-import DeviceSpecifications from "@/components/DeviceSpecifications.vue";
-import DeviceAdvantages from "@/components/DeviceAdvantages.vue";
-import DeviceTasks from "@/components/DeviceTasks.vue";
-import DeviceCTA from "@/components/DeviceCTA.vue";
+import DeviceHero from "@/components/device/DeviceHero.vue";
+import DeviceTabs from "@/components/device/DeviceTabs.vue";
+import DeviceDescription from "@/components/device/DeviceDescription.vue";
+import DeviceSpecifications from "@/components/device/DeviceSpecifications.vue";
+import DeviceAdvantages from "@/components/device/DeviceAdvantages.vue";
+import DeviceTasks from "@/components/device/DeviceTasks.vue";
+import DeviceCTA from "@/components/device/DeviceCTA.vue";
 
 // Управление вкладками
 const activeTab = ref('description');

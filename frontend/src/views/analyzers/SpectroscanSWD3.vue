@@ -74,16 +74,16 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
-import DeviceHero from "@/components/DeviceHero.vue";
-import DeviceTabs from "@/components/DeviceTabs.vue";
-import DeviceDescription from "@/components/DeviceDescription.vue";
-import DeviceSpecifications from "@/components/DeviceSpecifications.vue";
-import DeviceAdvantages from "@/components/DeviceAdvantages.vue";
-import DeviceDocumentation from "@/components/DeviceDocumentation.vue";
-import DeviceTasks from "@/components/DeviceTasks.vue";
-import DeviceMaterials from "@/components/DeviceMaterials.vue";
-import DeviceCTA from "@/components/DeviceCTA.vue";
-import DeviceImageModal from "@/components/DeviceImageModal.vue";
+import DeviceHero from "@/components/device/DeviceHero.vue";
+import DeviceTabs from "@/components/device/DeviceTabs.vue";
+import DeviceDescription from "@/components/device/DeviceDescription.vue";
+import DeviceSpecifications from "@/components/device/DeviceSpecifications.vue";
+import DeviceAdvantages from "@/components/device/DeviceAdvantages.vue";
+import DeviceDocumentation from "@/components/device/DeviceDocumentation.vue";
+import DeviceTasks from "@/components/device/DeviceTasks.vue";
+import DeviceMaterials from "@/components/device/DeviceMaterials.vue";
+import DeviceCTA from "@/components/device/DeviceCTA.vue";
+import DeviceImageModal from "@/components/device/DeviceImageModal.vue";
 
 // Управление вкладками
 const activeTab = ref('description');
