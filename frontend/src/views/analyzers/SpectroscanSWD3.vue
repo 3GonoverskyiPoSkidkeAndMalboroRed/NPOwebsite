@@ -22,7 +22,7 @@
           </div>
           <div class="relative">
             <img 
-              src="/spectroscan-msw.jpg" 
+              src="/analyzers/SW-D3/SW-D3_1.jpg" 
               alt="СПЕКТРОСКАН SW-D3" 
               class="w-full h-auto rounded-lg shadow-lg"
             />
