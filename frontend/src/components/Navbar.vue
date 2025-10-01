@@ -172,7 +172,7 @@ const isOpen = ref<boolean>(false);
           <div class="flex-1 space-y-4">
             <!-- Приборы -->
             <div>
-              <h3 class="text-sm font-semibold text-muted-foreground mb-3">Приборы ({{ featureList.length }})</h3>
+              <h3 class="text-sm font-semibold text-muted-foreground mb-3">Приборы</h3>
               <div class="space-y-2">
                 <router-link
                   v-for="{ title, description, href } in featureList"
@@ -191,7 +191,7 @@ const isOpen = ref<boolean>(false);
 
             <!-- Основная навигация -->
             <div>
-              <h3 class="text-sm font-semibold text-muted-foreground mb-3">Навигация ({{ routeList.length }})</h3>
+          
               <div class="space-y-2">
                 <button
                   v-for="{ href, label } in routeList"
