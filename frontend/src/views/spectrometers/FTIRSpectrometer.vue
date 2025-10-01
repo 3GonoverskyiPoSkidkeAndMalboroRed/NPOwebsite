@@ -55,7 +55,6 @@ import DeviceDescription from "@/components/device/DeviceDescription.vue";
 import DeviceSpecifications from "@/components/device/DeviceSpecifications.vue";
 import DeviceAdvantages from "@/components/device/DeviceAdvantages.vue";
 import DeviceTasks from "@/components/device/DeviceTasks.vue";
-import DeviceCTA from "@/components/device/DeviceCTA.vue";
 import DevicePageLayout from "@/components/device/DevicePageLayout.vue";
 
 // Управление вкладками

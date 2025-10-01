@@ -79,7 +79,6 @@ import DeviceAdvantages from "@/components/device/DeviceAdvantages.vue";
 import DeviceDocumentation from "@/components/device/DeviceDocumentation.vue";
 import DeviceTasks from "@/components/device/DeviceTasks.vue";
 import DeviceMaterials from "@/components/device/DeviceMaterials.vue";
-import DeviceCTA from "@/components/device/DeviceCTA.vue";
 import DeviceImageModal from "@/components/device/DeviceImageModal.vue";
 import DevicePageLayout from "@/components/device/DevicePageLayout.vue";
 
