@@ -49,8 +49,29 @@ const instruments = ref([
     id: 'GVM',
     name: 'СПЕКТРОСКАН МАКС-GVM',
     description: 'Вакуумный волнодисперсионный рентгенофлуоресцентный спектрометр',
-    image: '/spectrometers/МАКС-GVM/МАКС-GVM_1.jpg',
-    route: '/gas-analyzers'
+    image: '/spectrometrs/GVM/GVM_1.jpg',
+    route: '/spectrometers'
+  },
+  {
+    id: 'MAX-G',
+    name: 'СПЕКТРОСКАН МАКС-G',
+    description: 'Рентгенофлуоресцентный спектрометр',
+    image: '/spectrometrs/МАКС-G/МАКС-G_1.jpg',
+    route: '/spectrometers'
+  },
+  {
+    id: 'MAX-GF1',
+    name: 'СПЕКТРОСКАН МАКС-GF1(2)E',
+    description: 'Рентгенофлуоресцентный спектрометр с газовым потоком',
+    image: '/spectrometrs/МАКС-GF1(2)E/МАКС-GF1(2)E_1.jpg',
+    route: '/spectrometers'
+  },
+  {
+    id: 'MAX-GF1-C',
+    name: 'СПЕКТРОСКАН МАКС-GF1(2)E-С',
+    description: 'Рентгенофлуоресцентный спектрометр с газовым потоком (модификация С)',
+    image: '/spectrometrs/МАКС-GF1(2)E-С/МАКС-GF1(2)E-С_1.png',
+    route: '/spectrometers'
   },
 ]);
 
