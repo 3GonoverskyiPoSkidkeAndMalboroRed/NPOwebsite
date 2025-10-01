@@ -39,7 +39,7 @@ const tasks: TaskItem[] = [
   },
   {
     title: "Нефтехимия",
-    image: "/home-photo/4d3fc1ac61ed98d7a6eb1d8d9e6f7267.png",
+    image: "/close-up-portrait-young-woman-s-hands-holding-test-tube-with-yellow-liquid.jpg",
     link: "/methods-oil"
   },
   {
