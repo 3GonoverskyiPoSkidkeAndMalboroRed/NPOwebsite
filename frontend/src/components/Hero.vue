@@ -117,39 +117,41 @@ const navigateToInstrument = (route: string) => {
               :key="instrument.id"
               class="pl-2 md:pl-4"
             >
-              <div class="relative group/card">
-                <!-- Карточка прибора -->
+              <div class="flex flex-col md:flex-row gap-4 h-auto md:h-96">
+                <!-- Левая часть - Текстовый блок -->
                 <div 
-                  class="relative overflow-hidden rounded-lg border border-t-2 border-t-primary/30 bg-card/50 backdrop-blur-sm cursor-pointer"
+                  class="flex-1 rounded-lg p-6 flex flex-col justify-center cursor-pointer hover:shadow-lg transition-shadow"
                   @click="navigateToInstrument(instrument.route)"
                 >
-                  <!-- Изображение прибора -->
-                  <div class="relative h-64 md:h-80 overflow-hidden">
+                  <h3 class="text-2xl md:text-3xl font-bold mb-4 ">
+                    {{ instrument.name }}
+                  </h3>
+                  <p class="text-lg  mb-6">
+                    {{ instrument.description }}
+                  </p>
+                  <Button 
+                    variant="outline" 
+                    size="lg"
+                    class="w-fit border-gray-400  hover:bg-gray-50"
+                  >
+                    Подробнее
+                    <ArrowRight class="ml-2 h-4 w-4" />
+                  </Button>
+                </div>
+
+                <!-- Правая часть - Изображение -->
+                <div 
+                  class="flex-2 rounded-lg border-2  bg-white overflow-hidden cursor-pointer hover:shadow-lg transition-shadow h-64 md:h-auto"
+                  @click="navigateToInstrument(instrument.route)"
+                >
+                  <div class="relative h-full">
                     <img
                       :src="instrument.image"
                       :alt="instrument.name"
                       class="w-full h-full object-cover"
                     />
-                    <!-- Градиентный оверлей -->
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                  </div>
-
-                  <!-- Контент карточки -->
-                  <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <h3 class="text-2xl md:text-3xl font-bold mb-2">
-                      {{ instrument.name }}
-                    </h3>
-                    <p class="text-sm md:text-base text-white/90 mb-4">
-                      {{ instrument.description }}
-                    </p>
-                    <Button 
-                      variant="secondary" 
-                      size="sm"
-                      class="bg-white/20 hover:bg-white/30 text-white border-white/30"
-                    >
-                      Подробнее
-                      <ArrowRight class="ml-2 h-4 w-4" />
-                    </Button>
+                    <!-- Легкий оверлей для лучшей читаемости -->
+                    <div class="absolute inset-0 bg-black/10"></div>
                   </div>
                 </div>
               </div>
@@ -157,14 +159,11 @@ const navigateToInstrument = (route: string) => {
           </CarouselContent>
           
           <!-- Навигационные кнопки -->
-          <CarouselPrevious class="left-4 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg" />
-          <CarouselNext class="right-4 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg" />
+          <CarouselPrevious class="left-1/2 transform -translate-x-1/2 -translate-x-16 top-full mt-8 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg" />
+          <CarouselNext class="left-1/2 transform -translate-x-1/2 translate-x-16 top-full mt-8 bg-black/70 hover:bg-black/80 text-white border-white/50 shadow-lg" />
         </Carousel>
 
-        <!-- gradient effect -->
-        <div
-          class="absolute bottom-0 left-0 w-full h-20 md:h-28 bg-gradient-to-b from-background/0 via-background/50 to-background rounded-lg pointer-events-none"
-        ></div>
+        
       </div>
     </div>
   </section>
