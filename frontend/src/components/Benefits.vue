@@ -9,49 +9,49 @@ interface ApplicationProps {
 }
 
 const applications: ApplicationProps[] = [
-  {
+{
     title: "Оборудование для экспертизы",
-    image: "/home-photo/expertlittle.png",
+    image: "/photostock/Оборудование для эспертизы.jpg",
     link: "/methods-expert"
   },
   {
     title: "Нефтехимия",
-    image: "/home-photo/4d3fc1ac61ed98d7a6eb1d8d9e6f7267.png",
+    image: "/photostock/Нефтехимия.jpg",
     link: "/methods-oil"
   },
   {
     title: "Экология",
-    image: "/home-photo/ecologylittle.png",
+    image: "/photostock/Экология.jpg",
     link: "/methods-eco"
   },
   {
     title: "Горнорудная промышленность",
-    image: "/home-photo/gornlittle.png",
+    image: "/photostock/Горнорудная промышленность.png",
     link: "/methods-mining"
   },
   {
     title: "Металлургия",
-    image: "/home-photo/metlittle.png",
+    image: "/photostock/Металлургия.png",
     link: "/methods-metallurgy"
   },
   {
     title: "Диагностика и контроль",
-    image: "/home-photo/diagnostikalittle2.png",
+    image: "/photostock/Диагностика и контроль.jpg",
     link: "/methods-diagnostics"
   },
   {
     title: "Геология",
-    image: "/home-photo/geologylittle.png",
+    image: "/photostock/Геология.jpg",
     link: "/methods-geology"
   },
   {
     title: "Научные исследования",
-    image: "/home-photo/researchlittle.png",
+    image: "/photostock/Научные исследования.png",
     link: "/methods-research"
   },
   {
     title: "Газовая промышленность",
-    image: "/home-photo/06bba93af58b01ffc5367e30d6485f7c.png",
+    image: "/photostock/Газовая промышленность.png",
     link: "/methods-gas"
   }
 ];

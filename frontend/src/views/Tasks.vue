@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-background">
-    <!-- Hero Section -->
+    <!-- Hero Section - Auto-reload test -->
     <section class="py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
@@ -34,47 +34,47 @@ interface TaskItem {
 const tasks: TaskItem[] = [
   {
     title: "Оборудование для экспертизы",
-    image: "/home-photo/expertlittle.png",
+    image: "/photostock/Оборудование для эспертизы.jpg",
     link: "/methods-expert"
   },
   {
     title: "Нефтехимия",
-    image: "/close-up-portrait-young-woman-s-hands-holding-test-tube-with-yellow-liquid.jpg",
+    image: "/photostock/Нефтехимия.jpg",
     link: "/methods-oil"
   },
   {
     title: "Экология",
-    image: "/home-photo/ecologylittle.png",
+    image: "/photostock/Экология.jpg",
     link: "/methods-eco"
   },
   {
     title: "Горнорудная промышленность",
-    image: "/home-photo/gornlittle.png",
+    image: "/photostock/Горнорудная промышленность.png",
     link: "/methods-mining"
   },
   {
     title: "Металлургия",
-    image: "/home-photo/metlittle.png",
+    image: "/photostock/Металлургия.png",
     link: "/methods-metallurgy"
   },
   {
     title: "Диагностика и контроль",
-    image: "/home-photo/diagnostikalittle2.png",
+    image: "/photostock/Диагностика и контроль.jpg",
     link: "/methods-diagnostics"
   },
   {
     title: "Геология",
-    image: "/home-photo/geologylittle.png",
+    image: "/photostock/Геология.jpg",
     link: "/methods-geology"
   },
   {
     title: "Научные исследования",
-    image: "/home-photo/researchlittle.png",
+    image: "/photostock/Научные исследования.png",
     link: "/methods-research"
   },
   {
     title: "Газовая промышленность",
-    image: "/home-photo/06bba93af58b01ffc5367e30d6485f7c.png",
+    image: "/photostock/Газовая промышленность.png",
     link: "/methods-gas"
   }
 ];
