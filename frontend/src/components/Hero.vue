@@ -101,7 +101,7 @@ const navigateToInstrument = (route: string) => {
       <div class="relative group mt-6 sm:mt-8 lg:mt-12 w-full max-w-6xl mx-auto overflow-hidden">
         <!-- gradient shadow -->
         <div
-          class="absolute -top-2 sm:-top-4 lg:-top-6 right-2 sm:right-4 lg:right-12 w-[80%] sm:w-[85%] lg:w-[90%] h-6 sm:h-8 lg:h-12 xl:h-[80%] bg-primary/50 blur-3xl rounded-full img-shadow-animation"
+          class="absolute -top-2 sm:-top-4 lg:-top-6 right-2 sm:right-4 lg:right-12 w-[60%] sm:w-[70%] lg:w-[50%] h-6 sm:h-8 lg:h-12 xl:h-[20%] bg-primary/50 blur-3xl rounded-full img-shadow-animation"
         ></div>
 
         <Carousel class="w-full">
@@ -176,12 +176,12 @@ const navigateToInstrument = (route: string) => {
 @keyframes img-shadow-animation {
   from {
     opacity: 0.1;
-    transform: translateY(30px);
+    transform: translateY(200px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0px);
+    transform: translateY(180px);
   }
 }
 @keyframes img-border-animation {
