@@ -89,7 +89,15 @@
             </p>
           </div>
 
-       
+          <!-- Кнопка "Подробнее" -->
+          <div class="text-center mt-8 sm:mt-10">
+            <router-link 
+              to="/company" 
+              class="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors duration-200"
+            >
+              Подробнее
+            </router-link>
+          </div>
         </div>
       </div>
     </div>

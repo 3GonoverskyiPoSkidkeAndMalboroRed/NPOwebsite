@@ -16,6 +16,7 @@ import TurbidityAnalyzers from "./views/TurbidityAnalyzers.vue";
 import Tasks from "./views/Tasks.vue";
 import Profile from "./views/Profile.vue";
 import Methods from "./views/Methods.vue";
+import Company from "./views/Company.vue";
 
 
 // Страницы для методик
@@ -105,6 +106,11 @@ const routes = [
         path: "methods",
         name: "Methods",
         component: Methods,
+      },
+      {
+        path: "company",
+        name: "Company",
+        component: Company,
       },
       {
         path: "methods-expert",
@@ -201,7 +207,7 @@ const router = createRouter({
 });
 
 // Guard для защиты маршрутов - защищаем только /profile
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, _from, next) => {
   // Проверяем, является ли маршрут защищенным (только /profile)
   if (to.path === '/profile') {
     // Проверяем авторизацию только для страницы профиля
