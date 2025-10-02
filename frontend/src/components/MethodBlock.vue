@@ -17,7 +17,7 @@
               <img
                 :src="item.image"
                 :alt="item.text"
-                class="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-lg flex-shrink-0"
+                class="w-8 h-8 sm:w-8 sm:h-8 object-cover rounded-lg flex-shrink-0"
               />
               <div class="flex-1 min-w-0">
                 <p class="text-xs sm:text-sm font-medium text-foreground group-hover:text-primary transition-colors">
