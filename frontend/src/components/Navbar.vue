@@ -109,7 +109,7 @@ const isOpen = ref<boolean>(false);
     :class="{
       'shadow-light': mode === 'light',
       'shadow-dark': mode === 'dark',
-      'w-[95%] sm:w-[90%] md:w-[80%] lg:w-[75%] lg:max-w-screen-xl top-3 sm:top-5 mx-auto sticky border z-40 rounded-xl sm:rounded-2xl flex justify-between items-center p-2 sm:p-3 bg-card shadow-md': true,
+      'w-full fixed top-0 left-0 right-0 border-b z-40 flex justify-between items-center px-4 py-3 bg-card shadow-md': true,
     }"
   >
     <a
