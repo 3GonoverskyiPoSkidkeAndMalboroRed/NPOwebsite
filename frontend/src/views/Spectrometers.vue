@@ -61,28 +61,14 @@
         </div>
 
 
-        <!-- CTA Section -->
-        <div class="text-center bg-muted/30 rounded-2xl p-12">
-          <h2 class="text-3xl font-bold mb-4">Нужна консультация?</h2>
-          <p class="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Наши специалисты помогут подобрать оптимальный спектрометр для ваших задач
-          </p>
-          <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" class="px-8">
-              Получить консультацию
-            </Button>
-            <Button variant="outline" size="lg" class="px-8">
-              Скачать каталог
-            </Button>
-          </div>
-        </div>
+     
       </div>
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { 
   Microscope, 
   TestTube, 
