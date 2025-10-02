@@ -10,7 +10,7 @@
     <!-- <Community />
     <Pricing /> -->
     <!-- <Contact /> -->
-    <FAQ />
+    <!-- <FAQ /> -->
     <Footer />
   </div>
 </template>
@@ -26,6 +26,6 @@ import Team from "@/components/Team.vue";
 // import Pricing from "@/components/Pricing.vue";
 // import Community from "@/components/Community.vue";
 // import Contact from "@/components/Contact.vue";
-import FAQ from "@/components/FAQ.vue";
+// import FAQ from "@/components/FAQ.vue";
 import Footer from "@/components/Footer.vue";
 </script>

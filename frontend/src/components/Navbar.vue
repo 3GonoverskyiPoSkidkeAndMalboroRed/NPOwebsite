@@ -62,10 +62,7 @@ const routeList: RouteProps[] = [
     href: "#team",
     label: "Методики",
   },
-  {
-    href: "#faq",
-    label: "Частые вопросы",
-  },
+
 
 ];
 
