@@ -250,7 +250,7 @@ router.beforeEach(async (to, _from, next) => {
     
     // Проверяем валидность токена
     try {
-      const response = await fetch('http://192.168.81.74:8000/auth/me', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/auth/me`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

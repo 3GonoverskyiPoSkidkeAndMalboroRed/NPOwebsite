@@ -7,7 +7,7 @@ const userData = ref<any>(null)
 const isLoading = ref(false)
 
 // API базовый URL
-const API_BASE = 'http://192.168.81.74:8000'
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 export function useAuth() {
   const router = useRouter()
