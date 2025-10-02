@@ -96,6 +96,29 @@ const featureList: FeatureProps[] = [
   },
 ];
 
+const supportList: FeatureProps[] = [
+  {
+    title: "Техническая поддержка",
+    description: "Помощь в настройке и эксплуатации оборудования",
+    href: "/support",
+  },
+  {
+    title: "Сервисное обслуживание",
+    description: "Ремонт и техническое обслуживание приборов",
+    href: "/service",
+  },
+  {
+    title: "Обучение персонала",
+    description: "Курсы и тренинги для операторов оборудования",
+    href: "/training",
+  },
+  {
+    title: "Документация",
+    description: "Руководства пользователя и техническая документация",
+    href: "/docs",
+  },
+];
+
 import { ref } from "vue";
 
 const isOpen = ref<boolean>(false);
@@ -185,6 +208,25 @@ const isOpen = ref<boolean>(false);
 
             <Separator />
 
+            <!-- Поддержка -->
+            <div>
+              <h3 class="text-sm font-semibold text-muted-foreground mb-3">Поддержка</h3>
+              <div class="space-y-2">
+                <router-link
+                  v-for="{ title, description, href } in supportList"
+                  :key="title"
+                  :to="href || '/'"
+                  class="block p-3 rounded-lg hover:bg-muted transition-colors"
+                  @click="isOpen = false"
+                >
+                  <p class="font-medium text-sm">{{ title }}</p>
+                  <p class="text-xs text-muted-foreground mt-1">{{ description }}</p>
+                </router-link>
+              </div>
+            </div>
+
+            <Separator />
+
             <!-- Основная навигация -->
             <div>
           
@@ -241,6 +283,44 @@ const isOpen = ref<boolean>(false);
               <ul class="flex flex-col gap-2">
                 <li
                   v-for="{ title, description, href } in featureList"
+                  :key="title"
+                  class="rounded-md p-3 text-sm hover:bg-muted"
+                >
+                  <router-link 
+                    v-if="href" 
+                    :to="href" 
+                    class="block"
+                  >
+                    <p class="mb-1 font-semibold leading-none text-foreground">
+                      {{ title }}
+                    </p>
+                    <p class="line-clamp-2 text-muted-foreground">
+                      {{ description }}
+                    </p>
+                  </router-link>
+                  <div v-else>
+                    <p class="mb-1 font-semibold leading-none text-foreground">
+                      {{ title }}
+                    </p>
+                    <p class="line-clamp-2 text-muted-foreground">
+                      {{ description }}
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <NavigationMenuTrigger class="bg-card text-base">
+            Поддержка
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <div class="grid w-[400px] grid-cols-1 gap-3 p-4">
+              <ul class="flex flex-col gap-2">
+                <li
+                  v-for="{ title, description, href } in supportList"
                   :key="title"
                   class="rounded-md p-3 text-sm hover:bg-muted"
                 >
