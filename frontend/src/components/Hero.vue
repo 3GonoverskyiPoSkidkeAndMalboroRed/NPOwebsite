@@ -160,8 +160,8 @@ const navigateToInstrument = (route: string) => {
 .img-shadow-animation {
   animation-name: img-shadow-animation;
   animation-iteration-count: infinite;
-  animation-duration: 2s;
-  animation-timing-function: linear;
+  animation-duration: 3s;
+  animation-timing-function: ease-in-out;
   animation-direction: alternate;
 }
 
@@ -174,14 +174,19 @@ const navigateToInstrument = (route: string) => {
 }
 
 @keyframes img-shadow-animation {
-  from {
-    opacity: 0.1;
-    transform: translateY(170px);
+  0% {
+    opacity: 0.3;
+    transform: translateY(160px) scale(0.95);
   }
-
-  to {
-    opacity: 1;
-    transform: translateY(150px);
+  
+  50% {
+    opacity: 0.7;
+    transform: translateY(155px) scale(1.05);
+  }
+  
+  100% {
+    opacity: 0.4;
+    transform: translateY(165px) scale(0.98);
   }
 }
 @keyframes img-border-animation {
