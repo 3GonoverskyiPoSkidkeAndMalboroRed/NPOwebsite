@@ -1,295 +1,143 @@
 <template>
-  <div class="min-h-screen bg-background">
+
     <!-- Hero Section -->
-    <section class="py-20 px-4 bg-gradient-to-b from-background to-muted/20">
-      <div class="max-w-7xl mx-auto">
-        <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
-          <div>
-            <h1 class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text">
-              СПЕКТРОСКАН IS-T
-            </h1>
-            <p class="text-xl text-muted-foreground mb-8">
-              Рентгено-абсорбционный поточный анализатор для определения серы в потоке
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" class="px-8">
-                Получить консультацию
-              </Button>
-              <Button variant="outline" size="lg" class="px-8">
-                Скачать каталог
-              </Button>
-            </div>
-          </div>
-          <div class="relative">
-            <img 
-              src="/spectroscan-msw.jpg" 
-              alt="СПЕКТРОСКАН IS-T" 
-              class="w-full h-auto rounded-lg shadow-lg"
-            />
-          </div>
-        </div>
+    <DeviceHero
+      title="СПЕКТРОСКАН IS-T"
+      description="Рентгено-абсорбционный поточный анализатор для определения серы в потоке"
+      :main-image="images[0]"
+      :images="images"
+      @open-image-modal="openImageModal"
+    />
+
+    <!-- Tabs Section -->
+    <DeviceTabs
+      :active-tab="activeTab"
+      :tabs="tabs"
+      @update:active-tab="activeTab = $event"
+    >
+      <template #default="{ activeTab }">
+        <!-- Описание -->
+        <DeviceDescription
+          :active-tab="activeTab"
+          :description="description"
+        />
+
+        <!-- Характеристики -->
+        <DeviceSpecifications
+          :active-tab="activeTab"
+          :analytical-params="analyticalParams"
+          :technical-params="technicalParams"
+        />
+
+        <!-- Преимущества -->
+        <DeviceAdvantages
+          :active-tab="activeTab"
+          :advantages="advantages"
+        />
+
+        <!-- Документация -->
+        <DeviceDocumentation
+          :active-tab="activeTab"
+          :documentation="documentation"
+        />
+
+        <!-- Решаемые задачи -->
+        <DeviceTasks
+          :active-tab="activeTab"
+          :tasks="tasks"
+        />
+
+        <!-- Материалы -->
+        <DeviceMaterials
+          :active-tab="activeTab"
+          :materials="materials"
+        />
+      </template>
+    </DeviceTabs>
 
 
 
-        <!-- Второй большой блок: Подвкладки -->
-        <section class="py-20 px-4 bg-muted/30">
-          <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-12">
-              <h2 class="text-3xl md:text-4xl font-bold mb-4">
-                Подробная информация
-              </h2>
-            </div>
+    <!-- Модальное окно для просмотра изображений -->
+    <DeviceImageModal
+      :is-open="isModalOpen"
+      :images="images"
+      device-name="СПЕКТРОСКАН IS-T"
+      :current-index="currentImageIndex"
+      @close="closeImageModal"
+      @update:current-index="currentImageIndex = $event"
+    />
 
-            <!-- Навигация по вкладкам -->
-            <div class="flex flex-wrap justify-center gap-2 mb-12">
-              <Button 
-                v-for="tab in tabs" 
-                :key="tab.id"
-                :variant="activeTab === tab.id ? 'default' : 'outline'"
-                @click="activeTab = tab.id"
-                class="min-w-[120px]"
-              >
-                {{ tab.label }}
-              </Button>
-            </div>
-
-            <!-- Контент вкладок -->
-            <div class="bg-background rounded-2xl p-8 shadow-sm">
-              <!-- Описание -->
-              <div v-if="activeTab === 'description'" class="space-y-6">
-                <h3 class="text-2xl font-bold mb-4">Описание</h3>
-                <div class="prose prose-lg max-w-none">
-                  <p>
-                    СПЕКТРОСКАН IS-T — рентгено-абсорбционный поточный анализатор для определения серы в потоке. Прибор предназначен для непрерывного анализа содержания серы в нефти и нефтепродуктах в реальном времени.
-                  </p>
-                  <p>
-                    Анализатор обеспечивает высокую производительность и автоматизацию процессов контроля качества в промышленных условиях.
-                  </p>
-                  <p>
-                    Конструкция анализатора позволяет использовать его в промышленных условиях для непрерывного мониторинга технологических процессов.
-                  </p>
-                </div>
-              </div>
-
-              <!-- Характеристики -->
-              <div v-if="activeTab === 'specifications'" class="space-y-6">
-                <h3 class="text-2xl font-bold mb-4">Характеристики</h3>
-                
-                <!-- Аналитические параметры -->
-                <div class="space-y-4">
-                  <h4 class="text-lg font-semibold">АНАЛИТИЧЕСКИЕ ПАРАМЕТРЫ</h4>
-                  <div class="grid md:grid-cols-2 gap-6">
-                    <div class="space-y-3">
-                      <div class="flex justify-between">
-                        <span class="font-medium">Определяемый элемент:</span>
-                        <span>Сера (S)</span>
-                      </div>
-                      <div class="flex justify-between">
-                        <span class="font-medium">Диапазон измерений:</span>
-                        <span>0.1 - 5.0% масс.</span>
-                      </div>
-                      <div class="flex justify-between">
-                        <span class="font-medium">Режим работы:</span>
-                        <span>Непрерывный</span>
-                      </div>
-                    </div>
-                    <div class="space-y-3">
-                      <div class="flex justify-between">
-                        <span class="font-medium">Время отклика:</span>
-                        <span>30-60 секунд</span>
-                      </div>
-                      <div class="flex justify-between">
-                        <span class="font-medium">Тип проб:</span>
-                        <span>Нефть и нефтепродукты</span>
-                      </div>
-                      <div class="flex justify-between">
-                        <span class="font-medium">Производительность:</span>
-                        <span>Высокая</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Технические характеристики -->
-                <div class="space-y-4">
-                  <h4 class="text-lg font-semibold">ТЕХНИЧЕСКИЕ ХАРАКТЕРИСТИКИ</h4>
-                  <div class="grid md:grid-cols-2 gap-6">
-                    <div class="space-y-3">
-                      <div class="flex justify-between">
-                        <span class="font-medium">Тип анализатора:</span>
-                        <span>Рентгено-абсорбционный поточный</span>
-                      </div>
-                      <div class="flex justify-between">
-                        <span class="font-medium">Кюветы:</span>
-                        <span>Ø32 мм, V 8 см³</span>
-                      </div>
-                      <div class="flex justify-between">
-                        <span class="font-medium">Мощность рентгеновской трубки:</span>
-                        <span>до 200 Вт</span>
-                      </div>
-                    </div>
-                    <div class="space-y-3">
-                      <div class="flex justify-between">
-                        <span class="font-medium">Программное обеспечение:</span>
-                        <span>Спектр-Квант</span>
-                      </div>
-                      <div class="flex justify-between">
-                        <span class="font-medium">Габаритные размеры:</span>
-                        <span>530×480×340 мм</span>
-                      </div>
-                      <div class="flex justify-between">
-                        <span class="font-medium">Масса:</span>
-                        <span>40 кг</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Преимущества -->
-              <div v-if="activeTab === 'advantages'" class="space-y-6">
-                <h3 class="text-2xl font-bold mb-4">Преимущества</h3>
-                
-                <div class="prose prose-lg max-w-none">
-                  <div class="space-y-4">
-                    <div class="p-4 bg-muted/30 rounded-lg">
-                      <h4 class="font-semibold mb-2">Основные преимущества:</h4>
-                      <ul class="space-y-2">
-                        <li class="flex items-start gap-2">
-                          <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                          <span>непрерывный анализ в потоке;</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                          <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                          <span>высокая производительность;</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                          <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                          <span>автоматизация процессов;</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                          <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                          <span>мониторинг в реальном времени;</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                          <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                          <span>минимальное участие оператора;</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                          <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                          <span>интеграция с промышленными системами.</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Документация -->
-              <div v-if="activeTab === 'documentation'" class="space-y-6">
-                <h3 class="text-2xl font-bold mb-4">Документация</h3>
-                <div class="grid md:grid-cols-2 gap-6">
-                  <div v-for="doc in documentation" :key="doc.name" class="p-4 border rounded-lg hover:bg-muted/50 transition-colors">
-                    <div class="flex items-center gap-3">
-                      <div class="text-2xl">{{ doc.icon }}</div>
-                      <div class="flex-1">
-                        <h4 class="font-semibold">{{ doc.name }}</h4>
-                        <p class="text-sm text-muted-foreground">{{ doc.description }}</p>
-                      </div>
-                      <Button variant="outline" size="sm">
-                        Скачать
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Решаемые задачи -->
-              <div v-if="activeTab === 'tasks'" class="space-y-6">
-                <h3 class="text-2xl font-bold mb-4">Решаемые задачи</h3>
-                <div class="space-y-4">
-                  <div v-for="task in tasks" :key="task.title" class="p-6 bg-muted/30 rounded-lg">
-                    <h4 class="text-lg font-semibold mb-2">{{ task.title }}</h4>
-                    <p class="text-muted-foreground">{{ task.description }}</p>
-                    <div class="mt-3">
-                      <span class="text-sm font-medium text-primary">Применение:</span>
-                      <span class="text-sm ml-2">{{ task.application }}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Материалы -->
-              <div v-if="activeTab === 'materials'" class="space-y-6">
-                <h3 class="text-2xl font-bold mb-4">Материалы</h3>
-                
-                <div class="prose prose-lg max-w-none">
-                  <ul class="space-y-2">
-                    <li>Охлаждающая жидкость 500 мл</li>
-                    <li>Пипетка Пастера</li>
-                    <li>Пленка полиэтилентерефталатная 3,0 мкм (рулон 100 м)</li>
-                    <li>Кювета вентилируемая диаметр 32 мм (упаковка 100 шт)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (5 ppm)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (0,0%)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (10 ppm)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (25 ppm)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (50 ppm)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (100 ppm)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (300 ppm)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (600 ppm)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (0,1%)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (0,2%)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (0,5%)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (1,0%)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (2,0%)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (4,0%)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (5,0%)</li>
-                    <li>Термобумага для принтера</li>
-                    <li>Узел щели входной</li>
-                    <li>Образец для настройки KCl</li>
-                    <li>Образец для настройки GR</li>
-                    <li>Образец для настройки KO-D3</li>
-                    <li>Образец для настройки КО-91</li>
-                  </ul>
-                  
-                  <div class="mt-8 p-6 bg-primary/5 rounded-lg border border-primary/20">
-                    <h4 class="text-lg font-semibold text-primary mb-4">ТЕЛЕФОН ДЛЯ ЗАКАЗА РАСХОДНЫХ МАТЕРИАЛОВ</h4>
-                    <p><strong>Телефон:</strong> +7 (812) 324-15-92</p>
-                    <p><strong>WhatsApp / Telegram / Viber:</strong> +7 (901) 304-44-44</p>
-                    <p><strong>E-mail:</strong> service@spectronxray.ru</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- CTA Section -->
-        <div class="text-center bg-primary/10 rounded-lg p-8 border border-primary/20">
-          <h3 class="text-2xl font-semibold mb-4">Заинтересовал анализатор?</h3>
-          <p class="text-muted-foreground mb-6 max-w-2xl mx-auto">
-            Получите подробную консультацию и техническое предложение от наших специалистов
-          </p>
-          <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" class="px-8">
-              Получить консультацию
-            </Button>
-            <Button variant="outline" size="lg" class="px-8">
-              Запросить коммерческое предложение
-            </Button>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { Button } from "@/components/ui/button";
+import { ref, onMounted, onUnmounted } from "vue";
+import DeviceHero from "@/components/device/DeviceHero.vue";
+import DeviceTabs from "@/components/device/DeviceTabs.vue";
+import DeviceDescription from "@/components/device/DeviceDescription.vue";
+import DeviceSpecifications from "@/components/device/DeviceSpecifications.vue";
+import DeviceAdvantages from "@/components/device/DeviceAdvantages.vue";
+import DeviceDocumentation from "@/components/device/DeviceDocumentation.vue";
+import DeviceTasks from "@/components/device/DeviceTasks.vue";
+import DeviceMaterials from "@/components/device/DeviceMaterials.vue";
+import DeviceImageModal from "@/components/device/DeviceImageModal.vue";
+import DevicePageLayout from "@/components/device/DevicePageLayout.vue";
 
 // Управление вкладками
 const activeTab = ref('description');
+
+// Управление модальным окном изображений
+const isModalOpen = ref(false);
+const currentImageIndex = ref(0);
+
+// Массив изображений IS-T анализатора
+const images = [
+  '/analyzers/IS-T/resized/Без названия (2).jpg',
+  '/analyzers/IS-T/resized/Без названия (3).jpg',
+  '/analyzers/IS-T/resized/Без названия (4).jpg'
+];
+
+// Функции для работы с модальным окном
+const openImageModal = (index: number) => {
+  currentImageIndex.value = index;
+  isModalOpen.value = true;
+};
+
+const closeImageModal = () => {
+  isModalOpen.value = false;
+};
+
+// Обработка клавиатурных событий
+const handleKeydown = (event: KeyboardEvent) => {
+  if (!isModalOpen.value) return;
+  
+  switch (event.key) {
+    case 'Escape':
+      closeImageModal();
+      break;
+    case 'ArrowLeft':
+      if (currentImageIndex.value > 0) {
+        currentImageIndex.value--;
+      } else {
+        currentImageIndex.value = images.length - 1;
+      }
+      break;
+    case 'ArrowRight':
+      if (currentImageIndex.value < images.length - 1) {
+        currentImageIndex.value++;
+      } else {
+        currentImageIndex.value = 0;
+      }
+      break;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('keydown', handleKeydown);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleKeydown);
+});
 
 const tabs = [
   { id: 'description', label: 'Описание' },
@@ -298,6 +146,50 @@ const tabs = [
   { id: 'documentation', label: 'Документация' },
   { id: 'tasks', label: 'Задачи' },
   { id: 'materials', label: 'Материалы' }
+];
+
+// Данные для описания
+const description = [
+  "СПЕКТРОСКАН IS-T — рентгено-абсорбционный поточный анализатор для определения серы в потоке. Прибор предназначен для непрерывного анализа содержания серы в нефти и нефтепродуктах в реальном времени.",
+  "Анализатор обеспечивает высокую производительность и автоматизацию процессов контроля качества в промышленных условиях.",
+  "Конструкция анализатора позволяет использовать его в промышленных условиях для непрерывного мониторинга технологических процессов."
+];
+
+// Данные для характеристик
+const analyticalParams = {
+  left: [
+    { label: "Определяемый элемент", value: "Сера (S)" },
+    { label: "Диапазон измерений", value: "0.1 - 5.0% масс." },
+    { label: "Режим работы", value: "Непрерывный" }
+  ],
+  right: [
+    { label: "Время отклика", value: "30-60 секунд" },
+    { label: "Тип проб", value: "Нефть и нефтепродукты" },
+    { label: "Производительность", value: "Высокая" }
+  ]
+};
+
+const technicalParams = {
+  left: [
+    { label: "Тип анализатора", value: "Рентгено-абсорбционный поточный" },
+    { label: "Кюветы", value: "Ø32 мм, V 8 см³" },
+    { label: "Мощность рентгеновской трубки", value: "до 200 Вт" }
+  ],
+  right: [
+    { label: "Программное обеспечение", value: "Спектр-Квант" },
+    { label: "Габаритные размеры", value: "530×480×340 мм" },
+    { label: "Масса", value: "40 кг" }
+  ]
+};
+
+// Данные для преимуществ
+const advantages = [
+  "непрерывный анализ в потоке;",
+  "высокая производительность;",
+  "автоматизация процессов;",
+  "мониторинг в реальном времени;",
+  "минимальное участие оператора;",
+  "интеграция с промышленными системами."
 ];
 
 // Данные для документации
@@ -341,5 +233,34 @@ const tasks = [
     description: "Непрерывный мониторинг содержания серы в технологических процессах",
     application: "Технологические предприятия, центры мониторинга"
   }
+];
+
+// Данные для материалов
+const materials = [
+  "Охлаждающая жидкость 500 мл",
+  "Пипетка Пастера",
+  "Пленка полиэтилентерефталатная 3,0 мкм (рулон 100 м)",
+  "Кювета вентилируемая диаметр 32 мм (упаковка 100 шт)",
+  "Стандартный образец массовой доли серы в минеральном масле (5 ppm)",
+  "Стандартный образец массовой доли серы в минеральном масле (0,0%)",
+  "Стандартный образец массовой доли серы в минеральном масле (10 ppm)",
+  "Стандартный образец массовой доли серы в минеральном масле (25 ppm)",
+  "Стандартный образец массовой доли серы в минеральном масле (50 ppm)",
+  "Стандартный образец массовой доли серы в минеральном масле (100 ppm)",
+  "Стандартный образец массовой доли серы в минеральном масле (300 ppm)",
+  "Стандартный образец массовой доли серы в минеральном масле (600 ppm)",
+  "Стандартный образец массовой доли серы в минеральном масле (0,1%)",
+  "Стандартный образец массовой доли серы в минеральном масле (0,2%)",
+  "Стандартный образец массовой доли серы в минеральном масле (0,5%)",
+  "Стандартный образец массовой доли серы в минеральном масле (1,0%)",
+  "Стандартный образец массовой доли серы в минеральном масле (2,0%)",
+  "Стандартный образец массовой доли серы в минеральном масле (4,0%)",
+  "Стандартный образец массовой доли серы в минеральном масле (5,0%)",
+  "Термобумага для принтера",
+  "Узел щели входной",
+  "Образец для настройки KCl",
+  "Образец для настройки GR",
+  "Образец для настройки KO-D3",
+  "Образец для настройки КО-91"
 ];
 </script>

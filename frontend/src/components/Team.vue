@@ -37,34 +37,33 @@ const methodsList: MethodProps[] = [
 <template>
   <section
     id="team"
-    class="container py-24 sm:py-32"
+    class="container px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24 lg:py-32"
   >
-    <div class="text-center mb-16">
-      <h2 class="text-3xl md:text-4xl font-bold mb-4">
+    <div class="text-center mb-12 sm:mb-16">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
         Аттестованные методики анализа
       </h2>
-  
     </div>
 
-    <div class="grid gap-6 max-w-4xl mx-auto">
+    <div class="grid gap-4 sm:gap-6 max-w-4xl mx-auto">
       <Card
         v-for="method in methodsList"
         :key="method.title"
         class="group hover:shadow-lg transition-all duration-300"
       >
-        <CardHeader>
-          <CardTitle class="text-xl text-primary group-hover:text-primary/80 transition-colors">
+        <CardHeader class="pb-3">
+          <CardTitle class="text-lg sm:text-xl text-primary group-hover:text-primary/80 transition-colors">
             {{ method.title }}
           </CardTitle>
         </CardHeader>
         
         <CardContent>
-          <p class="text-muted-foreground leading-relaxed mb-4">
+          <p class="text-muted-foreground leading-relaxed mb-4 text-sm sm:text-base">
             {{ method.description }}
           </p>
           
           <div v-if="method.code" class="flex items-center justify-between">
-            <span class="text-sm font-mono bg-muted px-3 py-1 rounded">
+            <span class="text-xs sm:text-sm font-mono bg-muted px-2 sm:px-3 py-1 rounded">
               {{ method.code }}
             </span>
           </div>
@@ -72,13 +71,13 @@ const methodsList: MethodProps[] = [
       </Card>
     </div>
 
-    <div class="text-center mt-12">
-      <a 
-        href="/analyzers" 
-        class="inline-flex items-center px-8 py-4 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium text-lg"
-      >
-        Все методики >>
-      </a>
-    </div>
+    <div class="text-center mt-8 sm:mt-10">
+            <router-link 
+              to="/methods" 
+              class="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors duration-200"
+            >
+              К методикам
+            </router-link>
+          </div>
   </section>
 </template>

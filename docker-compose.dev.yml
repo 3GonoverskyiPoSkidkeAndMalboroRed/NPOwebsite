@@ -1,0 +1,78 @@
+services:
+  # PostgreSQL база данных
+  db:
+    image: postgres:15-alpine
+    container_name: npo_postgres
+    environment:
+      POSTGRES_DB: npo_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "0.0.0.0:5432:5432"
+    networks:
+      - npo_network
+    restart: unless-stopped
+
+  # FastAPI бэкенд
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: npo_backend
+    environment:
+      DATABASE_URL: postgresql://user:password@db:5432/npo_db
+      PYTHONPATH: /app
+    ports:
+      - "0.0.0.0:8000:8000"
+    depends_on:
+      - db
+    networks:
+      - npo_network
+    restart: unless-stopped
+    volumes:
+      - ./backend:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Vue.js фронтенд (dev режим с hot-reload)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: npo_frontend
+    ports:
+      - "0.0.0.0:3000:5173"
+    depends_on:
+      - backend
+    networks:
+      - npo_network
+    restart: unless-stopped
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+  # Nginx для проксирования (опционально)
+  nginx:
+    image: nginx:alpine
+    container_name: npo_nginx
+    ports:
+      - "0.0.0.0:8081:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - npo_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  npo_network:
+    driver: bridge

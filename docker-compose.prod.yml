@@ -1,0 +1,71 @@
+services:
+  # PostgreSQL база данных
+  db:
+    image: postgres:15-alpine
+    container_name: npo_postgres_prod
+    environment:
+      POSTGRES_DB: npo_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "0.0.0.0:5432:5432"
+    networks:
+      - npo_network
+    restart: unless-stopped
+
+  # FastAPI бэкенд (продакшен)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: npo_backend_prod
+    environment:
+      DATABASE_URL: postgresql://user:password@db:5432/npo_db
+      PYTHONPATH: /app
+    ports:
+      - "0.0.0.0:8000:8000"
+    depends_on:
+      - db
+    networks:
+      - npo_network
+    restart: unless-stopped
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+
+  # Vue.js фронтенд (продакшен)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: npo_frontend_prod
+    ports:
+      - "0.0.0.0:3000:80"
+    depends_on:
+      - backend
+    networks:
+      - npo_network
+    restart: unless-stopped
+
+  # Nginx для проксирования
+  nginx:
+    image: nginx:alpine
+    container_name: npo_nginx_prod
+    ports:
+      - "0.0.0.0:8081:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - npo_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  npo_network:
+    driver: bridge

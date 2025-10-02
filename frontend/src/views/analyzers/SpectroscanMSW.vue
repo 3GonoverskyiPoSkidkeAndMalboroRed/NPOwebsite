@@ -1,298 +1,126 @@
 <template>
-  <div class="min-h-screen bg-background">
+
     <!-- Hero Section -->
-    <section class="py-20 px-4 bg-gradient-to-b from-background to-muted/20">
-      <div class="max-w-7xl mx-auto">
-        <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
-          <div>
-            <h1 class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text">
-              СПЕКТРОСКАН MSW
-            </h1>
-            <p class="text-xl text-muted-foreground mb-8">
-              Рентгенофлуоресцентный волнодисперсионный анализатор для измерения серы, свинца, марганца и железа
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" class="px-8">
-                Получить консультацию
-              </Button>
-              <Button variant="outline" size="lg" class="px-8">
-                Скачать каталог
-              </Button>
-            </div>
-          </div>
-          <div class="relative">
-            <img 
-              src="/spectroscan-msw.jpg" 
-              alt="СПЕКТРОСКАН MSW" 
-              class="w-full h-auto rounded-lg shadow-lg"
-            />
-          </div>
-        </div>
+    <DeviceHero
+      title="СПЕКТРОСКАН MSW"
+      description="Рентгенофлуоресцентный волнодисперсионный анализатор для измерения серы, свинца, марганца и железа"
+      :main-image="images[0]"
+      :images="images"
+      @open-image-modal="openImageModal"
+    />
 
- 
+    <!-- Tabs Section -->
+    <DeviceTabs
+      v-model:active-tab="activeTab"
+      :tabs="tabs"
+    >
+      <template #default="{ activeTab }">
+        <!-- Описание -->
+        <DeviceDescription
+          :active-tab="activeTab"
+          :description="description"
+        />
 
-        <!-- Второй большой блок: Подвкладки -->
-        <section class="py-20 px-4 bg-muted/30">
-          <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-12">
-              <h2 class="text-3xl md:text-4xl font-bold mb-4">
-                Подробная информация
-              </h2>
-            </div>
+        <!-- Характеристики -->
+        <DeviceSpecifications
+          :active-tab="activeTab"
+          :analytical-params="analyticalParams"
+          :technical-params="technicalParams"
+        />
 
-            <!-- Навигация по вкладкам -->
-            <div class="flex flex-wrap justify-center gap-2 mb-12">
-              <Button 
-                v-for="tab in tabs" 
-                :key="tab.id"
-                :variant="activeTab === tab.id ? 'default' : 'outline'"
-                @click="activeTab = tab.id"
-                class="min-w-[120px]"
-              >
-                {{ tab.label }}
-              </Button>
-            </div>
+        <!-- Преимущества -->
+        <DeviceAdvantages
+          :active-tab="activeTab"
+          :advantages="advantages"
+        />
 
-            <!-- Контент вкладок -->
-            <div class="bg-background rounded-2xl p-8 shadow-sm">
-              <!-- Описание -->
-              <div v-if="activeTab === 'description'" class="space-y-6">
-                <h3 class="text-2xl font-bold mb-4">Описание</h3>
-                <div class="prose prose-lg max-w-none">
-                  <p>
-                    СПЕКТРОСКАН MSW — рентгенофлуоресцентный волнодисперсионный анализатор для измерения серы, свинца, марганца и железа. Прибор предназначен для арбитражного метода измерения массовой доли серы в автомобильном топливе и определения содержания металлов.
-                  </p>
-                  <p>
-                    Анализатор соответствует требованиям ГОСТ Р 52660-2006 / ГОСТ ISO 20884-2016 и позволяет проводить высокоточные измерения содержания серы и металлов в нефтепродуктах с минимальным участием оператора.
-                  </p>
-                  <p>
-                    Конструкция анализатора позволяет использовать его в стационарных лабораториях и передвижных лабораториях. Все действия оператора при выполнении измерений сведены к минимуму.
-                  </p>
-                </div>
-              </div>
+        <!-- Документация -->
+        <DeviceDocumentation
+          :active-tab="activeTab"
+          :documentation="documentation"
+        />
 
-              <!-- Характеристики -->
-              <div v-if="activeTab === 'specifications'" class="space-y-6">
-                <h3 class="text-2xl font-bold mb-4">Характеристики</h3>
-                
-                <!-- Аналитические параметры -->
-                <div class="space-y-4">
-                  <h4 class="text-lg font-semibold">АНАЛИТИЧЕСКИЕ ПАРАМЕТРЫ</h4>
-                  <div class="grid md:grid-cols-2 gap-6">
-                    <div class="space-y-3">
-                      <div class="flex justify-between">
-                        <span class="font-medium">Определяемые элементы:</span>
-                        <span>S, Pb, Fe, Mn</span>
-                      </div>
-                      <div class="flex justify-between">
-                        <span class="font-medium">Диапазон измерений S:</span>
-                        <span>0.1 - 5.0% масс.</span>
-                      </div>
-                      <div class="flex justify-between">
-                        <span class="font-medium">Диапазон металлов:</span>
-                        <span>2-50 мг/кг</span>
-                      </div>
-                    </div>
-                    <div class="space-y-3">
-                      <div class="flex justify-between">
-                        <span class="font-medium">Время анализа:</span>
-                        <span>3-5 минут</span>
-                      </div>
-                      <div class="flex justify-between">
-                        <span class="font-medium">Точность:</span>
-                        <span>±0.01% масс.</span>
-                      </div>
-                      <div class="flex justify-between">
-                        <span class="font-medium">Предел обнаружения:</span>
-                        <span>0.5 мг/кг</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+        <!-- Решаемые задачи -->
+        <DeviceTasks
+          :active-tab="activeTab"
+          :tasks="tasks"
+        />
 
-                <!-- Технические характеристики -->
-                <div class="space-y-4">
-                  <h4 class="text-lg font-semibold">ТЕХНИЧЕСКИЕ ХАРАКТЕРИСТИКИ</h4>
-                  <div class="grid md:grid-cols-2 gap-6">
-                    <div class="space-y-3">
-                      <div class="flex justify-between">
-                        <span class="font-medium">Тип анализатора:</span>
-                        <span>Рентгенофлуоресцентный волнодисперсионный</span>
-                      </div>
-                      <div class="flex justify-between">
-                        <span class="font-medium">Кюветы:</span>
-                        <span>Ø32 мм, V 8 см³</span>
-                      </div>
-                      <div class="flex justify-between">
-                        <span class="font-medium">Мощность рентгеновской трубки:</span>
-                        <span>до 200 Вт</span>
-                      </div>
-                    </div>
-                    <div class="space-y-3">
-                      <div class="flex justify-between">
-                        <span class="font-medium">Программное обеспечение:</span>
-                        <span>Спектр-Квант</span>
-                      </div>
-                      <div class="flex justify-between">
-                        <span class="font-medium">Габаритные размеры:</span>
-                        <span>530×480×340 мм</span>
-                      </div>
-                      <div class="flex justify-between">
-                        <span class="font-medium">Масса:</span>
-                        <span>40 кг</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+        <!-- Материалы -->
+        <DeviceMaterials
+          :active-tab="activeTab"
+          :materials="materials"
+        />
+      </template>
+    </DeviceTabs>
 
-              <!-- Преимущества -->
-              <div v-if="activeTab === 'advantages'" class="space-y-6">
-                <h3 class="text-2xl font-bold mb-4">Преимущества</h3>
-                
-                <div class="prose prose-lg max-w-none">
-                  <div class="space-y-4">
-                    <div class="p-4 bg-muted/30 rounded-lg">
-                      <h4 class="font-semibold mb-2">Основные преимущества:</h4>
-                      <ul class="space-y-2">
-                        <li class="flex items-start gap-2">
-                          <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                          <span>определение серы и металлов от 0,5 мг/кг;</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                          <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                          <span>простота в обращении;</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                          <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                          <span>высокая точность измерений;</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                          <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                          <span>соответствие международным стандартам;</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                          <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                          <span>автоматическая обработка результатов;</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                          <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                          <span>встроенный принтер для печати результатов.</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-              <!-- Документация -->
-              <div v-if="activeTab === 'documentation'" class="space-y-6">
-                <h3 class="text-2xl font-bold mb-4">Документация</h3>
-                <div class="grid md:grid-cols-2 gap-6">
-                  <div v-for="doc in documentation" :key="doc.name" class="p-4 border rounded-lg hover:bg-muted/50 transition-colors">
-                    <div class="flex items-center gap-3">
-                      <div class="text-2xl">{{ doc.icon }}</div>
-                      <div class="flex-1">
-                        <h4 class="font-semibold">{{ doc.name }}</h4>
-                        <p class="text-sm text-muted-foreground">{{ doc.description }}</p>
-                      </div>
-                      <Button variant="outline" size="sm">
-                        Скачать
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-              <!-- Решаемые задачи -->
-              <div v-if="activeTab === 'tasks'" class="space-y-6">
-                <h3 class="text-2xl font-bold mb-4">Решаемые задачи</h3>
-                <div class="space-y-4">
-                  <div v-for="task in tasks" :key="task.title" class="p-6 bg-muted/30 rounded-lg">
-                    <h4 class="text-lg font-semibold mb-2">{{ task.title }}</h4>
-                    <p class="text-muted-foreground">{{ task.description }}</p>
-                    <div class="mt-3">
-                      <span class="text-sm font-medium text-primary">Применение:</span>
-                      <span class="text-sm ml-2">{{ task.application }}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+    <!-- Модальное окно для просмотра изображений -->
+    <DeviceImageModal
+      :is-open="isModalOpen"
+      :images="images"
+      device-name="СПЕКТРОСКАН MSW"
+      :current-index="currentImageIndex"
+      @close="closeImageModal"
+      @update:current-index="currentImageIndex = $event"
+    />
 
-              <!-- Материалы -->
-              <div v-if="activeTab === 'materials'" class="space-y-6">
-                <h3 class="text-2xl font-bold mb-4">Материалы</h3>
-                
-                <div class="prose prose-lg max-w-none">
-                  <ul class="space-y-2">
-                    <li>Охлаждающая жидкость 500 мл</li>
-                    <li>Пипетка Пастера</li>
-                    <li>Пленка полиэтилентерефталатная 3,0 мкм (рулон 100 м)</li>
-                    <li>Кювета вентилируемая диаметр 32 мм (упаковка 100 шт)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (5 ppm)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (0,0%)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (10 ppm)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (25 ppm)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (50 ppm)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (100 ppm)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (300 ppm)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (600 ppm)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (0,1%)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (0,2%)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (0,5%)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (1,0%)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (2,0%)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (4,0%)</li>
-                    <li>Стандартный образец массовой доли серы в минеральном масле (5,0%)</li>
-                    <li>MSW. Комплект ГО Pb, Fe, Mn в масле</li>
-                    <li>ГСО СМН-ПА (Mn, Fe, Pb) - 2 ppm 50 мл</li>
-                    <li>ГСО СМН-ПА (Mn, Fe, Pb) - 50 ppm 50 мл</li>
-                    <li>Термобумага для принтера</li>
-                    <li>Узел щели входной</li>
-                    <li>Образец для настройки KCl</li>
-                    <li>Образец для настройки GR</li>
-                    <li>Образец для настройки KO-D3</li>
-                    <li>Образец для настройки КО-91</li>
-                  </ul>
-                  
-                  <div class="mt-8 p-6 bg-primary/5 rounded-lg border border-primary/20">
-                    <h4 class="text-lg font-semibold text-primary mb-4">ТЕЛЕФОН ДЛЯ ЗАКАЗА РАСХОДНЫХ МАТЕРИАЛОВ</h4>
-                    <p><strong>Телефон:</strong> +7 (812) 324-15-92</p>
-                    <p><strong>WhatsApp / Telegram / Viber:</strong> +7 (901) 304-44-44</p>
-                    <p><strong>E-mail:</strong> service@spectronxray.ru</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- CTA Section -->
-        <div class="text-center bg-primary/10 rounded-lg p-8 border border-primary/20">
-          <h3 class="text-2xl font-semibold mb-4">Заинтересовал анализатор?</h3>
-          <p class="text-muted-foreground mb-6 max-w-2xl mx-auto">
-            Получите подробную консультацию и техническое предложение от наших специалистов
-          </p>
-          <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" class="px-8">
-              Получить консультацию
-            </Button>
-            <Button variant="outline" size="lg" class="px-8">
-              Запросить коммерческое предложение
-            </Button>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { Button } from "@/components/ui/button";
+import { ref, onMounted, onUnmounted } from "vue";
+import DeviceHero from "@/components/device/DeviceHero.vue";
+import DeviceTabs from "@/components/device/DeviceTabs.vue";
+import DeviceDescription from "@/components/device/DeviceDescription.vue";
+import DeviceSpecifications from "@/components/device/DeviceSpecifications.vue";
+import DeviceAdvantages from "@/components/device/DeviceAdvantages.vue";
+import DeviceDocumentation from "@/components/device/DeviceDocumentation.vue";
+import DeviceTasks from "@/components/device/DeviceTasks.vue";
+import DeviceMaterials from "@/components/device/DeviceMaterials.vue";
+import DeviceImageModal from "@/components/device/DeviceImageModal.vue";
+import DevicePageLayout from "@/components/device/DevicePageLayout.vue";
 
 // Управление вкладками
 const activeTab = ref('description');
+
+// Управление модальным окном изображений
+const isModalOpen = ref(false);
+const currentImageIndex = ref(0);
+
+// Массив изображений MSW анализатора
+const images = [
+  '/analyzers/MSW/resized/MSW.jpg'
+];
+
+// Функции для работы с модальным окном
+const openImageModal = (index: number) => {
+  currentImageIndex.value = index;
+  isModalOpen.value = true;
+};
+
+const closeImageModal = () => {
+  isModalOpen.value = false;
+};
+
+// Обработка клавиатурных событий
+const handleKeydown = (event: KeyboardEvent) => {
+  if (!isModalOpen.value) return;
+  
+  switch (event.key) {
+    case 'Escape':
+      closeImageModal();
+      break;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('keydown', handleKeydown);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleKeydown);
+});
 
 const tabs = [
   { id: 'description', label: 'Описание' },
@@ -301,6 +129,51 @@ const tabs = [
   { id: 'documentation', label: 'Документация' },
   { id: 'tasks', label: 'Задачи' },
   { id: 'materials', label: 'Материалы' }
+];
+
+// Описание
+const description = [
+  "СПЕКТРОСКАН MSW — рентгенофлуоресцентный волнодисперсионный анализатор для измерения серы, свинца, марганца и железа. Прибор предназначен для арбитражного метода измерения массовой доли серы в автомобильном топливе и определения содержания металлов.",
+  "Анализатор соответствует требованиям ГОСТ Р 52660-2006 / ГОСТ ISO 20884-2016 и позволяет проводить высокоточные измерения содержания серы и металлов в нефтепродуктах с минимальным участием оператора.",
+  "Конструкция анализатора позволяет использовать его в стационарных лабораториях и передвижных лабораториях. Все действия оператора при выполнении измерений сведены к минимуму."
+];
+
+// Аналитические параметры
+const analyticalParams = {
+  left: [
+    { label: "Определяемые элементы", value: "S, Pb, Fe, Mn" },
+    { label: "Диапазон измерений S", value: "0.1 - 5.0% масс." },
+    { label: "Диапазон металлов", value: "2-50 мг/кг" }
+  ],
+  right: [
+    { label: "Время анализа", value: "3-5 минут" },
+    { label: "Точность", value: "±0.01% масс." },
+    { label: "Предел обнаружения", value: "0.5 мг/кг" }
+  ]
+};
+
+// Технические параметры
+const technicalParams = {
+  left: [
+    { label: "Тип анализатора", value: "Рентгенофлуоресцентный волнодисперсионный" },
+    { label: "Кюветы", value: "Ø32 мм, V 8 см³" },
+    { label: "Мощность рентгеновской трубки", value: "до 200 Вт" }
+  ],
+  right: [
+    { label: "Программное обеспечение", value: "Спектр-Квант" },
+    { label: "Габаритные размеры", value: "530×480×340 мм" },
+    { label: "Масса", value: "40 кг" }
+  ]
+};
+
+// Преимущества
+const advantages = [
+  "определение серы и металлов от 0,5 мг/кг;",
+  "простота в обращении;",
+  "высокая точность измерений;",
+  "соответствие международным стандартам;",
+  "автоматическая обработка результатов;",
+  "встроенный принтер для печати результатов."
 ];
 
 // Данные для документации
@@ -344,5 +217,37 @@ const tasks = [
     description: "Анализ дистиллятных нефтепродуктов на соответствие требованиям стандартов",
     application: "Нефтехимические предприятия, сертификационные центры"
   }
+];
+
+// Материалы
+const materials = [
+  "Охлаждающая жидкость 500 мл",
+  "Пипетка Пастера",
+  "Пленка полиэтилентерефталатная 3,0 мкм (рулон 100 м)",
+  "Кювета вентилируемая диаметр 32 мм (упаковка 100 шт)",
+  "Стандартный образец массовой доли серы в минеральном масле (5 ppm)",
+  "Стандартный образец массовой доли серы в минеральном масле (0,0%)",
+  "Стандартный образец массовой доли серы в минеральном масле (10 ppm)",
+  "Стандартный образец массовой доли серы в минеральном масле (25 ppm)",
+  "Стандартный образец массовой доли серы в минеральном масле (50 ppm)",
+  "Стандартный образец массовой доли серы в минеральном масле (100 ppm)",
+  "Стандартный образец массовой доли серы в минеральном масле (300 ppm)",
+  "Стандартный образец массовой доли серы в минеральном масле (600 ppm)",
+  "Стандартный образец массовой доли серы в минеральном масле (0,1%)",
+  "Стандартный образец массовой доли серы в минеральном масле (0,2%)",
+  "Стандартный образец массовой доли серы в минеральном масле (0,5%)",
+  "Стандартный образец массовой доли серы в минеральном масле (1,0%)",
+  "Стандартный образец массовой доли серы в минеральном масле (2,0%)",
+  "Стандартный образец массовой доли серы в минеральном масле (4,0%)",
+  "Стандартный образец массовой доли серы в минеральном масле (5,0%)",
+  "MSW. Комплект ГО Pb, Fe, Mn в масле",
+  "ГСО СМН-ПА (Mn, Fe, Pb) - 2 ppm 50 мл",
+  "ГСО СМН-ПА (Mn, Fe, Pb) - 50 ppm 50 мл",
+  "Термобумага для принтера",
+  "Узел щели входной",
+  "Образец для настройки KCl",
+  "Образец для настройки GR",
+  "Образец для настройки KO-D3",
+  "Образец для настройки КО-91"
 ];
 </script>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import TaskBlock from "@/components/TaskBlock.vue";
 import { RouterLink } from "vue-router";
 
 interface ApplicationProps {
@@ -9,49 +9,49 @@ interface ApplicationProps {
 }
 
 const applications: ApplicationProps[] = [
-  {
+{
     title: "Оборудование для экспертизы",
-    image: "/home-photo/expertlittle.png",
+    image: "/photostock/Оборудование для эспертизы.jpg",
     link: "/methods-expert"
   },
   {
     title: "Нефтехимия",
-    image: "/home-photo/4d3fc1ac61ed98d7a6eb1d8d9e6f7267.png",
+    image: "/photostock/Нефтехимия.jpg",
     link: "/methods-oil"
   },
   {
     title: "Экология",
-    image: "/home-photo/ecologylittle.png",
+    image: "/photostock/Экология.jpg",
     link: "/methods-eco"
   },
   {
     title: "Горнорудная промышленность",
-    image: "/home-photo/gornlittle.png",
+    image: "/photostock/Горнорудная промышленность.png",
     link: "/methods-mining"
   },
   {
     title: "Металлургия",
-    image: "/home-photo/metlittle.png",
+    image: "/photostock/Металлургия.png",
     link: "/methods-metallurgy"
   },
   {
     title: "Диагностика и контроль",
-    image: "/home-photo/diagnostikalittle2.png",
+    image: "/photostock/Диагностика и контроль.jpg",
     link: "/methods-diagnostics"
   },
   {
     title: "Геология",
-    image: "/home-photo/geologylittle.png",
+    image: "/photostock/Геология.jpg",
     link: "/methods-geology"
   },
   {
     title: "Научные исследования",
-    image: "/home-photo/researchlittle.png",
+    image: "/photostock/Научные исследования.png",
     link: "/methods-research"
   },
   {
     title: "Газовая промышленность",
-    image: "/home-photo/06bba93af58b01ffc5367e30d6485f7c.png",
+    image: "/photostock/Газовая промышленность.png",
     link: "/methods-gas"
   }
 ];
@@ -60,47 +60,29 @@ const applications: ApplicationProps[] = [
 <template>
   <section
     id="benefits"
-    class="container py-24 sm:py-32"
+    class="container px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24 lg:py-32"
   >
-    <div class="text-center mb-16">
-      <h2 class="text-3xl md:text-4xl font-bold mb-4">
+    <div class="text-center mb-12 sm:mb-16">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
         Области применения и решаемые задачи
       </h2>
     </div>
 
-    <div class="grid sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-3 gap-3">
-      <RouterLink
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-3 sm:gap-4">
+      <TaskBlock
         v-for="application in applications"
         :key="application.title"
-        :to="application.link"
-        class="block"
-      >
-        <Card class="group hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer">
-          <div class="relative h-32 overflow-hidden">
-            <img
-              :src="application.image"
-              :alt="application.title"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            />
-            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
-          </div>
-          
-          <CardHeader class="pb-2 px-3">
-            <CardTitle class="text-sm text-center group-hover:text-primary transition-colors duration-300 leading-tight">
-              {{ application.title }}
-            </CardTitle>
-          </CardHeader>
-        </Card>
-      </RouterLink>
+        :task="application"
+      />
     </div>
 
-    <div class="text-center mt-12">
-      <RouterLink
-        to="/tasks"
-        class="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors duration-300"
-      >
-        Подробнее
-      </RouterLink>
-    </div>
+    <div class="text-center mt-8 sm:mt-10">
+            <router-link 
+              to="/company" 
+              class="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors duration-200"
+            >
+              К задачам
+            </router-link>
+          </div>
   </section>
 </template>

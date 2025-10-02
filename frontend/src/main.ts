@@ -15,6 +15,13 @@ import ConductivityAnalyzers from "./views/ConductivityAnalyzers.vue";
 import TurbidityAnalyzers from "./views/TurbidityAnalyzers.vue";
 import Tasks from "./views/Tasks.vue";
 import Profile from "./views/Profile.vue";
+import Methods from "./views/Methods.vue";
+import Company from "./views/Company.vue";
+import Service from "./views/Service.vue";
+import Certificates from "./views/Certificates.vue";
+import Training from "./views/Training.vue";
+import Regulations from "./views/Regulations.vue";
+import RfaBasics from "./views/RfaBasics.vue";
 
 
 // Страницы для методик
@@ -99,6 +106,41 @@ const routes = [
         path: "profile",
         name: "Profile",
         component: Profile,
+      },
+      {
+        path: "methods",
+        name: "Methods",
+        component: Methods,
+      },
+      {
+        path: "company",
+        name: "Company",
+        component: Company,
+      },
+      {
+        path: "service",
+        name: "Service",
+        component: Service,
+      },
+      {
+        path: "certificates",
+        name: "Certificates",
+        component: Certificates,
+      },
+      {
+        path: "training",
+        name: "Training",
+        component: Training,
+      },
+      {
+        path: "regulations",
+        name: "Regulations",
+        component: Regulations,
+      },
+      {
+        path: "rfa-basics",
+        name: "RfaBasics",
+        component: RfaBasics,
       },
       {
         path: "methods-expert",
@@ -192,6 +234,40 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+// Guard для защиты маршрутов - защищаем только /profile
+router.beforeEach(async (to, _from, next) => {
+  // Проверяем, является ли маршрут защищенным (только /profile)
+  if (to.path === '/profile') {
+    // Проверяем авторизацию только для страницы профиля
+    const token = localStorage.getItem('token');
+    if (!token) {
+      // Если токена нет, разрешаем доступ к /profile (покажет форму авторизации)
+      next();
+      return;
+    }
+    
+    // Проверяем валидность токена
+    try {
+      const response = await fetch('http://192.168.81.74:8000/auth/me', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (!response.ok) {
+        // Токен недействителен, удаляем его, но разрешаем доступ к /profile
+        localStorage.removeItem('token');
+      }
+    } catch (error) {
+      // Ошибка сети, удаляем токен, но разрешаем доступ к /profile
+      localStorage.removeItem('token');
+    }
+  }
+  
+  // Для всех остальных маршрутов разрешаем доступ без проверки
+  next();
 });
 
 const app = createApp(App);

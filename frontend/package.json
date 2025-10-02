@@ -26,12 +26,14 @@
   },
   "dependencies": {
     "@selemondev/vue3-marquee": "^0.0.8",
+    "@types/leaflet": "^1.9.20",
     "@vee-validate/zod": "^4.13.2",
     "@vueuse/core": "^11.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "embla-carousel": "^8.3.0",
     "embla-carousel-vue": "^8.3.0",
+    "leaflet": "^1.9.4",
     "lucide-vue-next": "^0.452.0",
     "radix-vue": "^1.9.7",
     "tailwind-merge": "^2.5.3",
@@ -39,6 +41,7 @@
     "vee-validate": "^4.13.2",
     "vue": "^3.5.12",
     "vue-router": "^4.5.1",
+    "vue-the-mask": "^0.11.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
