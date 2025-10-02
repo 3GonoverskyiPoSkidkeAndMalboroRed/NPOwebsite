@@ -208,9 +208,12 @@ const isOpen = ref<boolean>(false);
             <div class="space-y-3 w-full">
               <router-link
                 to="/profile"
-                class="block w-full p-3 rounded-lg hover:bg-muted transition-colors text-sm"
+                class="flex items-center w-full p-3 rounded-lg hover:bg-muted transition-colors text-sm"
                 @click="isOpen = false"
               >
+                <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
                 Личный кабинет
               </router-link>
 
@@ -294,10 +297,13 @@ const isOpen = ref<boolean>(false);
         as-child
         size="sm"
         variant="ghost"
-        class="text-base"
+        class="p-2"
       >
         <router-link to="/profile">
-          Личный кабинет
+          <span class="sr-only">Личный кабинет</span>
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
         </router-link>
       </Button>
 
