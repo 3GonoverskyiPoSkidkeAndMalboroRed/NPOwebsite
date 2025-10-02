@@ -1,154 +1,45 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, onMounted, watch } from 'vue'
+import { useRegulations } from '@/composables/useRegulations'
 
-// Данные о нормативных документах
-const regulations = [
-  {
-    id: 1,
-    code: 'ГОСТ Р 53203-2022',
-    title: 'Определение серы методом рентгенофлуоресцентной спектрометрии с дисперсией по длине волны',
-    company: 'Спектрон',
-    category: 'Сера',
-    year: '2022'
-  },
-  {
-    id: 2,
-    code: 'ГОСТ Р 52247-2021',
-    title: 'Методы определения хлорорганических соединений',
-    company: 'Спектрон',
-    category: 'Хлорорганические соединения',
-    year: '2021'
-  },
-  {
-    id: 3,
-    code: 'ГОСТ Р 52660-2006',
-    title: 'Метод определения серы рентгенофлоуресцентной спектрометрией с дисперсией по длине волны',
-    company: 'Спектрон',
-    category: 'Сера',
-    year: '2006'
-  },
-  {
-    id: 4,
-    code: 'ГОСТ 20068.4-88',
-    title: 'Метод рентгеноспектрального флоуресцентного определения алюминия',
-    company: 'Спектрон',
-    category: 'Алюминий',
-    year: '1988'
-  },
-  {
-    id: 5,
-    code: 'ГОСТ 25278.15-87',
-    title: 'Рентгенофлоуресцентный метод определения Zr, Mo, W и Ta в сплавах на основе ниобия',
-    company: 'Спектрон',
-    category: 'Металлы',
-    year: '1987'
-  },
-  {
-    id: 6,
-    code: 'ГОСТ 28033-89',
-    title: 'Метод рентгенофлоуресцентного анализа стали',
-    company: 'Спектрон',
-    category: 'Сталь',
-    year: '1989'
-  },
-  {
-    id: 7,
-    code: 'ГОСТ 28817-90',
-    title: 'Рентгенофлоуресцентный метод определения металлов',
-    company: 'Спектрон',
-    category: 'Металлы',
-    year: '1990'
-  },
-  {
-    id: 8,
-    code: 'ГОСТ 30608-98',
-    title: 'Метод рентгенофлоуресцентного анализа оловянных бронз',
-    company: 'Спектрон',
-    category: 'Бронзы',
-    year: '1998'
-  },
-  {
-    id: 9,
-    code: 'ГОСТ 30609-98',
-    title: 'Метод рентгенофлоуресцентного анализа литейных латуней',
-    company: 'Спектрон',
-    category: 'Латуни',
-    year: '1998'
-  },
-  {
-    id: 10,
-    code: 'ГОСТ Р 51947-2002',
-    title: 'Определение серы методом энергодисперсионной рентгенофлоуресцентной спектрометрии',
-    company: 'Спектрон',
-    category: 'Сера',
-    year: '2002'
-  },
-  {
-    id: 11,
-    code: 'ГОСТ Р ИСО 20847',
-    title: 'Определение серы в топливах методом ренгтенофлоуресцентной энергодисперсионной спектрометрии',
-    company: 'Спектрон',
-    category: 'Топлива',
-    year: 'ISO'
-  },
-  {
-    id: 12,
-    code: 'ГОСТ Р ЕН ИСО 14596-2008',
-    title: 'Определение содержания серы методом ренгтенофлоуресцентной спектрометрии с дисперсией по длине волны',
-    company: 'Спектрон',
-    category: 'Сера',
-    year: '2008'
-  },
-  {
-    id: 13,
-    code: 'ГОСТ Р 54278-2010',
-    title: 'Методы определения свинца ренгеновской спектроскопией',
-    company: 'Спектрон',
-    category: 'Свинец',
-    year: '2010'
-  }
-]
+// Используем composable для работы с нормативными документами
+const {
+  categories,
+  stats,
+  loading,
+  error,
+  filteredRegulations,
+  sortedRegulations,
+  setCategory,
+  setSearch,
+  resetFilters,
+  initializeData
+} = useRegulations()
 
-// Фильтры
+// Локальные реактивные переменные для UI
 const selectedCategory = ref('all')
 const searchQuery = ref('')
 
-// Получение уникальных категорий
-const categories = computed(() => {
-  const cats = [...new Set(regulations.map(r => r.category))]
-  return ['all', ...cats]
+// Инициализация данных при монтировании компонента
+onMounted(async () => {
+  await initializeData()
 })
 
-// Фильтрация документов
-const filteredRegulations = computed(() => {
-  let filtered = regulations
-
-  // Фильтр по категории
-  if (selectedCategory.value !== 'all') {
-    filtered = filtered.filter(r => r.category === selectedCategory.value)
-  }
-
-  // Поиск по тексту
-  if (searchQuery.value) {
-    const query = searchQuery.value.toLowerCase()
-    filtered = filtered.filter(r => 
-      r.code.toLowerCase().includes(query) ||
-      r.title.toLowerCase().includes(query) ||
-      r.category.toLowerCase().includes(query)
-    )
-  }
-
-  return filtered
+// Синхронизация локальных переменных с composable
+watch(selectedCategory, (newValue) => {
+  setCategory(newValue)
 })
 
-// Сортировка по году (новые сначала)
-const sortedRegulations = computed(() => {
-  return [...filteredRegulations.value].sort((a, b) => {
-    if (a.year === 'ISO') return 1
-    if (b.year === 'ISO') return -1
-    return parseInt(b.year) - parseInt(a.year)
-  })
+watch(searchQuery, (newValue) => {
+  setSearch(newValue)
 })
+
+// Функция сброса фильтров
+const handleResetFilters = () => {
+  selectedCategory.value = 'all'
+  searchQuery.value = ''
+  resetFilters()
+}
 </script>
 
 <template>
@@ -214,7 +105,7 @@ const sortedRegulations = computed(() => {
                   class="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   <option value="all">Все категории</option>
-                  <option v-for="category in categories.slice(1)" :key="category" :value="category">
+                  <option v-for="category in categories" :key="category" :value="category">
                     {{ category }}
                   </option>
                 </select>
@@ -226,11 +117,11 @@ const sortedRegulations = computed(() => {
         <!-- Статистика -->
         <div class="grid md:grid-cols-4 gap-4 mb-8">
           <div class="bg-primary/10 p-4 rounded-lg text-center">
-            <div class="text-2xl font-bold text-primary mb-1">{{ regulations.length }}</div>
+            <div class="text-2xl font-bold text-primary mb-1">{{ stats.total }}</div>
             <div class="text-sm text-muted-foreground">Всего документов</div>
           </div>
           <div class="bg-primary/10 p-4 rounded-lg text-center">
-            <div class="text-2xl font-bold text-primary mb-1">{{ categories.length - 1 }}</div>
+            <div class="text-2xl font-bold text-primary mb-1">{{ stats.categories }}</div>
             <div class="text-sm text-muted-foreground">Категорий</div>
           </div>
           <div class="bg-primary/10 p-4 rounded-lg text-center">
@@ -238,13 +129,41 @@ const sortedRegulations = computed(() => {
             <div class="text-sm text-muted-foreground">Найдено</div>
           </div>
           <div class="bg-primary/10 p-4 rounded-lg text-center">
-            <div class="text-2xl font-bold text-primary mb-1">{{ regulations.filter(r => r.year >= '2020').length }}</div>
+            <div class="text-2xl font-bold text-primary mb-1">{{ stats.modern }}</div>
             <div class="text-sm text-muted-foreground">Современных</div>
           </div>
         </div>
 
+        <!-- Индикатор загрузки -->
+        <div v-if="loading" class="text-center py-12">
+          <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">Загрузка документов...</h3>
+          <p class="text-muted-foreground">Пожалуйста, подождите</p>
+        </div>
+
+        <!-- Сообщение об ошибке -->
+        <div v-else-if="error" class="text-center py-12">
+          <div class="w-16 h-16 bg-destructive/10 text-destructive rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">Ошибка загрузки</h3>
+          <p class="text-muted-foreground mb-4">{{ error }}</p>
+          <button 
+            @click="initializeData"
+            class="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+          >
+            Попробовать снова
+          </button>
+        </div>
+
         <!-- Список документов -->
-        <div class="space-y-4">
+        <div v-else class="space-y-4">
           <div
             v-for="regulation in sortedRegulations"
             :key="regulation.id"
@@ -307,7 +226,7 @@ const sortedRegulations = computed(() => {
             Попробуйте изменить параметры поиска или выберите другую категорию.
           </p>
           <button 
-            @click="searchQuery = ''; selectedCategory = 'all'"
+            @click="handleResetFilters"
             class="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
           >
             Сбросить фильтры

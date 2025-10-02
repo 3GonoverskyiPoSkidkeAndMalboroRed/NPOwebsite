@@ -12,6 +12,7 @@ from database import get_db, Analysis, User, SoftwareUpdate, UPLOAD_DIR, SECRET_
 from endpoints.auth import auth_router
 from endpoints.files import files_router
 from endpoints.methods import methods_router
+from endpoints.regulations import regulations_router
 
 # Pydantic модели
 class AnalysisCreate(BaseModel):
@@ -58,6 +59,7 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(files_router)
 app.include_router(methods_router)
+app.include_router(regulations_router)
 
 @app.get("/")
 async def root():

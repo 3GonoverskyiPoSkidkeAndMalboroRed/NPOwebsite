@@ -93,6 +93,21 @@ class Method(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+class Regulation(Base):
+    __tablename__ = "regulations"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    code = Column(String, nullable=False, index=True)  # Код ГОСТ (например, ГОСТ Р 53203-2022)
+    title = Column(String, nullable=False, index=True)  # Название документа
+    company = Column(String, nullable=False)  # Компания-разработчик
+    category = Column(String, nullable=False, index=True)  # Категория (Сера, Металлы, и т.д.)
+    year = Column(String, nullable=False)  # Год издания
+    description = Column(Text)  # Описание документа
+    file_path = Column(String)  # Путь к файлу документа
+    is_active = Column(Integer, default=1)  # 1 - активен, 0 - неактивен
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+
 # Создание таблиц
 Base.metadata.create_all(bind=engine)
 
