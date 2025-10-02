@@ -71,11 +71,13 @@ const methodsList: MethodProps[] = [
       </Card>
     </div>
 
-    <div class="text-center mt-8 sm:mt-12">
-      <a 
-        href="/methods" 
-        class="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium text-base sm:text-lg">
-        Все методики</a>
-    </div>
+    <div class="text-center mt-8 sm:mt-10">
+            <router-link 
+              to="/methods" 
+              class="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors duration-200"
+            >
+              К методикам
+            </router-link>
+          </div>
   </section>
 </template>
