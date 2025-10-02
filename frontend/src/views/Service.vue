@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
+import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
 
 // Состояние формы
 const formData = ref({
@@ -14,6 +16,36 @@ const formData = ref({
 
 const isSubmitting = ref(false)
 const isSubmitted = ref(false)
+
+// Данные сервисных центров
+const serviceCenters = ref([
+  { id: 1, city: 'Екатеринбург', name: 'ООО «Экоприбор-Сервис»', address: 'РФ, Свердловская обл., г. Екатеринбург, ул. Сибирский тракт, д. 57, офис 309', email: 'info@gcpro.ru', phone: '+7 (343) 300-90-95', lat: 56.8431, lng: 60.6454 },
+  { id: 2, city: 'Казань', name: 'ООО НПФ "Экрос Инжиниринг"', address: 'РФ, Республика Татарстан, г. Казань, ул. Родины, дом № 7', email: 'ecros.kazan@mail.ru', phone: '+7 (843) 277-57-01', lat: 55.8304, lng: 49.0661 },
+  { id: 3, city: 'Краснодар', name: 'ИП Барбанаков Андрей Викторович', address: 'РФ. Краснодарский край, г. Краснодар', email: 'rempriborkrd@mail.ru', phone: '+7-909-456-71-25', lat: 45.0448, lng: 38.976 },
+  { id: 4, city: 'Краснодар', name: 'ООО "РЕМКИПЭЛЕКТРОНАЛАДКА" / ИП ЛЕОНОВ В.А.', address: 'РФ, Краснодарский край, г. Краснодар', email: 'remkip@mail.ru', phone: '+7(918) 11-27-127', lat: 45.0448, lng: 38.976 },
+  { id: 5, city: 'Минск', name: 'ООО "Эмпрос"', address: 'Республика Беларусь, г. Минск, ул. Маяковского, д. 111, комн. 303', email: 'info@mce.by', phone: '+375(33) 680-98-22', lat: 53.9045, lng: 27.5615 },
+  { id: 6, city: 'Москва', name: 'ИП Сахаров Виталий Александрович', address: 'РФ, г. Москва', email: 'ipvs.engineer@gmail.com', phone: '+7 (904) 338-14-31', lat: 55.7558, lng: 37.6176 },
+  { id: 7, city: 'Москва', name: 'ООО "Соктрейд Сервис"', address: 'РФ, Москва, ул. Шаболовка, 31Г, подъезд 1', email: 'info@soctrade-service.com', phone: '+7 (495) 230-31-69', lat: 55.7558, lng: 37.6176 },
+  { id: 8, city: 'Нижневартовск', name: 'ИП Чупин Андрей Александрович', address: 'РФ, ХМАО, г. Нижневартовск', email: 'chypaishim@mail.ru', phone: '+7-912-999-07-89', lat: 60.9394, lng: 76.5694 },
+  { id: 9, city: 'Новосибирск', name: 'ООО «Лабораторный Сервис Сибири»', address: 'РФ, Новосибирская область, г. Новосибирск, проезд Электрозаводской, зд. 1/1, офис 4', email: 'info@lss-lab.ru', phone: '+7 (383) 322-54-05', lat: 55.0084, lng: 82.9357 },
+  { id: 10, city: 'Новосибирск', name: 'ООО "СПЕКТРОМАРТ"', address: 'РФ, Новосибирская обл, Новосибирск, Пролетарская, дом № 271/3, оф.1', email: 'info@spectromart.ru', phone: '+7-383-312-01-37', lat: 55.0084, lng: 82.9357 },
+  { id: 11, city: 'Одинцово', name: 'ООО "СК Альянс"', address: 'РФ, Московская обл., Одинцово г., Маршала Крылова б-р, дом 25А, этаж 2, пом. 12, комната 29', email: 'as@scalianz.ru', phone: '+7 (915) 099-18-51', lat: 55.6759, lng: 37.2789 },
+  { id: 12, city: 'Омск', name: 'ООО "Экопроектсервис"', address: 'РФ, Омская обл., г. Омск, ул. 20 Партсъезда, дом № 49', email: 'info@epsomsk.ru', phone: '+7 (3812) 72-96-99', lat: 54.9885, lng: 73.3242 },
+  { id: 13, city: 'Омск', name: 'АО "ЭПАК-Сервис"', address: 'РФ, Омская обл, г. Омск, улица Нагибина, 1', email: 'epac@epac-service.ru', phone: '+7 (3812) 43-38-84', lat: 54.9885, lng: 73.3242 },
+  { id: 14, city: 'Омск', name: 'ИП Исмакаев Марсель Камильевич', address: 'РФ, Омская обл, г. Омск', email: 'imk@imk-service.ru', phone: '+7-913-977-20-41', lat: 54.9885, lng: 73.3242 },
+  { id: 15, city: 'Омск', name: 'ООО "АналитПромСервис"', address: 'РФ, Омская обл, Омск г, Заводская 1-я ул, дом № 2, оф.15', email: 'aps@sibaps.ru', phone: '+7 (3812) 21-77-27', lat: 54.9885, lng: 73.3242 },
+  { id: 16, city: 'Самара', name: 'ООО «ЛАБКОМПЛЕКТ-СЕРВИС»', address: 'РФ, Самарская обл., г. Самара, ул. Николая Панова, дом № 50 секция 8, 2-й этаж', email: 'labkomplekt@gmail.com', phone: '+7 (846) 212-07-78', lat: 53.2001, lng: 50.15 },
+  { id: 17, city: 'Самара', name: 'ООО "ЛАБЭКС"', address: 'РФ, Самарская обл, г. Самара, ул. Ново-Садовая, д.106, корп. 170, к. 48', email: 'labxservice@gmail.com', phone: '+7-(927) 702-20-92', lat: 53.2001, lng: 50.15 },
+  { id: 18, city: 'Санкт-Петербург', name: 'ИП Сахаров Виталий Александрович', address: 'РФ, г. Санкт-Петербург', email: 'ipvs.engineer@gmail.com', phone: '+7 (904) 338-14-31', lat: 59.9311, lng: 30.3609 },
+  { id: 19, city: 'Санкт-Петербург', name: 'АО "НеваЛаб"', address: 'РФ, г. Санкт-Петербург, Московское шоссе, д. 46', email: 'info@nevalab.ru', phone: '+7 (812) 336-32-00', lat: 59.9311, lng: 30.3609 },
+  { id: 20, city: 'Санкт-Петербург', name: 'ООО "ТрансАналит"', address: 'РФ, г. Санкт-Петербург, ул. Уральская, д. 13, лит А, пом.58', email: 'info@transanalit.ru', phone: '+7 (812) 300-60-00', lat: 59.9311, lng: 30.3609 },
+  { id: 21, city: 'Тюмень', name: 'ФБУ "Тюменский ЦСМ"', address: 'РФ, Тюменская обл., г.Тюмень, ул. Минская, д. 88', email: '501@csm72.ru', phone: '8(3452)59-29-37', lat: 57.1522, lng: 65.5272 },
+  { id: 22, city: 'Уральск', name: 'ТОО "Топан"', address: 'Республика Казахстан, Западно-Казахстанская область, г.Уральск, ул.Ружейникова, 11', email: 'info@topan.kz', phone: '8-(7112) 28-41-02', lat: 51.2278, lng: 51.3865 },
+  { id: 23, city: 'Усинск', name: 'ИП Дедюхин Александр Викторович', address: 'РФ, Республика Коми, г. Усинск', email: 'cuser340@rambler.ru', phone: '+7 (912) 956-70-81', lat: 66.0000, lng: 57.5570 },
+  { id: 24, city: 'Уфа', name: 'АО «ХИМРЕАКТИВСНАБ»', address: 'РФ, Республика Башкортостан, г. Уфа, ул. Пархоменко, дом № 156/2', email: 'service@chemical.ru', phone: '+7 (347) 292-10-13', lat: 54.7388, lng: 55.9721 }
+])
+
+let map: L.Map | null = null
 
 // Обработка отправки формы
 const handleSubmit = async (e: Event) => {
@@ -40,6 +72,56 @@ const resetForm = () => {
   }
   isSubmitted.value = false
 }
+
+// Инициализация карты
+const initMap = async () => {
+  await nextTick()
+  
+  if (map) {
+    map.remove()
+  }
+  
+  // Создаем иконку для маркеров
+  const customIcon = L.icon({
+    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  })
+  
+  // Создаем карту
+  map = L.map('service-centers-map').setView([55.7558, 37.6176], 4)
+  
+  // Добавляем слой карты
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map)
+  
+  // Добавляем маркеры для каждого сервисного центра
+  serviceCenters.value.forEach(center => {
+    L.marker([center.lat, center.lng], { icon: customIcon })
+      .addTo(map!)
+      .bindPopup(`
+        <div class="p-2">
+          <h3 class="font-semibold text-sm mb-1">${center.name}</h3>
+          <p class="text-xs text-gray-600 mb-1">${center.city}</p>
+          <p class="text-xs mb-1">${center.address}</p>
+          <p class="text-xs mb-1">
+            <a href="mailto:${center.email}" class="text-blue-600 hover:underline">${center.email}</a>
+          </p>
+          <p class="text-xs">
+            <a href="tel:${center.phone}" class="text-blue-600 hover:underline">${center.phone}</a>
+          </p>
+        </div>
+      `)
+  })
+}
+
+onMounted(() => {
+  initMap()
+})
 </script>
 
 <template>
@@ -308,7 +390,7 @@ const resetForm = () => {
             </p>
           </div>
           
-          <div class="grid md:grid-cols-3 gap-6">
+          <div class="grid md:grid-cols-3 gap-6 mb-12">
             <div class="bg-primary/10 p-6 rounded-lg text-center">
               <div class="w-12 h-12 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -337,6 +419,43 @@ const resetForm = () => {
               </div>
               <h3 class="text-lg font-semibold mb-3">Оригинальные запчасти</h3>
               <p class="text-sm">Используются только сертифицированные комплектующие.</p>
+            </div>
+          </div>
+
+          <!-- Карта сервисных центров -->
+          <div class="mb-12">
+            <h3 class="text-xl font-bold mb-6 text-center">Карта сервисных центров</h3>
+            <div id="service-centers-map" class="w-full h-96 rounded-lg border border-border"></div>
+          </div>
+
+          <!-- Список сервисных центров -->
+          <div class="mb-12">
+            <h3 class="text-xl font-bold mb-6 text-center">Список сервисных центров</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full border-collapse border border-border rounded-lg">
+                <thead>
+                  <tr class="bg-muted/50">
+                    <th class="border border-border px-4 py-3 text-left font-semibold">Город</th>
+                    <th class="border border-border px-4 py-3 text-left font-semibold">Название</th>
+                    <th class="border border-border px-4 py-3 text-left font-semibold">Адрес</th>
+                    <th class="border border-border px-4 py-3 text-left font-semibold">Эл.почта</th>
+                    <th class="border border-border px-4 py-3 text-left font-semibold">Телефон</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="center in serviceCenters" :key="center.id" class="hover:bg-muted/25">
+                    <td class="border border-border px-4 py-3 font-medium">{{ center.city }}</td>
+                    <td class="border border-border px-4 py-3">{{ center.name }}</td>
+                    <td class="border border-border px-4 py-3 text-sm">{{ center.address }}</td>
+                    <td class="border border-border px-4 py-3">
+                      <a :href="`mailto:${center.email}`" class="text-primary hover:underline">{{ center.email }}</a>
+                    </td>
+                    <td class="border border-border px-4 py-3">
+                      <a :href="`tel:${center.phone}`" class="text-primary hover:underline">{{ center.phone }}</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
