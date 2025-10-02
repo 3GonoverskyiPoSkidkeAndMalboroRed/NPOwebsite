@@ -51,9 +51,6 @@ const handleResetFilters = () => {
           <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
             Нормативные документы
           </h1>
-          <p class="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-            ГОСТы и стандарты для рентгенофлуоресцентного анализа, разработанные с участием НПО «СПЕКТРОН»
-          </p>
         </div>
       </div>
     </div>
