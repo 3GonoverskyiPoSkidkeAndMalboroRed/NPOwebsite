@@ -1,5 +1,5 @@
 <template>
-  <DevicePageLayout>
+
     <!-- Hero Section -->
     <DeviceHero
       title="СПЕКТРОМЕТР ИК-Фурье"
@@ -44,7 +44,7 @@
     </DeviceTabs>
 
 
-  </DevicePageLayout>
+
 </template>
 
 <script setup lang="ts">

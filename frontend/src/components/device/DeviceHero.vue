@@ -1,5 +1,5 @@
 <template>
-  <section class="py-20 px-4 bg-gradient-to-b from-background to-muted/20">
+  <section class="py-20 px-4 from-background to-muted/20">
     <div class="max-w-7xl mx-auto">
       <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
         <div>

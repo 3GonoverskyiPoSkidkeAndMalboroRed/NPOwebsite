@@ -1,5 +1,5 @@
 <template>
-  <DevicePageLayout>
+
         <!-- Hero Section -->
     <DeviceHero
       title="СПЕКТРОСКАН CLSW"
@@ -64,7 +64,6 @@
       @close="closeImageModal"
       @update:current-index="currentImageIndex = $event"
     />
-  </DevicePageLayout>
 
 </template>
 

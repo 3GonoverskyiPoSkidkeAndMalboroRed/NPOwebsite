@@ -64,7 +64,7 @@ const routeList: RouteProps[] = [
   },
   {
     href: "#faq",
-    label: "ГОСТ",
+    label: "Частые вопросы",
   },
 
 ];
@@ -121,7 +121,6 @@ const isOpen = ref<boolean>(false);
         alt="ООО СПЕКТРОН" 
         class="w-16 h-12 sm:w-20 sm:h-16 mr-2 rounded-lg object-contain"
       />
-      <span class="hidden sm:block text-sm sm:text-base font-semibold">НПО "СПЕКТРОН"</span>
     </a>
 
     <!-- Mobile Navigation -->
