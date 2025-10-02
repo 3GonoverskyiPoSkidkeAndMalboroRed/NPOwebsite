@@ -171,16 +171,7 @@ import Separator from "./ui/separator/Separator.vue";
         <p class="text-xs sm:text-sm opacity-60 text-center">
           Информация на сайте не является публичной офертой
         </p>
-        <h3 class="text-center text-sm sm:text-base">
-          &copy; 2024 Designed and developed by
-          <a
-            target="_blank"
-            href="https://github.com/leoMirandaa"
-            class="text-primary transition-all border-primary hover:border-b-2"
-          >
-            Leo Miranda
-          </a>
-        </h3>
+       
       </section>
     </div>
   </footer>
