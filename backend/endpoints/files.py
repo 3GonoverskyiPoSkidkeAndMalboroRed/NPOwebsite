@@ -8,7 +8,7 @@ import aiofiles
 from typing import List, Optional
 
 from database import get_db, SoftwareUpdate, UPLOAD_DIR
-from auth import get_current_user, User
+from .auth import get_current_user, User
 
 # Создаем роутер для работы с файлами
 files_router = APIRouter(prefix="/software-updates", tags=["Файлы обновления ПО"])
