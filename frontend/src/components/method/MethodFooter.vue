@@ -25,3 +25,4 @@
 <script setup lang="ts">
 // Компонент не требует пропсов
 </script>
+

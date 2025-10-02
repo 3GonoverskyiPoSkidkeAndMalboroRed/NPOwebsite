@@ -28,3 +28,4 @@ const handleApplication = () => {
   emit('application');
 };
 </script>
+

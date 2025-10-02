@@ -37,3 +37,4 @@ defineEmits<{
   'tab-change': [tabId: string]
 }>();
 </script>
+
