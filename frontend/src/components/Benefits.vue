@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import TaskBlock from "@/components/TaskBlock.vue";
 import { RouterLink } from "vue-router";
 
 interface ApplicationProps {
@@ -69,29 +69,11 @@ const applications: ApplicationProps[] = [
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-3 sm:gap-4">
-      <RouterLink
+      <TaskBlock
         v-for="application in applications"
         :key="application.title"
-        :to="application.link"
-        class="block"
-      >
-        <Card class="group hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer h-full">
-          <div class="relative h-28 sm:h-32 overflow-hidden">
-            <img
-              :src="application.image"
-              :alt="application.title"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            />
-            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
-          </div>
-          
-          <CardHeader class="pb-2 px-3 py-3">
-            <CardTitle class="text-xs sm:text-sm text-center group-hover:text-primary transition-colors duration-300 leading-tight">
-              {{ application.title }}
-            </CardTitle>
-          </CardHeader>
-        </Card>
-      </RouterLink>
+        :task="application"
+      />
     </div>
 
     <div class="text-center mt-8 sm:mt-12">

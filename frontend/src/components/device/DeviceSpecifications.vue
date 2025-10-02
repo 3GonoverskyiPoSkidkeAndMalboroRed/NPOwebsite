@@ -8,13 +8,13 @@
       <div class="grid md:grid-cols-2 gap-6">
         <div class="space-y-3">
           <div v-for="(param, index) in analyticalParams.left" :key="index" class="flex justify-between">
-            <span class="font-medium">{{ param.label }}:</span>
+            <span >{{ param.label }}:</span>
             <span>{{ param.value }}</span>
           </div>
         </div>
         <div class="space-y-3">
           <div v-for="(param, index) in analyticalParams.right" :key="index" class="flex justify-between">
-            <span class="font-medium">{{ param.label }}:</span>
+            <span class="font-medium  ">{{ param.label }}:</span>
             <span>{{ param.value }}</span>
           </div>
         </div>
