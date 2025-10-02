@@ -1,15 +1,13 @@
 # Основной docker-compose файл для разработки
 # Использует dev-режим с auto-reload по умолчанию
 
-# Загружаем переменные из config.env
-env_file:
-  - config.env
-
 services:
   # PostgreSQL база данных
   db:
     image: postgres:15-alpine
     container_name: npo_postgres
+    env_file:
+      - .env
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -29,6 +27,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: npo_backend
+    env_file:
+      - .env
     environment:
       DATABASE_URL: ${DATABASE_URL}
       PYTHONPATH: /app
@@ -49,6 +49,8 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.dev
     container_name: npo_frontend
+    env_file:
+      - .env
     ports:
       - "${API_HOST}:${FRONTEND_PORT}:5173"
     depends_on:
@@ -66,6 +68,8 @@ services:
   nginx:
     image: nginx:alpine
     container_name: npo_nginx
+    env_file:
+      - .env
     ports:
       - "${API_HOST}:${NGINX_PORT}:80"
     volumes:
