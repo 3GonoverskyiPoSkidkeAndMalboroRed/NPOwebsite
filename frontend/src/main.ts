@@ -17,6 +17,11 @@ import Tasks from "./views/Tasks.vue";
 import Profile from "./views/Profile.vue";
 import Methods from "./views/Methods.vue";
 import Company from "./views/Company.vue";
+import Service from "./views/Service.vue";
+import Certificates from "./views/Certificates.vue";
+import Training from "./views/Training.vue";
+import Regulations from "./views/Regulations.vue";
+import RfaBasics from "./views/RfaBasics.vue";
 
 
 // Страницы для методик
@@ -111,6 +116,31 @@ const routes = [
         path: "company",
         name: "Company",
         component: Company,
+      },
+      {
+        path: "service",
+        name: "Service",
+        component: Service,
+      },
+      {
+        path: "certificates",
+        name: "Certificates",
+        component: Certificates,
+      },
+      {
+        path: "training",
+        name: "Training",
+        component: Training,
+      },
+      {
+        path: "regulations",
+        name: "Regulations",
+        component: Regulations,
+      },
+      {
+        path: "rfa-basics",
+        name: "RfaBasics",
+        component: RfaBasics,
       },
       {
         path: "methods-expert",
