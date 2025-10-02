@@ -1,9 +1,16 @@
+import os
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from datetime import datetime
 from typing import List, Optional
+
+# Получение переменных окружения
+API_HOST = os.getenv("API_HOST", "0.0.0.0")
+API_PORT = int(os.getenv("API_PORT", "8000"))
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
+NGINX_URL = os.getenv("NGINX_URL", "http://localhost:8082")
 
 # Импортируем из database.py
 from database import get_db, Analysis, User, SoftwareUpdate, UPLOAD_DIR, SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
@@ -43,11 +50,17 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:3000", 
-        "http://frontend:80", 
-        "http://localhost:8081",
+        FRONTEND_URL,
+        "http://frontend:80",
+        NGINX_URL,
+        "http://89.169.188.46:3000",
+        "http://89.169.188.46:8001",
+        "http://89.169.188.46:8082",
         "http://192.168.81.74:3000",
-        "http://192.168.81.74:8081"
+        "http://192.168.81.74:8081",
+        "http://localhost:3000",
+        "http://localhost:8001",
+        "http://localhost:8082"
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -104,4 +117,4 @@ async def get_analysis(analysis_id: int):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host=API_HOST, port=API_PORT)

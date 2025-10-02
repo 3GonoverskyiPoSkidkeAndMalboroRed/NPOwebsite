@@ -703,7 +703,7 @@ const uploadUpdate = async () => {
       throw new Error('Токен авторизации не найден')
     }
 
-    const response = await fetch(`http://192.168.81.74:8000/software-updates/upload`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/software-updates/upload`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -743,7 +743,7 @@ const downloadUpdate = async (updateId: number) => {
       throw new Error('Токен авторизации не найден')
     }
 
-    const response = await fetch(`http://192.168.81.74:8000/software-updates/${updateId}/download`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/software-updates/${updateId}/download`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -783,7 +783,7 @@ const deleteUpdate = async (updateId: number) => {
       throw new Error('Токен авторизации не найден')
     }
 
-    const response = await fetch(`http://192.168.81.74:8000/software-updates/${updateId}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/software-updates/${updateId}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -811,7 +811,7 @@ const loadSoftwareUpdates = async () => {
       return
     }
 
-    const response = await fetch(`http://192.168.81.74:8000/software-updates`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/software-updates`, {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'

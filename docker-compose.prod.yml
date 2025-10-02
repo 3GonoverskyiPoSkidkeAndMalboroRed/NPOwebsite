@@ -1,12 +1,16 @@
+# Загружаем переменные из config.env
+env_file:
+  - config.env
+
 services:
   # PostgreSQL база данных
   db:
     image: postgres:15-alpine
     container_name: npo_postgres_prod
     environment:
-      POSTGRES_DB: npo_db
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -23,16 +27,16 @@ services:
       dockerfile: Dockerfile
     container_name: npo_backend_prod
     environment:
-      DATABASE_URL: postgresql://user:password@db:5432/npo_db
+      DATABASE_URL: ${DATABASE_URL}
       PYTHONPATH: /app
     ports:
-      - "0.0.0.0:8001:8000"
+      - "${API_HOST}:${API_PORT}:8000"
     depends_on:
       - db
     networks:
       - npo_network
     restart: unless-stopped
-    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    command: uvicorn main:app --host ${API_HOST} --port 8000
 
   # Vue.js фронтенд (продакшен)
   frontend:
@@ -41,7 +45,7 @@ services:
       dockerfile: Dockerfile
     container_name: npo_frontend_prod
     ports:
-      - "0.0.0.0:3000:80"
+      - "${API_HOST}:${FRONTEND_PORT}:80"
     depends_on:
       - backend
     networks:
@@ -53,7 +57,7 @@ services:
     image: nginx:alpine
     container_name: npo_nginx_prod
     ports:
-      - "0.0.0.0:8082:80"
+      - "${API_HOST}:${NGINX_PORT}:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     depends_on:

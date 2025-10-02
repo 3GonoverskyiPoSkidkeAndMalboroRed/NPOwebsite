@@ -1,15 +1,19 @@
 # Основной docker-compose файл для разработки
 # Использует dev-режим с auto-reload по умолчанию
 
+# Загружаем переменные из config.env
+env_file:
+  - config.env
+
 services:
   # PostgreSQL база данных
   db:
     image: postgres:15-alpine
     container_name: npo_postgres
     environment:
-      POSTGRES_DB: npo_db
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -26,10 +30,10 @@ services:
       dockerfile: Dockerfile
     container_name: npo_backend
     environment:
-      DATABASE_URL: postgresql://user:password@db:5432/npo_db
+      DATABASE_URL: ${DATABASE_URL}
       PYTHONPATH: /app
     ports:
-      - "0.0.0.0:8001:8000"
+      - "${API_HOST}:${API_PORT}:8000"
     depends_on:
       - db
     networks:
@@ -37,7 +41,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./backend:/app
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn main:app --host ${API_HOST} --port 8000 --reload
 
   # Vue.js фронтенд (dev режим с hot-reload)
   frontend:
@@ -46,7 +50,7 @@ services:
       dockerfile: Dockerfile.dev
     container_name: npo_frontend
     ports:
-      - "0.0.0.0:3000:5173"
+      - "${API_HOST}:${FRONTEND_PORT}:5173"
     depends_on:
       - backend
     networks:
@@ -63,7 +67,7 @@ services:
     image: nginx:alpine
     container_name: npo_nginx
     ports:
-      - "0.0.0.0:8082:80"
+      - "${API_HOST}:${NGINX_PORT}:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
