@@ -41,8 +41,11 @@
       <img 
         :src="images[currentIndex]" 
         :alt="`${deviceName} - изображение ${currentIndex + 1}`"
-        class="w-full h-full object-contain rounded-lg"
+        class="w-full h-full rounded-lg"
+        :class="imageClass"
         @click.stop
+        @load="onImageLoad"
+        ref="currentImage"
       />
 
       <!-- Индикатор текущего изображения -->
@@ -71,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 
 interface Props {
   isOpen: boolean;
@@ -88,10 +91,27 @@ const emit = defineEmits<{
 }>();
 
 const currentIndex = ref(props.currentIndex);
+const currentImage = ref<HTMLImageElement | null>(null);
+const isVertical = ref(false);
 
 watch(() => props.currentIndex, (newIndex) => {
   currentIndex.value = newIndex;
 });
+
+// Computed свойство для CSS класса изображения
+const imageClass = computed(() => {
+  return isVertical.value 
+    ? 'object-contain max-h-[90vh] mx-auto' 
+    : 'object-contain';
+});
+
+// Функция для определения ориентации изображения
+const onImageLoad = () => {
+  if (currentImage.value) {
+    const img = currentImage.value;
+    isVertical.value = img.naturalHeight > img.naturalWidth;
+  }
+};
 
 const close = () => {
   emit('close');

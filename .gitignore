@@ -185,3 +185,6 @@ config.local.json
 *.tar.gz
 *.rar
 *.7z
+
+
+backend\__pycache__
